@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>qml/WinDeployQtPage.qml</file>
+        <file>qml/InstallerPage.qml</file>
+        <file>qml/QmldirPage.qml</file>
+        <file>qml/QmlplugindumpPage.qml</file>
+        <file>qml/LUpdatePage.qml</file>
+        <file>qml/Settings.qml</file>
     </qresource>
 </RCC>
