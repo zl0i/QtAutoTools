@@ -2,49 +2,104 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import Qt.labs.platform 1.1
 
+import AutoTools 1.0
+
+import "qrc:/qml/components"
+
 Item {
+    id: _root
+    readonly property var modelFlags: ["--debug", "--release", "--pdb", "--force", "--dry-run", "--no-patchqt",
+        "--no-plugins", "--no-libraries", "--no-quick-import", "--no-translations", "--no-system-d3d-compiler",
+        "--compiler-runtime", " --no-compiler-runtime", "--webkit2", "--no-webkit2", "--json", "--angle", "--no-angle", "--no-opengl-sw"]
+
+    Windeployqt {
+        id: _windeployqt
+        onFinished: {
+            _busiDialog.close()
+        }
+    }
+
+    BusiDialog {
+          id: _busiDialog
+    }
+
     Label {
         x: 20; y: 20
         font.pixelSize: 18
         font.weight: Font.Bold
         text: "Windeployqt"
     }
-    Column {
+    Flickable {
         x: 20; y: 50
-        spacing: 20
-        Row {
-            spacing: 10
-            Label {
-                width: 150; height: 40
-                verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
-                wrapMode: Text.WordWrap
+        width: parent.width; height: parent.height-y
+        contentHeight: _conten.height+20
+        clip: true
+        Column {
+            id: _conten
+            spacing: 20
+            SelectFolderRow {
+                id: _path
                 text: "Папка с испольняемым файлом"
-            }
-            TextField {
-                id: _textField
-                width: 200; height: 40
-            }
-            Button {
-                width: 40; height: 40
-                text: "..."
-                onClicked:  {
-                    _dialog.open()
+                onSetPath: {
+                    //_windeployqt.
                 }
             }
-        }
-        Label {
-            width: 100;  height: 40
-            verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
-            text: qsTr("Флаги")
-        }
+            SelectFolderRow {
+                text: "dir"
+                onSetPath: {
+                    _windeployqt.setDir(path)
+                }
+            }
+            SelectFolderRow {
+                text: "libdir"
+                onSetPath: {
+                    _windeployqt.setLibdir(path)
+                }
+            }
+            SelectFolderRow {
+                text: "plugindir"
+                onSetPath: {
+                    _windeployqt.setPlugindir(path)
+                }
+            }
+            SelectFolderRow {
+                text: "qmldir"
+                onSetPath: {
+                    _windeployqt.setQmldir(path)
+                }
+            }
+            SelectFolderRow {
+                text: "qmlimport"
+                onSetPath: {
+                    _windeployqt.setQmlimport(path)
+                }
+            }
+            Label {
+                width: 100;  height: 40
+                verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
+                text: qsTr("Флаги")
+            }
+            Repeater {
+                width: parent.width; height: 300
+                model: _root.modelFlags
 
-    }
-    FileDialog {
-        id: _dialog
-        fileMode: FileDialog.OpenFile
-        onAccepted: {
-            _textField.text = currentFile
-        }
+                delegate: Item {
+                    width: _checBox.width; height: 20
+                    CheckBox {
+                        id: _checBox
+                        text: modelData
+                    }
+                }
+            }
 
+            Button {
+                text: qsTr("Развернуть")
+                onClicked: {
+                    _busiDialog.open()
+                    _windeployqt.deploy(_path.path)
+                }
+            }
+
+        }
     }
 }

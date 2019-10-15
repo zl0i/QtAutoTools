@@ -7,5 +7,7 @@
         <file>qml/QmlplugindumpPage.qml</file>
         <file>qml/LUpdatePage.qml</file>
         <file>qml/Settings.qml</file>
+        <file>qml/components/SelectFolderRow.qml</file>
+        <file>qml/components/BusiDialog.qml</file>
     </qresource>
 </RCC>
