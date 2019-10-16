@@ -24,7 +24,8 @@ RESOURCES += qml.qrc
 #QMAKE_POST_LINK += $$(QTDIR)/bin/windeployqt --qmldir $$PWD $$DESTDIR
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH = $$PWD/qml
+QML2_IMPORT_PATH = $$PWD/qml
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
@@ -37,3 +38,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     windeployqt.h \
     worker.h
+
+DISTFILES +=

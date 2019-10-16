@@ -4,8 +4,8 @@ Windeployqt::Windeployqt(QObject *parent) : QObject(parent)
 {
     process = new QProcess(this);
     worker = Worker::getInstance();
-    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SIGNAL(finished()));
-    //connect(process, &QProcess::finished, this, &Windeployqt::finished);
+    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotFinished()));
+    //connect(process, &QProcess::finished, this, &Windeployqt::slotFinished);
 
 }
 
@@ -35,9 +35,9 @@ void Windeployqt::setQmldir(QString path)
     qmldir = path;
 }
 
-void Windeployqt::setFlags(QStringList list)
+void Windeployqt::setFlags(QString flags)
 {
-    flags = list;
+    this->flags = flags;
 }
 
 QFile *Windeployqt::prepareBatFile() {
@@ -70,13 +70,18 @@ void Windeployqt::deploy(QString path)
         arguments.append("--qmlimport " + qmlimport);
     }
     if(flags.length() != 0) {
-        arguments.append(flags.join(" "));
+        arguments.append(flags);
     }
     arguments.append(path);
     QFile *file = prepareBatFile();
     QString str = worker->compl1Path() + "/bin/windeployqt " + arguments.join(" ");
     file->write(str.toLocal8Bit());
     file->close();
+    file->deleteLater();
     process->start("deploy.bat");
 }
 
+void Windeployqt::slotFinished() {
+     QFile::remove("deploy.bat");
+     emit finished();
+}

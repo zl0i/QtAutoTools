@@ -4,13 +4,11 @@ import Qt.labs.platform 1.1
 
 import AutoTools 1.0
 
-import "qrc:/qml/components"
+import Components 1.0
 
 Item {
     id: _root
-    readonly property var modelFlags: ["--debug", "--release", "--pdb", "--force", "--dry-run", "--no-patchqt",
-        "--no-plugins", "--no-libraries", "--no-quick-import", "--no-translations", "--no-system-d3d-compiler",
-        "--compiler-runtime", " --no-compiler-runtime", "--webkit2", "--no-webkit2", "--json", "--angle", "--no-angle", "--no-opengl-sw"]
+
 
     Windeployqt {
         id: _windeployqt
@@ -20,8 +18,11 @@ Item {
     }
 
     BusiDialog {
-          id: _busiDialog
+        id: _busiDialog
     }
+
+
+
 
     Label {
         x: 20; y: 20
@@ -74,10 +75,17 @@ Item {
                     _windeployqt.setQmlimport(path)
                 }
             }
+            ArrayFieldRow {
+                text: qsTr("Флаги")
+                model: Data.modelFlagsWinDeployQt
+                onSetFlags: {
+                    _windeployqt.setFlags(flags)
+                }
+            }
             Label {
                 width: 100;  height: 40
                 verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
-                text: qsTr("Флаги")
+                text: qsTr("Библиотеки")
             }
             Repeater {
                 width: parent.width; height: 300

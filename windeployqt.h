@@ -18,21 +18,20 @@ public:
     Q_INVOKABLE void setLibdir(QString);
     Q_INVOKABLE void setQmldir(QString);
     Q_INVOKABLE void setQmlimport(QString);
-
-    Q_INVOKABLE void setFlags(QStringList);
+    Q_INVOKABLE void setFlags(QString);
 
     Q_INVOKABLE void deploy(QString);
 
 private:
     QProcess *process;
 
-    QStringList flags;
 
     QString dir;
     QString plugindir;
     QString libdir;
     QString qmldir;
     QString qmlimport;
+    QString flags;
 
     Worker *worker;
 
@@ -42,6 +41,7 @@ signals:
     void finished();
 
 public slots:
+    void slotFinished();
 
 };
 

@@ -1,0 +1,7 @@
+module Components
+ArrayFieldRow 1.0 ArrayFieldRow.qml
+BusiDialog 1.0 BusiDialog.qml
+CustomToolTip 1.0 CustomToolTip.qml
+singleton Data 1.0 Data.qml
+SelectFlagsDialog 1.0 SelectFlagsDialog.qml
+SelectFolderRow 1.0 SelectFolderRow.qml

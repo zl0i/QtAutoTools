@@ -8,15 +8,16 @@ Row {
     height: 40
 
     property string text: ""
+    property var model
     property real widthText: 150
     property real widthField: 200
 
-    property bool isFolderButton: true
+    property bool isFlagsButton: true
     property bool isClearButton: false
 
-    property alias path: _field.text
+    property alias flags: _field.text
 
-    signal setPath(var path)
+    signal setFlags(var flags)
 
     Label {
         width: widthText; height: parent.height
@@ -27,10 +28,10 @@ Row {
     TextField {
         id: _field
         width: 200; height:  parent.height
-        selectByMouse : true
+        selectByMouse: true
         selectionColor: "#87CEFA"
         onTextChanged: {
-            _root.setPath(text)
+            _root.setFlags(text)
         }
     }
     Button {
@@ -45,14 +46,23 @@ Row {
         visible: _root.isClearButton
         text: "x"
         onClicked:  {
-            _field.clear()
+           _field.clear()
         }
     }
-    FolderDialog {
+    SelectFlagsDialog {
         id: _dialog
-        onAccepted: {
-            _field.text = String(currentFolder).slice(8)
+        model: _root.model
+        onSetFlags: {
+            //console.log(Array(list).join(' '))
+            //_field.text = Array(list).join(" ")
+            _field.text = ""
+            list.forEach(function(item) {
+                _field.text += item + " "
+            })
+            close()
         }
+
+
     }
 
 }

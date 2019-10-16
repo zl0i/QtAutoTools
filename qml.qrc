@@ -7,7 +7,12 @@
         <file>qml/QmlplugindumpPage.qml</file>
         <file>qml/LUpdatePage.qml</file>
         <file>qml/Settings.qml</file>
-        <file>qml/components/SelectFolderRow.qml</file>
-        <file>qml/components/BusiDialog.qml</file>
+        <file>qml/Components/SelectFolderRow.qml</file>
+        <file>qml/Components/BusiDialog.qml</file>
+        <file>qml/Components/Data.qml</file>
+        <file>qml/Components/SelectFlagsDialog.qml</file>
+        <file>qml/Components/qmldir</file>
+        <file>qml/Components/ArrayFieldRow.qml</file>
+        <file>qml/Components/CustomToolTip.qml</file>
     </qresource>
 </RCC>

@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+    engine.addImportPath(":/qml");
 
     qmlRegisterType<Worker>("AutoTools", 1, 0, "Worker");
     qmlRegisterType<Windeployqt>("AutoTools", 1, 0, "Windeployqt");
