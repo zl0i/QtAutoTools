@@ -1,0 +1,31 @@
+import QtQuick 2.12
+import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.12
+
+
+RowLayout {
+    id: _root
+    spacing: 10
+    height: 40
+
+    property string text: ""
+    property real widthText: 150
+    property real widthField: 200   
+
+   
+
+    signal setPath(var path)
+
+    Label {
+        width: widthText; height: parent.height
+        verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
+        wrapMode: Text.WordWrap
+        text: _root.text
+    }    
+    CheckBox {
+        width: 40; height: parent.height       
+        
+    }
+      
+
+}

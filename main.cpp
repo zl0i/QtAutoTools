@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include "worker.h"
 #include "windeployqt.h"
+#include "qmldir.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<Worker>("AutoTools", 1, 0, "Worker");
     qmlRegisterType<Windeployqt>("AutoTools", 1, 0, "Windeployqt");
+     qmlRegisterType<QmlDir>("AutoTools", 1, 0, "QmlDir");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

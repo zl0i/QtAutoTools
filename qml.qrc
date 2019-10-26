@@ -14,5 +14,6 @@
         <file>qml/Components/qmldir</file>
         <file>qml/Components/ArrayFieldRow.qml</file>
         <file>qml/Components/CustomToolTip.qml</file>
+        <file>qml/Components/CheckBoxRow.qml</file>
     </qresource>
 </RCC>

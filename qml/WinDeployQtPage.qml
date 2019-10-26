@@ -33,10 +33,10 @@ Item {
     Flickable {
         x: 20; y: 50
         width: parent.width; height: parent.height-y
-        contentHeight: _conten.height+20
+        contentHeight: _content.height+20
         clip: true
         Column {
-            id: _conten
+            id: _content
             spacing: 20
             SelectFolderRow {
                 id: _path
