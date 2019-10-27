@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QIcon>
 #include "worker.h"
 #include "windeployqt.h"
 #include "qmldir.h"
@@ -14,6 +15,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("QtAutoTools");
 
     QGuiApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/icon/icon.png"));
 
     QQmlApplicationEngine engine;
     engine.addImportPath(":/qml");

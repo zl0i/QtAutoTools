@@ -21,7 +21,9 @@ SOURCES += \
         windeployqt.cpp \
         worker.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    icon.qrc \
+    translation.qrc
 
 #DESTDIR = ../Deploy
 #QMAKE_POST_LINK += $$(QTDIR)/bin/windeployqt --qmldir $$PWD $$DESTDIR

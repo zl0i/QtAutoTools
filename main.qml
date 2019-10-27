@@ -10,6 +10,7 @@ ApplicationWindow {
     height: 480
     title: qsTr("QtAutoTools")
 
+
     font {
         pixelSize: 14
 
