@@ -91,4 +91,71 @@ QtObject {
         "3dextras", "geoservices", "webchannel", "texttospeech", "serialbus", "webview"
     ]
 
+    readonly property var modelLanguages: [
+        {
+            "name": "ru",
+            "description": "Русский"
+        },
+        {
+            "name": "us",
+            "description": "США"
+        },
+        {
+            "name": "de",
+            "description": "Германия"
+        },
+        {
+            "name": "fr",
+            "description": "Франция"
+        },
+        {
+            "name": "ua",
+            "description": "Украина"
+        },
+        {
+            "name": "kz",
+            "description": "Казахстан"
+        },
+        {
+            "name": "by",
+            "description": "Беларусь"
+        },
+        {
+            "name": "gr",
+            "description": "Греция"
+        },
+        {
+            "name": "es",
+            "description": "Испания"
+        },
+        {
+            "name": "eg",
+            "description": "Египет"
+        },
+        {
+            "name": "in",
+            "description": "Индия"
+        },
+        {
+            "name": "cn",
+            "description": "Китай"
+        },
+        {
+            "name": "gb",
+            "description": "Великобритания"
+        },
+        {
+            "name": "jp",
+            "description": "Япония"
+        },
+        {
+            "name": "au",
+            "description": "Австрия"
+        },
+        {
+            "name": "br",
+            "description": "Бразилия"
+        }
+    ]
+
 }

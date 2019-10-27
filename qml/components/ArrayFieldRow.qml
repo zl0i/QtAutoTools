@@ -16,6 +16,7 @@ Row {
     property bool isClearButton: false
 
     property alias flags: _field.text
+    property alias list: _dialog.flagsList
 
     signal setFlags(var flags)
 

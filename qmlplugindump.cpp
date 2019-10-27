@@ -22,8 +22,7 @@ QString QmlPluginDump::getModuleName() {
 }
 
 void QmlPluginDump::finishedProcess(int code, QProcess::ExitStatus status) {
-    qDebug() << process->readAllStandardError() <<" ---- "<< process->readAllStandardOutput();
-    qDebug() << code << status;
+    Q_UNUSED(status)
     if(code == 0) {
         if(wtiteQmldir) {
             QFile file(path + "/qmldir");
@@ -35,6 +34,7 @@ void QmlPluginDump::finishedProcess(int code, QProcess::ExitStatus status) {
                 }
             }
         }
+        QFile::remove("temp.bat");
         emit finished();
     }
 }
@@ -53,11 +53,11 @@ void QmlPluginDump::dump() {
 
     QString program = Worker::getInstance()->compl1Path() + "/bin/qmlplugindump " + arguments.join(" ");
 
-    QFile *file = new QFile("deploy.bat");
+    QFile *file = new QFile("temp.bat");
     if(file->open(QIODevice::ReadWrite)) {
         file->write(program.toLocal8Bit());
         file->close();
         file->deleteLater();
-        process->start("deploy.bat");
+        process->start("temp.bat");
     }
 }

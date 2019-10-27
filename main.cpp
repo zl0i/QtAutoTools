@@ -4,6 +4,7 @@
 #include "windeployqt.h"
 #include "qmldir.h"
 #include "qmlplugindump.h"
+#include "lupdate.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Windeployqt>("AutoTools", 1, 0, "Windeployqt");
     qmlRegisterType<QmlDir>("AutoTools", 1, 0, "QmlDir");
     qmlRegisterType<QmlPluginDump>("AutoTools", 1, 0, "QmlPluginDump");
+    qmlRegisterType<Lupdate>("AutoTools", 1, 0, "Lupdate");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

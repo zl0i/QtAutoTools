@@ -38,6 +38,7 @@ Dialog {
                 width: parent.width; height: 40
                 CheckBox {
                     anchors.verticalCenter: parent.verticalCenter
+                    width: 40; height: 40
                     onCheckedChanged: {
                         if(checked) {
                             _dialog.flagsList.push(modelData.name)
@@ -50,12 +51,13 @@ Dialog {
                 }
                 Label {
                     x: 45
-                    width: parent.width-40; height: parent.height
+                    width: parent.width-x; height: parent.height
                     verticalAlignment: Text.AlignVCenter
                     text: modelData.name
                 }
                 MouseArea {
-                    width: parent.width; height: parent.height
+                    x: 45
+                    width: parent.width-x; height: parent.height
                     hoverEnabled: true
                     property bool hovered: false
                     onEntered: hovered = true
