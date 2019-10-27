@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         qmldir.cpp \
+        qmlplugindump.cpp \
         windeployqt.cpp \
         worker.cpp
 
@@ -38,6 +39,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     qmldir.h \
+    qmlplugindump.h \
     windeployqt.h \
     worker.h
 

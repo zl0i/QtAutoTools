@@ -15,12 +15,16 @@ public:
     explicit QmlDir(QObject *parent = nullptr);
 
     Q_INVOKABLE void setPath(QString);
-    Q_INVOKABLE void setVersion(int, int);
+    Q_INVOKABLE void setMajorVersion(uint);
+    Q_INVOKABLE void setMinorVersion(uint);
     Q_INVOKABLE void createModule();
 
-private:
+private:    
+    QString getStringVersion();
+
     QString path;
-    QString version;
+    uint major = 1;
+    uint minor = 0;
 
 signals:
     void error(QString str);

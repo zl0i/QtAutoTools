@@ -26,7 +26,7 @@ Row {
     }
     TextField {
         id: _field
-        width: 200; height:  parent.height
+        width: widthField; height:  parent.height
         selectByMouse : true
         selectionColor: "#87CEFA"
         onTextChanged: {
