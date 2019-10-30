@@ -6,6 +6,7 @@
 #include "qmldir.h"
 #include "qmlplugindump.h"
 #include "lupdate.h"
+#include "finstaller.h"
 
 int main(int argc, char *argv[])
 {
@@ -25,6 +26,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<QmlDir>("AutoTools", 1, 0, "QmlDir");
     qmlRegisterType<QmlPluginDump>("AutoTools", 1, 0, "QmlPluginDump");
     qmlRegisterType<Lupdate>("AutoTools", 1, 0, "Lupdate");
+    qmlRegisterType<FInstaller>("AutoTools", 1, 0, "FInstaller");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

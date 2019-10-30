@@ -35,6 +35,7 @@ Row {
     }
     Button {
         width: 40; height:  parent.height
+        visible:  _root.isFolderButton
         text: "..."
         onClicked:  {
             _dialog.open()
