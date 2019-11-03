@@ -4,18 +4,20 @@
 #include <QObject>
 #include <QDebug>
 #include <QSettings>
+#include <QFile>
 
 
 class Worker : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString qtPath READ qtPath WRITE setQtPath NOTIFY qtPathChanged)
-    Q_PROPERTY(QString compl1Path READ compl1Path WRITE setCompl1Path NOTIFY compl1PathChanged)
-    Q_PROPERTY(QString compl2Path READ compl2Path WRITE setCompl2Path NOTIFY compl2PathChanged)
+    Q_PROPERTY(QString compilerPath READ compilerPath WRITE setCompilerPath NOTIFY compilerPathChanged)
+    Q_PROPERTY(QString compilerToolPath READ compilerToolPath WRITE setCompilerToolPath NOTIFY compilerToolPathChanged)
 
 
 public:
     static Worker* getInstance() {
+        static Worker *p_instance;
         if(!p_instance)
             p_instance = new Worker();
         return p_instance;
@@ -24,27 +26,29 @@ public:
     QString qtPath();
     void setQtPath(QString);
 
-    QString compl1Path();
-    void setCompl1Path(QString);
+    QString compilerPath();
+    void setCompilerPath(QString);
 
-    QString compl2Path();
-    void setCompl2Path(QString);
+    QString compilerToolPath();
+    void setCompilerToolPath(QString);
 
     Q_INVOKABLE void clearAllSettings();
 
+    static QFile* prepareBatFile(bool addQtPath);
+
 private:
-    static Worker *p_instance;
+
     QSettings *settings = new QSettings;
 
-    QString m_qtPath = settings->value("global/qtpath").toString();
-    QString m_compl1Path = settings->value("global/compl1Path").toString();
-    QString m_compl2Path = settings->value("global/compl2Path").toString();
+    QString m_qtPath = settings->value("global/qtPath", "").toString();
+    QString m_compilerPath = settings->value("global/compilerPath", "").toString();
+    QString m_compilerToolePath = settings->value("global/compilerToolPath", "").toString();
 
 
 signals:
     void qtPathChanged();
-    void compl1PathChanged();
-    void compl2PathChanged();
+    void compilerPathChanged();
+    void compilerToolPathChanged();
 
 public slots:
 };

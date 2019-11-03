@@ -25,16 +25,32 @@ Item {
         spacing: 20
         SelectFolderRow {
             text: qsTr("Путь к Qt")
-            path: _worker.qtPath
+            Component.onCompleted: {
+                path = _worker.qtPath
+            }
+            onPathChanged: {
+                _worker.qtPath = path
+            }
         }
         SelectFolderRow {
             text: qsTr("Путь к компилятору")
-            path: _worker.compl1Path
+            Component.onCompleted: {
+                 path = _worker.compilerPath
+            }
+            onPathChanged: {
+                _worker.compilerPath = path
+
+            }
         }
 
         SelectFolderRow {
             text: qsTr("Путь к компилятору Tool")
-            path: _worker.compl2Path
+            Component.onCompleted: {
+                 path = _worker.compilerToolPath
+            }
+            onPathChanged: {
+                _worker.compilerToolPath = path
+            }
         }
 
         Row {

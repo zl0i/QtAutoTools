@@ -38,7 +38,7 @@ void Lupdate::createTs() {
     QStringList arguments;
     arguments.append(path + "/" +getProFileName());
     arguments.append("-ts " + getStringFileTs());
-    QString program = Worker::getInstance()->compl1Path() + "/bin/lupdate " + arguments.join(" ");
+    QString program = Worker::getInstance()->compilerPath() + "/bin/lupdate " + arguments.join(" ");
     qDebug() << program;
 
     QFile *file = new QFile("temp.bat");
@@ -52,10 +52,10 @@ void Lupdate::createTs() {
 
 void Lupdate::runLinguist() {
     if(langList.count() != 0) {
-        process->startDetached(Worker::getInstance()->compl1Path() + "/bin/linguist " + getStringFileTs());
+        process->startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist " + getStringFileTs());
     }
     else  {
-        process->startDetached(Worker::getInstance()->compl1Path() + "/bin/linguist");
+        process->startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist");
     }
 }
 

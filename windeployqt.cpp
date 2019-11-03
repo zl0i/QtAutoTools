@@ -43,7 +43,7 @@ void Windeployqt::setFlags(QString flags)
 QFile *Windeployqt::prepareBatFile() {
     QFile *file = new QFile("deploy.bat");
     if(file->open(QIODevice::ReadWrite)) {
-        QString str = "set PATH="+ worker->compl1Path() + "/bin;" +worker->compl2Path() + "/bin;%PATH%\n";
+        QString str = "set PATH="+ worker->compilerPath() + "/bin;" +worker->compilerToolPath() + "/bin;%PATH%\n";
         file->write(str.toLocal8Bit());
         return file;
     }
@@ -74,7 +74,7 @@ void Windeployqt::deploy(QString path)
     }
     arguments.append(path);
     QFile *file = prepareBatFile();
-    QString str = worker->compl1Path() + "/bin/windeployqt " + arguments.join(" ");
+    QString str = worker->compilerPath() + "/bin/windeployqt " + arguments.join(" ");
     file->write(str.toLocal8Bit());
     file->close();
     file->deleteLater();

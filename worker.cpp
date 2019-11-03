@@ -1,6 +1,6 @@
 #include "worker.h"
 
-Worker* Worker::p_instance = nullptr;
+//Worker* Worker::p_instance = nullptr;
 
 QString Worker::qtPath()
 {
@@ -14,33 +14,51 @@ void Worker::setQtPath(QString path)
     emit qtPathChanged();
 }
 
-QString Worker::compl1Path()
+QString Worker::compilerPath()
 {
-    return  m_compl1Path;
+    return  m_compilerPath;
 }
 
-void Worker::setCompl1Path(QString path)
+void Worker::setCompilerPath(QString path)
 {
     settings->setValue("global/compl1Path", path);
-    m_compl1Path = path;
-    emit compl1PathChanged();
+    m_compilerPath = path;
+    emit compilerPathChanged();
 }
 
-QString Worker::compl2Path()
+QString Worker::compilerToolPath()
 {
-    return  m_compl2Path;
+    return  m_compilerToolePath;
 }
 
-void Worker::setCompl2Path(QString path)
+void Worker::setCompilerToolPath(QString path)
 {
     settings->setValue("global/compl2Path", path);
-    m_compl2Path = path;
-    emit compl2PathChanged();
+    m_compilerToolePath = path;
+    emit compilerToolPathChanged();
 }
 
 void Worker::clearAllSettings()
 {
     settings->clear();
+    m_qtPath = "";
+    m_compilerPath = "";
+    m_compilerToolePath = "";
+    emit qtPathChanged();
+    emit compilerPathChanged();
+    emit compilerToolPathChanged();
+}
+
+QFile* Worker::prepareBatFile(bool addQtPath) {
+    QFile *file = new QFile("temp.bat");
+    if(file->open(QIODevice::ReadWrite)) {
+        if(addQtPath) {
+            QString str = "set PATH="+ Worker::getInstance()->compilerPath() + "/bin;" + Worker::getInstance()->compilerToolPath() + "/bin;%PATH%\n";
+            file->write(str.toLocal8Bit());
+        }
+        return file;
+    }
+    return  nullptr;
 }
 
 

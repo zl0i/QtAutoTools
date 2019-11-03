@@ -51,7 +51,7 @@ void FInstaller::createPackages() {
 QFile *FInstaller::prepareBatFile() {
     QFile *file = new QFile("temp.bat");
     if(file->open(QIODevice::ReadWrite)) {
-        QString str = "set PATH="+ Worker::getInstance()->compl1Path() + "/bin;" +Worker::getInstance()->compl2Path() + "/bin;%PATH%\n";
+        QString str = "set PATH="+ Worker::getInstance()->compilerPath() + "/bin;" +Worker::getInstance()->compilerToolPath() + "/bin;%PATH%\n";
         file->write(str.toLocal8Bit());
         return file;
     }

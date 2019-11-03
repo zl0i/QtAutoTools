@@ -51,7 +51,7 @@ void QmlPluginDump::dump() {
     arguments.append(">");
     arguments.append(path + "/" + getModuleName().toLower() + ".qmltypes");
 
-    QString program = Worker::getInstance()->compl1Path() + "/bin/qmlplugindump " + arguments.join(" ");
+    QString program = Worker::getInstance()->compilerPath() + "/bin/qmlplugindump " + arguments.join(" ");
 
     QFile *file = new QFile("temp.bat");
     if(file->open(QIODevice::ReadWrite)) {
