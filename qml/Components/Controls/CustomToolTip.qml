@@ -5,14 +5,20 @@ import QtGraphicalEffects 1.0
 ToolTip {
     id: _toolTip
 
+    width: Math.min(200, contentWidth)
+
+
+
     contentItem: Text {
-        text: _toolTip.text
+        width: parent.width //Math.min(20, contentWidth)
+        wrapMode: Text.WordWrap
         font: _toolTip.font
         color: "#000000"
+        text: _toolTip.text
     }
 
     background: Rectangle {
-        radius: 5
+        width: parent.width; height: parent.height; radius: 5
         color: "#FFFFFF"
         layer.enabled: true
         layer.effect: DropShadow {

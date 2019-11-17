@@ -55,5 +55,13 @@ Row {
             _field.text = String(currentFolder).slice(8)
         }
     }
+    /*FileDialog {
+        id: _dialog
+        fileMode: FileDialog.OpenFile
+        onAccepted: {
+
+        }
+
+    }*/
 
 }

@@ -1,18 +1,31 @@
 #include "windeployqt.h"
 
-Windeployqt::Windeployqt(QObject *parent) : QObject(parent)
+Windeployqt::Windeployqt(QObject *parent) : QProcess(parent)
 {
-    process = new QProcess(this);
-    worker = Worker::getInstance();
-    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotFinished()));
+    //process = new QProcess(this);
+    setReadChannel(QProcess::StandardOutput);
+    connect(this, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            this, QOverload<>::of(&Windeployqt::slotFinished));
+
+    //connect(this, QOverload<>::of(&QProcess::readyReadStandardOutput), this, QOverload<>::of(&Windeployqt::slotReadChanel));
+    //connect(this, SIGNAL(readyReadStandardOutput()), this, SLOT(slotReadChanel()));
+
     //connect(process, &QProcess::finished, this, &Windeployqt::slotFinished);
 
+}
+
+void Windeployqt::slotReadChanel() {
+    //qDebug() << readAllStandardOutput();
+}
+
+void Windeployqt::setExeFile(QString path)
+{
+    exeFile = path;
 }
 
 void Windeployqt::setDir(QString path)
 {
     dir = path;
-
 }
 
 void Windeployqt::setPlugindir(QString path)
@@ -40,19 +53,11 @@ void Windeployqt::setFlags(QString flags)
     this->flags = flags;
 }
 
-QFile *Windeployqt::prepareBatFile() {
-    QFile *file = new QFile("deploy.bat");
-    if(file->open(QIODevice::ReadWrite)) {
-        QString str = "set PATH="+ worker->compilerPath() + "/bin;" +worker->compilerToolPath() + "/bin;%PATH%\n";
-        file->write(str.toLocal8Bit());
-        return file;
-    }
-    return  nullptr;
-}
+void Windeployqt::deploy()
+{   
+    if(!QFile(exeFile).exists())
+        return;
 
-void Windeployqt::deploy(QString path)
-{
-    Q_UNUSED(path)
     QStringList arguments;
     if(!dir.isEmpty()) {
         arguments.append("--dir " + dir);
@@ -69,19 +74,27 @@ void Windeployqt::deploy(QString path)
     if(!qmlimport.isEmpty()) {
         arguments.append("--qmlimport " + qmlimport);
     }
+    if(!exeFile.isEmpty()) {
+        arguments.append(exeFile);
+    }
     if(flags.length() != 0) {
         arguments.append(flags);
-    }
-    arguments.append(path);
-    QFile *file = prepareBatFile();
-    QString str = worker->compilerPath() + "/bin/windeployqt " + arguments.join(" ");
+    }  
+    QFile *file = Worker::prepareBatFile(true);
+    QString str = Worker::getInstance()->compilerPath() + "/bin/windeployqt " + arguments.join(" ");
     file->write(str.toLocal8Bit());
     file->close();
-    file->deleteLater();
-    process->start("deploy.bat");
+    file->deleteLater();    
+    start(file->fileName());
+}
+
+QString Windeployqt::readOutput()
+{
+    return  readAllStandardOutput();
 }
 
 void Windeployqt::slotFinished() {
-     QFile::remove("deploy.bat");
-     emit finished();
+    //qDebug() << readAllStandardError() << readAllStandardOutput();
+    QString nameExeFile = exeFile.split("/").last();
+    Worker::removeBatFile();
 }

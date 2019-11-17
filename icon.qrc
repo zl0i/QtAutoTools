@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>icon/icon.png</file>
+        <file>icon/arrow-black.svg</file>
+        <file>icon/success-white.svg</file>
+        <file>icon/exit-black.svg</file>
     </qresource>
 </RCC>

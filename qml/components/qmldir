@@ -3,6 +3,7 @@ ArrayFieldRow 1.0 ArrayFieldRow.qml
 BusiDialog 1.0 BusiDialog.qml
 CustomToolTip 1.0 CustomToolTip.qml
 singleton Data 1.0 Data.qml
-SelectFlagsDialog 1.0 SelectFlagsDialog.qml
+FlagsDialog 1.0 FlagsDialog.qml
 SelectFolderRow 1.0 SelectFolderRow.qml
 CheckBoxRow 1.0 CheckBoxRow.qml
+LabelFieldRow 1.0 LabelFieldRow.qml

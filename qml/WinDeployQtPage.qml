@@ -1,10 +1,12 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import Qt.labs.platform 1.1
+import QtGraphicalEffects 1.0
 
 import AutoTools 1.0
 
 import Components 1.0
+import Components.Controls 1.0
 
 Item {
     id: _root
@@ -12,17 +14,27 @@ Item {
 
     Windeployqt {
         id: _windeployqt
+        onStarted: {
+             _busiDialog.open()
+        }
         onFinished: {
-            _busiDialog.close()
+           _busiDialog.isReady = true
+
+        }
+        onErrorOccurred: {
+
+        }
+        onReadyReadStandardError: {
+
+        }
+        onReadyReadStandardOutput: {
+            _busiDialog.info = readOutput()
         }
     }
 
     BusiDialog {
-        id: _busiDialog
+        id: _busiDialog        
     }
-
-
-
 
     Label {
         x: 20; y: 20
@@ -31,54 +43,56 @@ Item {
         text: "Windeployqt"
     }
     Flickable {
-        x: 20; y: 50
+        x: 20; y: 60
         width: parent.width; height: parent.height-y
-        contentHeight: _content.height+20
+        contentHeight: _content.height+40
         clip: true
         Column {
             id: _content
-            spacing: 20
-            SelectFolderRow {
-                id: _path
-                text: "Папка с испольняемым файлом"
-                onSetPath: {
-                    //_windeployqt.
+            x:0; y: 10
+            spacing: 20            
+            LabelFieldRow {
+                label: qsTr("Исполняемый файл")
+                mode: LabelFieldRow.Mode.File
+                onTextChanged: {
+                   _windeployqt.setExeFile(text)
                 }
             }
-            SelectFolderRow {
-                text: "dir"
-                onSetPath: {
-                    _windeployqt.setDir(path)
+            LabelFieldRow {
+                label: qsTr("Папка развертывания")
+                onTextChanged: {
+                    _windeployqt.setDir(text)
                 }
             }
-            SelectFolderRow {
-                text: "libdir"
-                onSetPath: {
-                    _windeployqt.setLibdir(path)
+            LabelFieldRow {
+                label: qsTr("Папка подключаемых библиотек")
+                onTextChanged: {
+                    _windeployqt.setLibdir(text)
                 }
             }
-            SelectFolderRow {
-                text: "plugindir"
-                onSetPath: {
-                    _windeployqt.setPlugindir(path)
+            LabelFieldRow {
+                label: qsTr("Папка подключаемых плагинов")
+                onTextChanged: {
+                    _windeployqt.setPlugindir(text)
                 }
             }
-            SelectFolderRow {
-                text: "qmldir"
-                onSetPath: {
-                    _windeployqt.setQmldir(path)
+            LabelFieldRow {
+                label: qsTr("Папка используемых qml файлов")
+                onTextChanged: {
+                    _windeployqt.setQmldir(text)
                 }
             }
-            SelectFolderRow {
-                text: "qmlimport"
-                onSetPath: {
-                    _windeployqt.setQmlimport(path)
+            LabelFieldRow {
+                label: qsTr("Папка подключаемых qml модулей")
+                onTextChanged: {
+                    _windeployqt.setQmlimport(text)
                 }
             }
-            ArrayFieldRow {
-                text: qsTr("Флаги")
-                model: Data.modelFlagsWinDeployQt
-                onSetFlags: {
+            LabelFieldRow {
+                label: qsTr("Флаги")
+                mode: LabelFieldRow.Mode.Flags
+                flagsModel: Data.modelFlagsWinDeployQt
+                onTextChanged: {
                     _windeployqt.setFlags(flags)
                 }
             }
@@ -90,7 +104,6 @@ Item {
             Repeater {
                 width: parent.width; height: 300
                 model: _root.modelFlags
-
                 delegate: Item {
                     width: _checBox.width; height: 20
                     CheckBox {
@@ -99,15 +112,13 @@ Item {
                     }
                 }
             }
+            CustomButton {
+                text: qsTr("Развернуть")                
 
-            Button {
-                text: qsTr("Развернуть")
-                onClicked: {
-                    _busiDialog.open()
-                    _windeployqt.deploy(_path.path)
+                onClicked: {                   
+                    _windeployqt.deploy()
                 }
             }
-
         }
     }
 }

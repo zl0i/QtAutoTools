@@ -7,12 +7,13 @@
 #include <QProcess>
 #include "worker.h"
 
-class Windeployqt : public QObject
+class Windeployqt : public QProcess
 {
     Q_OBJECT
 public:
     explicit Windeployqt(QObject *parent = nullptr);
 
+    Q_INVOKABLE void setExeFile(QString);
     Q_INVOKABLE void setDir(QString);
     Q_INVOKABLE void setPlugindir(QString);
     Q_INVOKABLE void setLibdir(QString);
@@ -20,12 +21,13 @@ public:
     Q_INVOKABLE void setQmlimport(QString);
     Q_INVOKABLE void setFlags(QString);
 
-    Q_INVOKABLE void deploy(QString);
+    Q_INVOKABLE void deploy();
+
+    Q_INVOKABLE QString readOutput();
 
 private:
-    QProcess *process;
 
-
+    QString exeFile;
     QString dir;
     QString plugindir;
     QString libdir;
@@ -33,15 +35,12 @@ private:
     QString qmlimport;
     QString flags;
 
-    Worker *worker;
+signals:  
 
-    QFile *prepareBatFile();
-
-signals:
-    void finished();
 
 public slots:
     void slotFinished();
+    void slotReadChanel();
 
 };
 

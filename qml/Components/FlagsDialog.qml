@@ -2,20 +2,21 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 
+import Components.Controls 1.0
+
 Dialog {
     id: _dialog
 
     parent: Overlay.overlay
-    x:parent.width/2-width/2; y:parent.height/2-height/2
-    width: 300; height: 400
-    modal: true; dim: true
-    padding: 0
+    x:parent.width/2-width/2; y:20
+    width: Math.max(260, parent.width/2); height: parent.height-40
+    modal: true; dim: true    
     closePolicy: Popup.NoAutoClose
 
     property var model
-    property var flagsList: []
 
-    signal setFlags(var list)
+
+    signal setFlags(var flags)
 
     Overlay.modal: Rectangle {
         color: "#DF000000"
@@ -29,32 +30,47 @@ Dialog {
 
     contentItem: Item {
         width: parent.width; height: parent.height
+        Label {
+            font.pixelSize: 18
+            text: qsTr("Флаги")
+        }
         ListView {
-            y: 10
-            width: parent.width; height: parent.height-y-60
+            id: _flagList
+            x: 0; y: 25
+            width: parent.width; height: parent.height-65
             clip: true
             model: _dialog.model
+            spacing: 10
+
+            property var flagsList: []
+
             delegate: Item {
-                width: parent.width; height: 40
+                width: parent.width; height: 35
                 CheckBox {
                     anchors.verticalCenter: parent.verticalCenter
-                    width: 40; height: 40
+                    width: 35; height: 35
                     onCheckedChanged: {
                         if(checked) {
-                            _dialog.flagsList.push(modelData.name)
+                            _flagList.flagsList.push(modelData.name)
                         }
                         else {
-                            var pos = flagsList.indexOf(modelData.name);
-                            flagsList.splice(pos, 1)
+                            var pos = _flagList.flagsList.indexOf(modelData.name);
+                            _flagList.flagsList.splice(pos, 1)
                         }
                     }
                 }
                 Label {
-                    x: 45
-                    width: parent.width-x; height: parent.height
-                    verticalAlignment: Text.AlignVCenter
+                    x: 45; y: 0
+                    width: parent.width-x;
                     text: modelData.name
                 }
+                Label {
+                     x: 45; y: 15
+                     width: parent.width-x
+                     elide: Text.ElideRight
+                     text: modelData.description
+                }
+
                 MouseArea {
                     x: 45
                     width: parent.width-x; height: parent.height
@@ -71,20 +87,17 @@ Dialog {
             }
         }
 
-        Rectangle {
-            x: 0; y: parent.height-60
-            width: parent.width; height: 1
-            color: "#828282"
-        }
-        Button {
-            x: 20; y: parent.height-50
-            text: qsTr("Сохранить")
+        CustomButton {
+            x: parent.width-240; y: parent.height-35
+            width: 100
+            text: qsTr("Выбрать")
             onClicked: {
-                _dialog.setFlags(_dialog.flagsList)
+                _dialog.setFlags(_flagList.flagsList.join(" "))
             }
         }
-        Button {
-            x: parent.width-width-20; y: parent.height-50
+        CustomButton {
+            x: parent.width-width-20; y: parent.height-35
+            width: 100
             text: qsTr("Отмена")
             onClicked: {
                 _dialog.close()

@@ -10,10 +10,12 @@
         <file>qml/Components/SelectFolderRow.qml</file>
         <file>qml/Components/BusiDialog.qml</file>
         <file>qml/Components/Data.qml</file>
-        <file>qml/Components/SelectFlagsDialog.qml</file>
+        <file>qml/Components/FlagsDialog.qml</file>
         <file>qml/Components/qmldir</file>
-        <file>qml/Components/ArrayFieldRow.qml</file>
-        <file>qml/Components/CustomToolTip.qml</file>
         <file>qml/Components/CheckBoxRow.qml</file>
+        <file>qml/Components/LabelFieldRow.qml</file>
+        <file>qml/Components/Controls/CustomButton.qml</file>
+        <file>qml/Components/Controls/qmldir</file>
+        <file>qml/Components/Controls/CustomToolTip.qml</file>
     </qresource>
 </RCC>

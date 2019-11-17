@@ -8,12 +8,15 @@ ApplicationWindow {
     visible: true
     width: 720
     height: 480
-    title: qsTr("QtAutoTools")
+    minimumWidth: 720
+    minimumHeight: 360
+    title: qsTr("QtAutoTools")    
+
 
 
     font {
         pixelSize: 14
-
+        family: "Roboto"
     }
 
 
@@ -54,29 +57,36 @@ ApplicationWindow {
 
     Rectangle {
         width: 200; height: parent.height
-        color: "#A9A9A9"
+        color: "#4B4B4B"
 
         ListView {
             id: _list
-            width: parent.width; height: parent.height
+            width: 200; height: parent.height
             interactive: false
             model: toolsModel
             delegate: Rectangle {
-                width: parent.width; height: 45
+                width: 200; height: 45
                 color: "transparent" //ListView.isCurrentItem ? "#87CEEB" : "#FFFFFF"
                 Label {
                     x: 20
                     width: parent.width-20; height: parent.height
                     verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
-                    font.pixelSize: 14
-                    font.weight: Font.Bold
+                    font.pixelSize: 18
+                    //font.weight: Font.Bold
+                    color: "#FFFFFF"
                     text: modelData.title
                 }
-                Rectangle {
-                    x:0; y:7
-                    width: 4; height: parent.height-14
-                    color: "#1E90FF"
+                Rectangle {                   
+                    width: 3; height: 45
+                    color: "#39A0FF"
                     visible: parent.ListView.isCurrentItem
+                    layer.enabled: true
+                    layer.effect: DropShadow {
+                        radius: 8
+                        samples: 16
+                        horizontalOffset: 3
+                        color: "#39A0FF"
+                    }
                 }
                 Rectangle {
                     width: parent.width; height: parent.height
@@ -117,5 +127,6 @@ ApplicationWindow {
         x: 200; y:0
         width: parent.width-x; height: parent.height
         source: "qml/WinDeployQtPage.qml"
+        asynchronous: true
     }
 }

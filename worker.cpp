@@ -9,8 +9,9 @@ QString Worker::qtPath()
 
 void Worker::setQtPath(QString path)
 {
-    settings->setValue("global/qtpath", path);
+    settings->setValue("global/qtPath", path);
     m_qtPath = path;
+    parseInstallerVersion();
     emit qtPathChanged();
 }
 
@@ -21,7 +22,7 @@ QString Worker::compilerPath()
 
 void Worker::setCompilerPath(QString path)
 {
-    settings->setValue("global/compl1Path", path);
+    settings->setValue("global/compilerPath", path);
     m_compilerPath = path;
     emit compilerPathChanged();
 }
@@ -33,7 +34,7 @@ QString Worker::compilerToolPath()
 
 void Worker::setCompilerToolPath(QString path)
 {
-    settings->setValue("global/compl2Path", path);
+    settings->setValue("global/compilerToolPath", path);
     m_compilerToolePath = path;
     emit compilerToolPathChanged();
 }
@@ -59,6 +60,26 @@ QFile* Worker::prepareBatFile(bool addQtPath) {
         return file;
     }
     return  nullptr;
+}
+
+void Worker::removeBatFile()
+{
+     QFile::remove("temp.bat");
+}
+
+void Worker::parseInstallerVersion()
+{
+    QDir dir(m_qtPath + "/Tools/QtInstallerFramework");
+    if(!dir.exists())
+        return;
+    QFileInfoList version = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+    qDebug() << version;
+
+}
+
+void Worker::parseCompiler()
+{
+
 }
 
 

@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QSettings>
 #include <QFile>
+#include <QDir>
 
 
 class Worker : public QObject
@@ -13,6 +14,9 @@ class Worker : public QObject
     Q_PROPERTY(QString qtPath READ qtPath WRITE setQtPath NOTIFY qtPathChanged)
     Q_PROPERTY(QString compilerPath READ compilerPath WRITE setCompilerPath NOTIFY compilerPathChanged)
     Q_PROPERTY(QString compilerToolPath READ compilerToolPath WRITE setCompilerToolPath NOTIFY compilerToolPathChanged)
+
+    //Q_PROPERTY(QString installerVersionList READ compilerToolPath NOTIFY installerVersionListChanged)
+    //Q_PROPERTY(QString installerVersion READ installerVersion WRITE setInstallerVersion NOTIFY installerVersionChanged)
 
 
 public:
@@ -34,9 +38,13 @@ public:
 
     Q_INVOKABLE void clearAllSettings();
 
-    static QFile* prepareBatFile(bool addQtPath);
+    static QFile* prepareBatFile(bool addQtPath = false);
+    static void removeBatFile();
 
 private:
+
+    void parseInstallerVersion();
+    void parseCompiler();
 
     QSettings *settings = new QSettings;
 
@@ -49,6 +57,8 @@ signals:
     void qtPathChanged();
     void compilerPathChanged();
     void compilerToolPathChanged();
+    void installerVersionListChanged();
+    void installerVersionChanged();
 
 public slots:
 };
