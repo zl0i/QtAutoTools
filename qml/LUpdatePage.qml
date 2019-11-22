@@ -24,15 +24,15 @@ Item {
         x: 20; y: 50
         spacing: 20
         SelectFolderRow {
-            text: "Папка с профайлом"
+            text: qsTr("Папка с профайлом")
             onSetPath: {
                 _lupdate.setPath(path)
             }
         }
-        ArrayFieldRow {
-            text: "Языки"
-            model: Data.modelLanguages
-            onSetFlags: {
+        LabelFieldRow {
+            label: qsTr("Языки")
+            //model: Data.modelLanguages
+            onTextChanged: {
                 _lupdate.setLanguage(list)
             }
         }

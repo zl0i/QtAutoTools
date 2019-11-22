@@ -15,25 +15,28 @@ Item {
     Windeployqt {
         id: _windeployqt
         onStarted: {
-             _busiDialog.open()
+            _busiDialog.reset()
+            _busiDialog.open()
         }
         onFinished: {
-           _busiDialog.isReady = true
-
+            if(exitCode != 0)
+                _busiDialog.errorProcess = true
+            _busiDialog.isReady = true
         }
-        onErrorOccurred: {
-
+        onNewOutputData: {
+            line = String(line).replace(/(\r\n){1}/g, '<br>')
+            line = String(line).replace(/[ ]/g, '&nbsp;')
+            _busiDialog.info += '<font color="#404040">'+line+'</font>'
         }
-        onReadyReadStandardError: {
-
-        }
-        onReadyReadStandardOutput: {
-            _busiDialog.info = readOutput()
+        onNewErrorData: {
+            line = String(line).replace(/(\r\n){1}/g, '<br>')
+            line = String(line).replace(/[ ]/g, '&nbsp;')
+            _busiDialog.info += '<font color="#E31F1F" >'+line+'</font>'
         }
     }
 
     BusiDialog {
-        id: _busiDialog        
+        id: _busiDialog
     }
 
     Label {
@@ -50,16 +53,18 @@ Item {
         Column {
             id: _content
             x:0; y: 10
-            spacing: 20            
+            spacing: 20
             LabelFieldRow {
                 label: qsTr("Исполняемый файл")
                 mode: LabelFieldRow.Mode.File
+                text: "D:/Project/Qt/QtAutoTools/build-QtAutoTools-Desktop_Qt_5_13_1_MinGW_64_bit-Release/release/QtAutoTools.exe"
                 onTextChanged: {
-                   _windeployqt.setExeFile(text)
+                    _windeployqt.setExeFile(text)
                 }
             }
             LabelFieldRow {
                 label: qsTr("Папка развертывания")
+                text: "D:/Project/Qt/QtAutoTools/Deploy"
                 onTextChanged: {
                     _windeployqt.setDir(text)
                 }
@@ -113,9 +118,8 @@ Item {
                 }
             }
             CustomButton {
-                text: qsTr("Развернуть")                
-
-                onClicked: {                   
+                text: qsTr("Развернуть")
+                onClicked: {
                     _windeployqt.deploy()
                 }
             }

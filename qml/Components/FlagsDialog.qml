@@ -77,8 +77,10 @@ Dialog {
                     hoverEnabled: true
                     property bool hovered: false
                     onEntered: hovered = true
-                    onExited: hovered = false
+                    onExited: hovered = false                   
                     CustomToolTip {
+                        id: _toolTip
+                        x: parent.mouseX; y: parent.mouseY - height - 10
                         visible: parent.hovered
                         delay: 500
                         text: modelData.description

@@ -1,3 +1,4 @@
 module Controls
 CustomButton 1.0 CustomButton.qml
 CustomToolTip 1.0 CustomToolTip.qml
+FlipButton 1.0 FlipButton.qml

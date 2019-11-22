@@ -23,7 +23,6 @@ public:
 
     Q_INVOKABLE void deploy();
 
-    Q_INVOKABLE QString readOutput();
 
 private:
 
@@ -36,6 +35,9 @@ private:
     QString flags;
 
 signals:  
+
+    void newOutputData(QByteArray line);
+    void newErrorData(QByteArray line);
 
 
 public slots:

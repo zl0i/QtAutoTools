@@ -17,5 +17,6 @@
         <file>qml/Components/Controls/CustomButton.qml</file>
         <file>qml/Components/Controls/qmldir</file>
         <file>qml/Components/Controls/CustomToolTip.qml</file>
+        <file>qml/Components/Controls/FlipButton.qml</file>
     </qresource>
 </RCC>
