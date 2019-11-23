@@ -4,7 +4,7 @@ import QtQuick 2.12
 QtObject {
     readonly property var modelFlagsWinDeployQt: [
         {
-            "name": "--debug",
+            "name": '--debug',
             "description": "Assume debug binaries"
         },
         {
@@ -53,7 +53,7 @@ QtObject {
             "description": "Deploy compiler runtime (Desktop only)"
         },
         {
-            "name": " --no-compiler-runtime",
+            "name": "--no-compiler-runtime",
             "description": "Do not deploy compiler runtime (Desktop only)"
         },
         {

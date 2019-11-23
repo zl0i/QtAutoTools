@@ -4,20 +4,18 @@ Windeployqt::Windeployqt(QObject *parent) : QProcess(parent)
 {   
     setReadChannel(QProcess::StandardOutput);
     connect(this, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            this, QOverload<>::of(&Windeployqt::slotFinished));
+            this, QOverload<int>::of(&Windeployqt::slotFinished));
     connect(this, &QProcess::readyRead, this, &Windeployqt::slotReadChanel);
 }
 
 void Windeployqt::slotReadChanel() {    
     setReadChannel(QProcess::StandardError);
-    QByteArray error = readAll();
-
+    QByteArray error = readAll();   
     if(!error.isEmpty())
         emit newErrorData(error);
 
     setReadChannel(QProcess::StandardOutput);
-    QByteArray output = readAll();
-    //qDebug() << output;
+    QByteArray output = readAll();    
     if(!output.isEmpty())
         emit newOutputData(output);
 
@@ -58,10 +56,15 @@ void Windeployqt::setFlags(QString flags)
     this->flags = flags;
 }
 
+void Windeployqt::setLibraries(QString libraries)
+{
+    this->libraries = libraries;
+}
+
 void Windeployqt::deploy()
 {   
     if(!QFile(exeFile).exists())
-        return;
+        return;    
 
     QStringList arguments;
     if(!dir.isEmpty()) {
@@ -85,6 +88,9 @@ void Windeployqt::deploy()
     if(flags.length() != 0) {
         arguments.append(flags);
     }
+    if(libraries.length() != 0) {
+        arguments.append(libraries);
+    }
     QFile *file = Worker::prepareBatFile(true);
     QString str = Worker::getInstance()->compilerPath() + "/bin/windeployqt " + arguments.join(" ");
     file->write(str.toLocal8Bit());
@@ -93,10 +99,14 @@ void Windeployqt::deploy()
     start(file->fileName());
 }
 
-void Windeployqt::slotFinished() {   
-    if(!dir.isEmpty()) {
-        QString nameExeFile = exeFile.split("/").last();
-        QFile::copy(exeFile, dir+"/" + nameExeFile);
+void Windeployqt::slotFinished(int code) {
+    if(code > 0) {
+        emit newErrorData(readAllStandardError());
+    } else {
+        if(!dir.isEmpty()) {
+            QString nameExeFile = exeFile.split("/").last();
+            QFile::copy(exeFile, dir+"/" + nameExeFile);
+        }
     }
     Worker::removeBatFile();
 }

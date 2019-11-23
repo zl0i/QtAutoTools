@@ -19,11 +19,13 @@ Row {
 
 
     property var flagsModel
+    property var librariesModel
 
     enum Mode {
         File,
         Folder,
-        Flags
+        Flags,
+        Libraries
     }
     property int mode: LabelFieldRow.Mode.Folder
 
@@ -57,11 +59,15 @@ Row {
                 item.open()
             }
             if(_root.mode === LabelFieldRow.Mode.Flags) {
-                item = _flagsComponent.createObject(_root)
+                item = _flagsComponent.createObject(_root, {"flagsList": _field.text.split(" ")})
+                item.open()
+            }
+            if(_root.mode === LabelFieldRow.Mode.Libraries) {
+                item = _librariesComponent.createObject(_root, {"librariesList": _field.text.split(" ") })
                 item.open()
             }
         }
-    }
+    }  
     Button {
         width: 40; height:  parent.height
         visible: _root.isClearButton
@@ -91,8 +97,19 @@ Row {
         id: _flagsComponent
         FlagsDialog {
             model: _root.flagsModel
-            onSetFlags: {
+            onApply: {
                 _field.text = flags
+                close()
+            }
+
+        }
+    }    
+    Component {
+        id: _librariesComponent
+        LibrariesDialog {
+            model: _root.librariesModel
+            onApply: {
+                _field.text = libraries
                 close()
             }
 

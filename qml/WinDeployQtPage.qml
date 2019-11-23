@@ -56,15 +56,13 @@ Item {
             spacing: 20
             LabelFieldRow {
                 label: qsTr("Исполняемый файл")
-                mode: LabelFieldRow.Mode.File
-                text: "D:/Project/Qt/QtAutoTools/build-QtAutoTools-Desktop_Qt_5_13_1_MinGW_64_bit-Release/release/QtAutoTools.exe"
+                mode: LabelFieldRow.Mode.File                
                 onTextChanged: {
                     _windeployqt.setExeFile(text)
                 }
             }
             LabelFieldRow {
-                label: qsTr("Папка развертывания")
-                text: "D:/Project/Qt/QtAutoTools/Deploy"
+                label: qsTr("Папка развертывания")              
                 onTextChanged: {
                     _windeployqt.setDir(text)
                 }
@@ -101,10 +99,14 @@ Item {
                     _windeployqt.setFlags(flags)
                 }
             }
-            Label {
-                width: 100;  height: 40
-                verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
-                text: qsTr("Библиотеки")
+            LabelFieldRow {
+                width: 100;  height: 40               
+                label: qsTr("Библиотеки")
+                mode: LabelFieldRow.Mode.Libraries
+                librariesModel: Data.modelLibraryWindDeployQt
+                onTextChanged: {
+                    _windeployqt.setLibraries(text)
+                }
             }
             Repeater {
                 width: parent.width; height: 300

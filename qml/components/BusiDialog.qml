@@ -65,7 +65,7 @@ Dialog {
         Label {
             width: parent.width; height: 20
             horizontalAlignment: Text.AlignHCenter
-            text: isReady ? qsTr("Готово") : qsTr("Ждите. Операция выполняется")
+            text: isReady ? (errorProcess ? qsTr("Ошибка!") : qsTr("Готово")) : qsTr("Ждите. Операция выполняется")
         }
         Rectangle {
            width: _dialog.width-40; height: _dialog.height-160

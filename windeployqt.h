@@ -20,6 +20,7 @@ public:
     Q_INVOKABLE void setQmldir(QString);
     Q_INVOKABLE void setQmlimport(QString);
     Q_INVOKABLE void setFlags(QString);
+    Q_INVOKABLE void setLibraries(QString);
 
     Q_INVOKABLE void deploy();
 
@@ -33,6 +34,7 @@ private:
     QString qmldir;
     QString qmlimport;
     QString flags;
+    QString libraries;
 
 signals:  
 
@@ -41,7 +43,7 @@ signals:
 
 
 public slots:
-    void slotFinished();
+    void slotFinished(int);
     void slotReadChanel();
 
 };
