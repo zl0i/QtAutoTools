@@ -17,7 +17,6 @@ Row {
 
     property alias text: _field.text
 
-
     property var flagsModel
     property var librariesModel
 
@@ -51,11 +50,18 @@ Row {
         onClicked:  {
             if(_root.mode === LabelFieldRow.Mode.Folder) {
                 var item = _folderComponent.createObject(_root)
-                item.open()
-                return
+                if(_field.text.length > 0) {
+                    item.folder = "file:///" + _field.text
+                }
+                item.open()                
             }
-            if(_root.mode === LabelFieldRow.Mode.File) {
+            if(_root.mode === LabelFieldRow.Mode.File) {                
                 item = _fileComponent.createObject(_root)
+                if(_field.text.length > 0) {
+                    var buf = _field.text.split("/")
+                    buf.pop()
+                    item.folder = "file:///" + buf.join("/")
+                }
                 item.open()
             }
             if(_root.mode === LabelFieldRow.Mode.Flags) {
@@ -79,7 +85,7 @@ Row {
     Component {
         id: _folderComponent
         FolderDialog {
-            onAccepted: {
+            onAccepted: {                
                 _field.text = String(currentFolder).slice(8)
             }
         }
@@ -87,7 +93,7 @@ Row {
     Component {
         id: _fileComponent
         FileDialog {
-            fileMode: FileDialog.OpenFile
+            fileMode: FileDialog.OpenFile           
             onAccepted: {
                 _field.text = String(currentFile).slice(8)
             }
@@ -101,7 +107,6 @@ Row {
                 _field.text = flags
                 close()
             }
-
         }
     }    
     Component {
@@ -112,8 +117,6 @@ Row {
                 _field.text = libraries
                 close()
             }
-
         }
     }
-
 }
