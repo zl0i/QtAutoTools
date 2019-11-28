@@ -2,7 +2,6 @@
 
 Windeployqt::Windeployqt(QObject *parent) : QProcess(parent)
 {   
-    setReadChannel(QProcess::StandardOutput);
     connect(this, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, QOverload<int>::of(&Windeployqt::slotFinished));
     connect(this, &QProcess::readyRead, this, &Windeployqt::slotReadChanel);

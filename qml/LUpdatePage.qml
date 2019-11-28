@@ -31,9 +31,10 @@ Item {
         }
         LabelFieldRow {
             label: qsTr("Языки")
-            //model: Data.modelLanguages
+            mode: LabelFieldRow.Mode.Flags
+            flagsModel: Data.modelLanguages
             onTextChanged: {
-                _lupdate.setLanguage(list)
+                _lupdate.setLanguage(text)
             }
         }
         Button {
