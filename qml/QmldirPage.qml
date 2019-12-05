@@ -25,68 +25,60 @@ Item {
         x: 20; y: 20
         font.pixelSize: 18
         font.weight: Font.Bold
-        text: "qmldir"
+        text: "QmlDir"
     }
 
     Flickable {
         x: 20; y: 50
-        width: parent.width; height: parent.height-y
+        width: parent.width-40; height: parent.height-y
         contentHeight: _content.height+20
         clip: true
         Column {
             id: _content
+            width: parent.width
             spacing: 20
-            SelectFolderRow {
-                id: _path
-                text: qsTr("Целевая папка")
-                onSetPath: {
-                    _qmldir.setPath(path)
+            LabelFieldRow {
+                label: qsTr("Папка с компонентами")
+                onTextChanged:  {
+                    _qmldir.setPath(text)
                 }
             }
-            Row {
-                spacing: 10
-                height: 40
-                Label {
-                    width: 150; height: parent.height
-                    verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
-                    wrapMode: Text.WordWrap
-                    text: qsTr("Версия")
-                }
-                TextField {
-                    id: _majorField
-                    width: 40; height:  parent.height
-                    selectByMouse : true
-                    selectionColor: "#87CEFA"
-                    validator: IntValidator {bottom: 1; top: 99}
-                     horizontalAlignment: Text.AlignHCenter
-                    text: "1"
-                    onTextChanged: {
-                        _qmldir.setMajorVersion(Number(text))
+            ListView {
+                width: parent.width
+                height: count * 40 + (count-1) * spacing
+                spacing: 15
+                model: 2
+                delegate: Row {
+                    width: parent.width; height: 40
+                    spacing: 15
+                    ComboBox {
+                        width: 120
+                        model: ["", "Singleton", "Internal"]
                     }
-                }
-                Label {
-                    height: parent.height
-                    verticalAlignment: Text.AlignBottom; horizontalAlignment: Text.AlignHCenter
-                    wrapMode: Text.WordWrap
-                    text: "."
-                }
-                TextField {
-                    id: _minorField
-                    width: 40; height:  parent.height
-                    selectByMouse : true
-                    selectionColor: "#87CEFA"
-                    validator: IntValidator {bottom: 0; top: 99}
-                    horizontalAlignment: Text.AlignHCenter
-                    text: "0"
-                    onTextChanged: {
-                        _qmldir.setMinorVersion(Number(text))
+                    TextField {
+                        width: 120; height: 40
+                        text: "CustomCursor"
+                    }
+                    TextField {
+                        width: 40; height: 40
+                        text: "1.0"
+                    }
+                    TextField {
+                        width: 150; height: 40
+                        text: "CustomCursor.qml"
                     }
                 }
             }
+            LabelCheckBox {
+                label: qsTr("Создать запись о типах qmldir")
+            }
+            LabelCheckBox {
+                label: qsTr("Поддержка Qt Quick Designer")
+            }
+
             Button {
                 text: qsTr("Создать")
-                onClicked: {
-                    _busiDialog.open()
+                onClicked: {                   
                     _qmldir.createModule()
                 }
             }

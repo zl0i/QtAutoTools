@@ -23,10 +23,11 @@ Item {
     Column {
         x: 20; y: 50
         spacing: 20
-        SelectFolderRow {
-            text: qsTr("Папка с профайлом")
-            onSetPath: {
-                _lupdate.setPath(path)
+        LabelFieldRow {
+            label: qsTr("Папка с профайлом")
+            mode: LabelFieldRow.Mode.Folder
+            onTextChanged: {
+                _lupdate.setPath(text)
             }
         }
         LabelFieldRow {

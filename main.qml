@@ -35,12 +35,7 @@ ApplicationWindow {
             "title": "qmldir",
             "info": "Автоматическое создание и заполение qmldir",
             "component": "/qml/QmldirPage.qml"
-        },
-        {
-            "title": "qmlplugindump",
-            "info": "Создание файла описания м",
-            "component": "/qml/QmlplugindumpPage.qml"
-        },
+        },        
         {
             "title": "lupdate",
             "info": "",
@@ -51,7 +46,6 @@ ApplicationWindow {
             "info": "",
             "component": "/qml/Settings.qml"
         }
-
     ]
 
 

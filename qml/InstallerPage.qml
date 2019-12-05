@@ -29,24 +29,26 @@ Item {
         Column {
             id: _content
             spacing: 20
-            SelectFolderRow {
-                text: "Папка с деплоем"
-                onSetPath: {
-                    _finstaller.setDeployPath(path)
+            LabelFieldRow {
+                label: "Папка с деплоем"
+                mode: LabelFieldRow.Mode.Folder
+                onTextChanged:  {
+                    _finstaller.setDeployPath(text)
                 }
             }
-            SelectFolderRow {
-                text: "Папка установки"
-                onSetPath: {
-                    _finstaller.setInstallerPath(path)
+            LabelFieldRow {
+                label: "Папка установки"
+                mode: LabelFieldRow.Mode.Folder
+                onTextChanged: {
+                    _finstaller.setInstallerPath(text)
                 }
             }
-            SelectFolderRow {
-                text: qsTr("Вендор")
-                isFolderButton: false
-                path: "com.vendor.example"
-                onSetPath: {
-                    _finstaller.setVendorName(path)
+            LabelFieldRow {
+                label: qsTr("Вендор")
+                isPopupButton: false
+                text: "com.vendor.example"
+                onTextChanged: {
+                    _finstaller.setVendorName(text)
                 }
             }
             Row {

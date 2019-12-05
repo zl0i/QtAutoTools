@@ -23,33 +23,36 @@ Item {
     Column {
         x: 20; y: 50
         spacing: 20
-        SelectFolderRow {
-            text: qsTr("Путь к Qt")
+        LabelFieldRow {
+            label: qsTr("Путь к Qt")
+            mode: LabelFieldRow.Mode.Folder
             Component.onCompleted: {
-                path = _worker.qtPath
+                text = _worker.qtPath
             }
-            onPathChanged: {
-                _worker.qtPath = path
+            onTextChanged: {
+                _worker.qtPath = text
             }
         }
-        SelectFolderRow {
-            text: qsTr("Путь к компилятору")
+        LabelFieldRow {
+            label: qsTr("Путь к компилятору")
+            mode: LabelFieldRow.Mode.Folder
             Component.onCompleted: {
-                 path = _worker.compilerPath
+                 text = _worker.compilerPath
             }
-            onPathChanged: {
-                _worker.compilerPath = path
+            onTextChanged: {
+                _worker.compilerPath = text
 
             }
         }
 
-        SelectFolderRow {
-            text: qsTr("Путь к компилятору Tool")
+        LabelFieldRow {
+            label: qsTr("Путь к компилятору Tool")
+            mode: LabelFieldRow.Mode.Folder
             Component.onCompleted: {
-                 path = _worker.compilerToolPath
+                 text = _worker.compilerToolPath
             }
-            onPathChanged: {
-                _worker.compilerToolPath = path
+            onTextChanged: {
+                _worker.compilerToolPath = text
             }
         }
 

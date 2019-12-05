@@ -10,24 +10,14 @@ void QmlDir::setPath(QString path) {
     this->path = path;
 }
 
-void QmlDir::setMajorVersion(uint major) {
-   this->major = major;
-}
-
-void QmlDir::setMinorVersion(uint minor) {
-   this->minor = minor;
+void QmlDir::setCreateTypes(bool b)
+{
+    this->createTypes = b;
 }
 
 
-QString QmlDir::getStringVersion() {
-    return  QString::number(major) +"." + QString::number(minor);
-}
+void QmlDir::createQmlDir() {
 
-void QmlDir::createModule() {
-    if(path.isEmpty() || major == 0) {
-        emit error("Недопустимые аргументы");
-        return;
-    }
 
     QStringList filterList = {"*.qml", "*.js"};
     QStringList qmlFiles = QDir(path).entryList(filterList, QDir::Files, QDir::Name);
@@ -42,8 +32,8 @@ void QmlDir::createModule() {
         QString nameModule = "module " + path.split("/").last() + "\n";
         file.write(nameModule.toLocal8Bit());
         for(int i = 0; i < qmlFiles.count(); ++i) {
-            QString row = qmlFiles.at(i).split(".").first() + " " + getStringVersion() + " " + qmlFiles.at(i) + "\n";
-            file.write(row.toLocal8Bit());
+            //QString row = qmlFiles.at(i).split(".").first() + " " + getStringVersion() + " " + qmlFiles.at(i) + "\n";
+            //file.write(row.toLocal8Bit());
         }
         file.close();
         emit finished();

@@ -7,7 +7,6 @@
         <file>qml/QmlplugindumpPage.qml</file>
         <file>qml/LUpdatePage.qml</file>
         <file>qml/Settings.qml</file>
-        <file>qml/Components/SelectFolderRow.qml</file>
         <file>qml/Components/BusiDialog.qml</file>
         <file>qml/Components/Data.qml</file>
         <file>qml/Components/FlagsDialog.qml</file>
@@ -19,5 +18,6 @@
         <file>qml/Components/Controls/CustomToolTip.qml</file>
         <file>qml/Components/Controls/FlipButton.qml</file>
         <file>qml/Components/LibrariesDialog.qml</file>
+        <file>qml/Components/LabelCheckBox.qml</file>
     </qresource>
 </RCC>

@@ -14,6 +14,7 @@ Row {
 
     property bool isPopupButton: true
     property bool isClearButton: false
+    property bool isPlusButton: false
 
     property alias text: _field.text
 
@@ -27,6 +28,8 @@ Row {
         Libraries
     }
     property int mode: LabelFieldRow.Mode.Folder
+
+    signal plusClicked()
 
     Label {
         width: widthLabel; height: parent.height
@@ -80,6 +83,14 @@ Row {
         text: "x"
         onClicked:  {
             _field.clear()
+        }
+    }
+    Button {
+        width: 40; height:  parent.height
+        visible: _root.isClearButton
+        text: "+"
+        onClicked:  {
+            _root.plusClicked()
         }
     }
     Component {
