@@ -29,6 +29,7 @@ Row {
     }
     property int mode: LabelFieldRow.Mode.Folder
 
+    signal access(var text)
     signal plusClicked()
 
     Label {
@@ -98,6 +99,7 @@ Row {
         FolderDialog {
             onAccepted: {                
                 _field.text = String(currentFolder).slice(8)
+                _root.access(_field.text)
             }
         }
     }
@@ -107,6 +109,7 @@ Row {
             fileMode: FileDialog.OpenFile           
             onAccepted: {
                 _field.text = String(currentFile).slice(8)
+                _root.access(_field.text)
             }
         }
     }
@@ -116,6 +119,7 @@ Row {
             model: _root.flagsModel
             onApply: {
                 _field.text = flags
+                _root.access(flags)
                 close()
             }
         }
@@ -126,7 +130,9 @@ Row {
             model: _root.librariesModel
             onApply: {
                 _field.text = libraries
+                _root.access(libraries)
                 close()
+
             }
         }
     }
