@@ -1,9 +1,0 @@
-module Components
-BusiDialog 1.0 BusiDialog.qml
-FlagsDialog 1.0 FlagsDialog.qml
-LibrariesDialog 1.0 LibrariesDialog.qml
-CheckBoxRow 1.0 CheckBoxRow.qml
-LabelFieldRow 1.0 LabelFieldRow.qml
-LabelCheckBox 1.0 LabelCheckBox.qml
-
-singleton Data 1.0 Data.qml
