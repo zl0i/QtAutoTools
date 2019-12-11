@@ -15,7 +15,7 @@ QmlDir::QmlDir(QObject *parent) : QObject(parent)
     connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, &QmlDir::processFinished);
     process->setReadChannel(QProcess::StandardError);
-     connect(process, &QProcess::readyRead, this, &QmlDir::readChanel);
+    connect(process, &QProcess::readyRead, this, &QmlDir::readChanel);
 }
 
 QmlDir::~QmlDir()
@@ -27,7 +27,7 @@ QmlDir::~QmlDir()
 void QmlDir::setPath(QString path) {
     this->path = path;
 
-    filesModel->clear();    
+    filesModel->clear();
 
     QStringList filterList = {"*.qml", "*.js", "*.dll", "*.so", "*.h"};
     QStringList filesDir = QDir(path).entryList(filterList, QDir::Files, QDir::Name);
@@ -58,7 +58,7 @@ void QmlDir::setPath(QString path) {
         } else if (ext == "h") {
 
         }
-    }   
+    }
 }
 
 void QmlDir::setCreateTypes(bool b)
@@ -203,7 +203,7 @@ void QmlDir::processFinished(int exitCode, QProcess::ExitStatus status)
 void QmlDir::readChanel()
 {
     process->setReadChannel(QProcess::StandardError);
-    QByteArray error = process->readAll();   
+    QByteArray error = process->readAll();
     if(!error.isEmpty())
         emit newErrorData(error);
 }

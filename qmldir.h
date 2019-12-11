@@ -37,7 +37,7 @@ public:
 
 private:    
     typedef enum {
-        Extension,
+        Extension = Qt::UserRole+1,
         Types,
         Type,
         Name,

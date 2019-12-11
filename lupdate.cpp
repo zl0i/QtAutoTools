@@ -1,67 +1,109 @@
 #include "lupdate.h"
 
-Lupdate::Lupdate(QObject *parent) : QObject(parent)
+Lupdate::Lupdate(QObject *parent) : QProcess(parent)
 {
-    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(finishedProcess(int, QProcess::ExitStatus)));
+    QHash<int, QByteArray> hash;
+    hash.insert(Qt::UserRole+1, "file");
+    filesModel->setItemRoleNames(hash);
+    filesModel->insertColumn(0);
+    filesModel->insertRow(0);
+    filesModel->setData(filesModel->index(0, 0), "", Qt::UserRole+1);
+
+    connect(this, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            this, QOverload<int>::of(&Lupdate::slotFinished));
+    connect(this, &QProcess::readyRead, this, &Lupdate::slotReadChanel);
+}
+
+void Lupdate::slotReadChanel() {
+    setReadChannel(QProcess::StandardError);
+    QByteArray error = readAll();
+    if(!error.isEmpty())
+        emit newErrorData(error);
+
+    setReadChannel(QProcess::StandardOutput);
+    QByteArray output = readAll();
+    if(!output.isEmpty())
+        emit newOutputData(output);
 
 }
 
-void Lupdate::setPath(QString path) {
-    this->path = path;
+void Lupdate::removeFile(int row)
+{
+    if(filesModel->rowCount() > 1)
+        filesModel->removeRow(row);
 }
 
-void Lupdate::setLanguage(QStringList list) {
-    this->langList = list;
+
+void Lupdate::addFile() {
+    filesModel->insertRow(filesModel->rowCount());
+    QModelIndex index = filesModel->index(filesModel->rowCount()-1, 0);
+    filesModel->setData(index, "", Qt::UserRole+1);
 }
 
-QString Lupdate::getStringFileTs() {
-    const QString name = getProFileName().split(".").first();
+void Lupdate::setFile(int row, QString url) {
+    QModelIndex index = filesModel->index(row, 0);
+    filesModel->setData(index, url, Qt::UserRole+1);
+}
+
+void Lupdate::setLanguage(QString list) {
+    this->langList = list.split(" ", QString::SkipEmptyParts);
+}
+
+QString Lupdate::getStringFileTs(QString url) {
+    QStringList listPath = url.split("/");
+    QString file = listPath.last();
+    listPath.removeLast();
+    QString path = listPath.join("/");
+    QStringList name = file.split(".");
+
     QStringList tsFile;
     for(int i = 0; i < langList.count(); i++) {
-        tsFile.append(path + "/" + name + "_" + langList.at(i) + ".ts");
+        tsFile.append(path + "/" + name.at(0) + "_" + langList.at(i) + ".ts");
     }
     return  tsFile.join(" ");
 }
 
-QString Lupdate::getProFileName() {
-    QDir dir(path);
-    QStringList filter = {"*.pro"};
-    QFileInfoList infoList = dir.entryInfoList(filter);
-    if(infoList.count() != 0) {
-        return infoList.at(0).fileName();
-    }
-    return "";
-}
-
 void Lupdate::createTs() {
 
-    QStringList arguments;
-    arguments.append(path + "/" +getProFileName());
-    arguments.append("-ts " + getStringFileTs());
-    QString program = Worker::getInstance()->compilerPath() + "/bin/lupdate " + arguments.join(" ");
-    qDebug() << program;
+    translatorList.clear();
 
-    QFile *file = new QFile("temp.bat");
-    if(file->open(QIODevice::ReadWrite)) {
+    QStringList arguments;
+    for(int i = 0; i < filesModel->rowCount()-1; i++) {
+        QModelIndex index = filesModel->index(i ,0);
+        arguments.append(filesModel->data(index, Qt::UserRole+1).toString());
+    }
+    arguments.append("-ts");
+    for(int i = 0; i < filesModel->rowCount()-1; i++) {
+        QModelIndex index = filesModel->index(i ,0);
+        translatorList.append(getStringFileTs(filesModel->data(index, Qt::UserRole+1).toString()));
+        arguments.append(translatorList.last());
+    }
+
+    QString program = Worker::getInstance()->compilerPath() + "/bin/lupdate " + arguments.join(" ");
+
+    QFile *file = Worker::prepareBatFile();
+    if(file) {
         file->write(program.toLocal8Bit());
         file->close();
         file->deleteLater();
-        process->start("temp.bat");
+        start("temp.bat");
     }
 }
 
 void Lupdate::runLinguist() {
-    if(langList.count() != 0) {
-        process->startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist " + getStringFileTs());
+    if(translatorList.count() != 0) {
+        startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist " + translatorList.join(" "));
     }
     else  {
-        process->startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist");
+        startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist");
     }
 }
 
-void Lupdate::finishedProcess(int code, QProcess::ExitStatus status) {
-    Q_UNUSED(code)
-    Q_UNUSED(status)
-    QFile::remove("temp.bat");
-    emit finished();
+void Lupdate::slotFinished(int code) {
+    if(code > 0) {
+        emit newErrorData(readAllStandardError());
+    } else {
+        emit newOutputData("Done!");
+    }
+    Worker::removeBatFile();
 }

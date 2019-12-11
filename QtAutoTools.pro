@@ -18,7 +18,6 @@ SOURCES += \
         lupdate.cpp \
         main.cpp \
         qmldir.cpp \
-        qmlplugindump.cpp \
         windeployqt.cpp \
         worker.cpp
 
@@ -45,7 +44,6 @@ HEADERS += \
     finstaller.h \
     lupdate.h \
     qmldir.h \
-    qmlplugindump.h \
     windeployqt.h \
     worker.h
 

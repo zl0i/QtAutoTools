@@ -47,6 +47,7 @@ Item {
         x: 20; y: 50
         width: parent.width-40; height: parent.height-y
         contentHeight: _content.height+20
+        interactive: contentHeight > height
         clip: true
         Column {
             id: _content

@@ -17,6 +17,7 @@ Row {
     property bool isPlusButton: false
 
     property alias text: _field.text
+    property alias fieldFocus: _field.focus
 
     property var flagsModel
     property var librariesModel
@@ -88,7 +89,7 @@ Row {
     }
     Button {
         width: 40; height:  parent.height
-        visible: _root.isClearButton
+        visible: _root.isPlusButton
         text: "+"
         onClicked:  {
             _root.plusClicked()
