@@ -97,7 +97,7 @@ QtObject {
             "description": "Русский"
         },
         {
-            "name": "us",
+            "name": "en",
             "description": "США"
         },
         {

@@ -22,6 +22,8 @@ Row {
     property var flagsModel
     property var librariesModel
 
+    property var filterFile: qsTr("Все файлы (*)")
+
     enum Mode {
         File,
         Folder,
@@ -107,7 +109,8 @@ Row {
     Component {
         id: _fileComponent
         FileDialog {
-            fileMode: FileDialog.OpenFile           
+            fileMode: FileDialog.OpenFile
+            nameFilters: _root.filterFile
             onAccepted: {
                 _field.text = String(currentFile).slice(8)
                 _root.access(_field.text)
@@ -133,7 +136,6 @@ Row {
                 _field.text = libraries
                 _root.access(libraries)
                 close()
-
             }
         }
     }

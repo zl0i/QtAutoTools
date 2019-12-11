@@ -37,6 +37,7 @@ Item {
 
     BusiDialog {
         id: _busiDialog
+        onKill: _windeployqt.kill()
     }
 
     Label {

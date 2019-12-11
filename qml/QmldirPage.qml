@@ -34,6 +34,7 @@ Item {
 
     BusiDialog {
         id: _busiDialog
+        onKill:  _qmldir.kill()
     }
 
     Label {

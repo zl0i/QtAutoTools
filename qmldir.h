@@ -35,6 +35,9 @@ public:
 
     Q_INVOKABLE void createModule();
 
+    Q_INVOKABLE void kill();
+
+
 private:    
     typedef enum {
         Extension = Qt::UserRole+1,

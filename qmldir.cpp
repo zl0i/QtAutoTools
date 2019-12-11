@@ -144,6 +144,11 @@ void QmlDir::createModule() {
     }
 }
 
+void QmlDir::kill()
+{
+    process->kill();
+}
+
 QString QmlDir::getFileName(QString file)
 {
     QStringList list = file.split(".");

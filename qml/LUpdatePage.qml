@@ -15,7 +15,8 @@ Item {
     Lupdate {
         id: _lupdate
         onStarted: {
-             _busyDialog.open()
+            _busyDialog.reset()
+            _busyDialog.open()
         }
         onNewOutputData: {
             line = String(line).replace(/(\r\n){1}/g, '<br>')
@@ -36,6 +37,7 @@ Item {
     }
     BusiDialog {
         id: _busyDialog
+        onKill: _lupdate.kill()
     }
     Flickable {
         x: 20; y: 60
@@ -56,6 +58,7 @@ Item {
                     label: qsTr("Переводимый файл")
                     text: file
                     mode: LabelFieldRow.Mode.File
+                    filterFile: ["Qt Files (*.pro *.qml *.ui *.c *.c++ *.cc *.cpp *.cxx *.ch *.h *.h++ *.hh *.hpp *.hxx)", qsTr("Все файлы (*)")]
                     onFieldFocusChanged: {
                         if(!fieldFocus && text == "" && index !== ListView.view.count-1) {
                             _lupdate.removeFile(index)

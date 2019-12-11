@@ -25,11 +25,10 @@ Dialog {
     property bool errorProcess: false
     property string info
 
-
-
+    signal kill()
 
     function reset() {
-        info = ""        
+        info = ""
         isReady = false
         errorProcess = false
     }
@@ -46,6 +45,15 @@ Dialog {
             x:parent.width-30; y:5
             width: 25; height: 25
             source: "qrc:/icon/exit-black.svg"
+            MouseArea {
+                width: 25; height: 25
+                onClicked: {
+                    if(isReady)
+                        _dialog.close()
+                    else
+                        _dialog.kill()
+                }
+            }
         }
     }
 
@@ -68,25 +76,25 @@ Dialog {
             text: isReady ? (errorProcess ? qsTr("Ошибка!") : qsTr("Готово")) : qsTr("Ждите. Операция выполняется")
         }
         Rectangle {
-           width: _dialog.width-40; height: _dialog.height-160
-           border { width: 1; color: "#C4C4C4" }
-           Flickable {
-               id: _flickable
-               anchors.fill: parent
-               visible: _dialog.showInfo               
-               flickableDirection: Flickable.AutoFlickIfNeeded
-               ScrollBar.vertical: ScrollBar {}
-               ScrollBar.horizontal: ScrollBar {}
-               TextArea.flickable: TextArea {
-                   id: _infoArea                   
-                   font.pixelSize: 12
-                   selectByMouse: true
-                   selectionColor: "#3A9AF2"
-                   readOnly: true
-                   text: info                  
-                   textFormat: TextEdit.RichText
-               }
-           }
+            width: _dialog.width-40; height: _dialog.height-160
+            border { width: 1; color: "#C4C4C4" }
+            Flickable {
+                id: _flickable
+                anchors.fill: parent
+                visible: _dialog.showInfo
+                flickableDirection: Flickable.AutoFlickIfNeeded
+                ScrollBar.vertical: ScrollBar {}
+                ScrollBar.horizontal: ScrollBar {}
+                TextArea.flickable: TextArea {
+                    id: _infoArea
+                    font.pixelSize: 12
+                    selectByMouse: true
+                    selectionColor: "#3A9AF2"
+                    readOnly: true
+                    text: info
+                    textFormat: TextEdit.RichText
+                }
+            }
         }
 
         Image {
