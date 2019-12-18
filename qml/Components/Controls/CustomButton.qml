@@ -5,6 +5,9 @@ import QtGraphicalEffects 1.0
 Button {
     id: _button
 
+    height: 40
+    property int radius: 5
+
     contentItem: Label {
         width: parent.width; height: parent.height
         verticalAlignment: Text.AlignVCenter
@@ -14,7 +17,7 @@ Button {
     }
 
     background: Rectangle {
-        height: 35; radius: 5
+        width: parent.width; height: parent.height; radius: parent.radius
         color: parent.down ? "#2C71B1" : "#52ABFF"
         /*layer.enabled: true
         layer.effect: DropShadow {
