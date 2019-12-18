@@ -5,5 +5,7 @@
         <file>icon/success-white.svg</file>
         <file>icon/exit-black.svg</file>
         <file>icon/error-white.svg</file>
+        <file>icon/file.svg</file>
+        <file>icon/folder.svg</file>
     </qresource>
 </RCC>

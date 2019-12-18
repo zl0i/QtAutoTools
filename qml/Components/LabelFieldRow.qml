@@ -78,7 +78,7 @@ Row {
             if(_root.mode === LabelFieldRow.Mode.Libraries) {
                 item = _librariesComponent.createObject(_root, {"librariesList": _field.text.split(" ") })
                 item.open()
-            }
+            }            
         }
     }  
     Button {
@@ -138,5 +138,5 @@ Row {
                 close()
             }
         }
-    }
+    }    
 }

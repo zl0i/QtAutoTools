@@ -18,5 +18,7 @@
         <file>qml/Components/Controls/FlipButton.qml</file>
         <file>qml/Components/LibrariesDialog.qml</file>
         <file>qml/Components/LabelCheckBox.qml</file>
+        <file>qml/Components/ConfigDialog.qml</file>
+        <file>qml/Components/PackageDialog.qml</file>
     </qresource>
 </RCC>

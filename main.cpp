@@ -27,13 +27,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Lupdate>("AutoTools", 1, 0, "Lupdate");
     qmlRegisterType<FInstaller>("AutoTools", 1, 0, "FInstaller");
 
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+    engine.load("qrc:/main.qml");
 
     return app.exec();
 }

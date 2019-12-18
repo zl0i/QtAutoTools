@@ -123,7 +123,7 @@ Item {
                         }
                     }
                     Item {
-                        x: parent.width - width-10; y: 0
+                        x: parent.width - width - 10; y: 0
                         width: 21; height: 40
                         Image {
                             x: 0; y: 12

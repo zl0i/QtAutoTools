@@ -15,10 +15,7 @@ Item {
         text: qsTr("Настройки")
     }
 
-    Worker {
-        id: _worker
-
-    }
+    Worker { id: _worker  }
 
     Column {
         x: 20; y: 50
@@ -41,7 +38,6 @@ Item {
             }
             onTextChanged: {
                 _worker.compilerPath = text
-
             }
         }
 
