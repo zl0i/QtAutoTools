@@ -13,9 +13,26 @@ Dialog {
     modal: true; dim: true
     closePolicy: Popup.NoAutoClose
 
-    property var config: ({})
+    property var packag: {
+        "name": "",
+        "description": "",
+        "version": "1.0",
+        "dateRelease": "",
+        "vendor": "",
+        "virtual": false,
+        "license": "",
+        "script": "",
+        "pages": "",
+        "depends": "",
+        "sort": "",
+        "updateText": "",
+        "preDefault": "false",
+        "forsed": false,
+        "replaces": "",
+        "packageFolder": ""
+    }
 
-    signal apply(var config)
+    signal apply(var packag)
 
 
     Overlay.modal: Rectangle {
@@ -32,7 +49,7 @@ Dialog {
         width: parent.width; height: parent.height
         Label {
             font.pixelSize: 18
-            text: qsTr("Файл конфигурации")
+            text: qsTr("Файл компонента")
         }
         Flickable {
             id: _flickable
@@ -47,60 +64,90 @@ Dialog {
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Название пакета")
+                    text: packag.name
+                    onTextChanged: packag.name = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Описание")
+                    text: packag.description
+                    onTextChanged: packag.description = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Номер версии")
+                    text: packag.version
+                    onTextChanged: packag.version = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Дата релиза")
+                    text: packag.dateRelease
+                    onTextChanged: packag.dateRelease = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Название вендора")
+                    text: packag.vendor
+                    onTextChanged: packag.vendor = text
                 }
                 LabelCheckBox {
                     label: qsTr("Скрыть пакет")
+                    checked: packag.virtual
+                    onCheckedChanged: packag.virtual = checked
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Файл лицензии")
+                    text: packag.license
+                    onTextChanged: packag.license = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Скрипт")
+                    text: packag.script
+                    onTextChanged: packag.script = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Дополнительные страницы")
+                    text: packag.pages
+                    onTextChanged: packag.pages = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Зависимости")
+                    text: packag.depends
+                    onTextChanged: packag.depends = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Приоритет сортировки")
+                    text: packag.sort
+                    onTextChanged: packag.sort = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Описание обновления пакета")
+                    text: packag.updateText
+                    onTextChanged: packag.updateText = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Выбор компонента по умолчанию")
+                    text: packag.preDefault
+                    onTextChanged: packag.preDefault = text
                 }
                 LabelCheckBox {
                     label: qsTr("Устанавливать всегда")
+                    checked: packag.forsed
+                    onCheckedChanged: packag.forsed = checked
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Список заменяемых компонентов")
+                    text: packag.replaces
+                    onTextChanged: packag.replaces = text
                 }
             }
         }
@@ -111,8 +158,8 @@ Dialog {
             x: parent.width-240; y: parent.height-35
             width: 100;  height: 35
             text: qsTr("Применить")
-            onClicked: {
-                _dialog.apply()
+            onClicked: {                
+                _dialog.apply(packag)
             }
         }
         CustomButton {

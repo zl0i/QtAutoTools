@@ -18,7 +18,7 @@ class Lupdate : public QProcess
 public:
     explicit Lupdate(QObject *parent = nullptr);
 
-     Q_INVOKABLE void addFile();
+    Q_INVOKABLE void addFile();
     Q_INVOKABLE void removeFile(int);
 
     Q_INVOKABLE void setFile(int, QString);

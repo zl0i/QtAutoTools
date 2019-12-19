@@ -7,5 +7,6 @@
         <file>icon/error-white.svg</file>
         <file>icon/file.svg</file>
         <file>icon/folder.svg</file>
+        <file>icon/gear-black.svg</file>
     </qresource>
 </RCC>

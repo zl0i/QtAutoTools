@@ -13,7 +13,19 @@ Dialog {
     modal: true; dim: true
     closePolicy: Popup.NoAutoClose
 
-    property var config: ({})
+    property var config: {
+        "name": "",
+        "version": "1.0",
+        "author": "",
+        "productUrl": "",
+        "title": "",
+        "maintenanceToolName": "",
+        "installerWindowIcon": "",
+        "logo": "",
+        "startMenuDir": "",
+        "targetDir": "",
+        "repository": ""
+    }
 
     signal apply(var config)
 
@@ -47,54 +59,75 @@ Dialog {
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Название приложения")
+                    text: config.name
+                    onTextChanged: config.name = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Номер версии")
+                    text: config.version
+                    onTextChanged: config.version = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Автор")
+                    text: config.author
+                    onTextChanged: config.author = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("URL адрес приложения")
+                    text: config.productUrl
+                    onTextChanged: config.productUrl = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Заголовок установщика")
+                    text: config.title
+                    onTextChanged: config.title = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Иконка установщика")
+                    text: config.installerWindowIcon
+                    onTextChanged: config.installerWindowIcon = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Имя установщика")
+                    text: config.maintenanceToolName
+                    onTextChanged: config.maintenanceToolName = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Лого")
+                    text: config.logo
+                    onTextChanged: config.logo = text
                 }
-                LabelFieldRow {
+                /*LabelFieldRow {
                     isPopupButton: false
-                    label: qsTr("Иконка приложения")
-                }
+                    label: qsTr("Иконка приложения")                    
+                }*/
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Папка установки")
+                    text: config.targetDir
+                    onTextChanged: config.targetDir = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Имя в меню пуск")
+                    text: config.startMenuDir
+                    onTextChanged: config.startMenuDir = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("URL репозитория")
+                    text: config.repository
+                    onTextChanged: config.repository = text
                 }
             }
         }
-
 
 
         CustomButton {
@@ -102,7 +135,7 @@ Dialog {
             width: 100;  height: 35
             text: qsTr("Применить")
             onClicked: {
-                _dialog.apply()
+                _dialog.apply(config)
             }
         }
         CustomButton {

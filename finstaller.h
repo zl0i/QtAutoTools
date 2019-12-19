@@ -5,36 +5,41 @@
 #include <QFile>
 #include <QDir>
 #include <QProcess>
-#include <QStringList>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QDebug>
 #include "worker.h"
 
-class FInstaller : public QObject
+class FInstaller : public QProcess
 {
     Q_OBJECT
 public:
     explicit FInstaller(QObject *parent = nullptr);
 
-    Q_INVOKABLE void setDeployPath(QString);
-    Q_INVOKABLE void setInstallerPath(QString);
-    Q_INVOKABLE void setVendorName(QString);
-    Q_INVOKABLE void createConfig();
-    Q_INVOKABLE void createPackages();
+    Q_INVOKABLE void setPath(QString);
 
-    Q_INVOKABLE void createOffInstaller();
+    Q_INVOKABLE void create(QJsonObject config, QJsonArray packages);
 
+    Q_INVOKABLE void setCreateOfflineInstaller(bool);
+    Q_INVOKABLE void setCreateOnlineInstaller(bool);
+    Q_INVOKABLE void setCreateRepo(bool);
 
-private:
-
-    QString m_deploypath;
-    QString m_installerpath;
-    QString m_vendorName = "com.vendor.example";
-
-    QProcess *process = new QProcess();
+    void createConfig(QJsonObject);
+    void createPackages(QJsonArray);
 
 
-    void copyDir(QString out, QString in);
-    QFile *prepareBatFile();
+
+private:   
+    QString path;
+
+    bool isCreateOfflineInstaller = false;
+    bool isCreateOnlineInstaller = false;
+    bool isCreateRepository = false;
+
+    //void createOffInstaller();
+
+    void copyDir(QString out, QString in);    
+
 
     QString configText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                          "<Installer>\n"
@@ -43,7 +48,7 @@ private:
                          "    <Title>1.0.0 Installer</Title>\n"
                          "    <Publisher>Installer</Publisher>\n"
                          "    <StartMenuDir>Installer</StartMenuDir>\n"
-                         "    <TargetDir>@RootDir@Program Files (x86)\Installer</TargetDir>\n"
+                         "    <TargetDir>@RootDir@Program Files (x86)\\Installer</TargetDir>\n"
                          "        <AllowSpaceInPath>true</AllowSpaceInPath>\n"
                          "</Installer>\n";
 
@@ -54,7 +59,7 @@ private:
             "    <Version>1.0.0</Version>\n"
             "    <ReleaseDate>2019-01-30</ReleaseDate>\n"
             "        <Default>true</Default>\n"
-            "    <Name>" + m_vendorName + "</Name>\n"
+            "    <Name> </Name>\n"
             "    <ForcedInstallation>true</ForcedInstallation>\n"
             "    <RequiresAdminRights>true</RequiresAdminRights>\n"
             "</Package>\n";

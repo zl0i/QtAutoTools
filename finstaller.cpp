@@ -1,85 +1,53 @@
 #include "finstaller.h"
 
-FInstaller::FInstaller(QObject *parent) : QObject(parent)
+FInstaller::FInstaller(QObject *parent) : QProcess(parent)
 {
-    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotFinished()));
+    //connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotFinished()));
 }
 
-void FInstaller::setDeployPath(QString path) {
-    m_deploypath = path;
+void FInstaller::setPath(QString path)
+{
+    this->path = path;
 }
 
-void FInstaller::setInstallerPath(QString path) {
-    m_installerpath = path;
+void FInstaller::create(QJsonObject config, QJsonArray packages)
+{
+    createConfig(config);
+    createPackages(packages);
+
 }
 
-void FInstaller::setVendorName(QString name) {
-    m_vendorName = name;
+
+void FInstaller::setCreateOfflineInstaller(bool b)
+{
+    isCreateOfflineInstaller = b;
 }
 
-void FInstaller::createConfig() {
-    QDir configDir(m_installerpath + "/config");
-    if(!configDir.exists()) {
-        bool result = configDir.mkpath(m_installerpath + "/config");
-        if(!result)
-            return;
-    }
-    QFile config(m_installerpath + "/config/" +"config.xml");
-    if(config.open(QIODevice::ReadWrite)) {
-        const QString str = configText;
-        config.write(str.toLocal8Bit());
-        config.close();
-    }
+void FInstaller::setCreateOnlineInstaller(bool b )
+{
+    isCreateOnlineInstaller = b;
 }
 
-void FInstaller::createPackages() {
-    QDir packagesDir(m_installerpath + "/packages/" + m_vendorName);
-    if(!packagesDir.exists()) {
-        bool result = packagesDir.mkpath(m_installerpath + "/packages/" + m_vendorName + "/data");
-        result =  result & packagesDir.mkpath(m_installerpath + "/packages/" + m_vendorName + "/meta");
-        if(!result)
-            return;
-    }
-    QFile packages(m_installerpath + "/packages/" + m_vendorName + "/meta/package.xml");
-    if(packages.open(QIODevice::ReadWrite)) {
-        const QString str = packageText;
-        packages.write(str.toLocal8Bit());
-        packages.close();
-    }
+void FInstaller::setCreateRepo(bool b)
+{
+    isCreateRepository = b;
 }
 
-QFile *FInstaller::prepareBatFile() {
-    QFile *file = new QFile("temp.bat");
-    if(file->open(QIODevice::ReadWrite)) {
-        QString str = "set PATH="+ Worker::getInstance()->compilerPath() + "/bin;" +Worker::getInstance()->compilerToolPath() + "/bin;%PATH%\n";
-        file->write(str.toLocal8Bit());
-        return file;
-    }
-    return  nullptr;
+void FInstaller::slotFinished()
+{
+
 }
 
-void FInstaller::createOffInstaller() {
-    copyDir(m_deploypath, m_installerpath + "/packages/" + m_vendorName + "/data");
-
-    QStringList arguments;
-    arguments.append("-c " + m_installerpath + "/config/config.xml");
-    arguments.append("-p " + m_installerpath + "/packages");
-    arguments.append("-f");
-    arguments.append(m_installerpath + "/Installer.exe");
-
-
-    QFile *file = prepareBatFile();
-    QString str = Worker::getInstance()->qtPath() + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ");
-    file->write(str.toLocal8Bit());
-    file->close();
-    file->deleteLater();
-    process->start("temp.bat");
+void FInstaller::createConfig(QJsonObject config)
+{
+    qDebug() << config;
 }
 
-void FInstaller::slotFinished() {
-     QFile::remove("temp.bat");
-     emit finished();
+void FInstaller::createPackages(QJsonArray packages)
+{
+    qDebug() << packages;
 }
+
 
 void FInstaller::copyDir(QString out, QString in) {
     QDir outDir(out);
