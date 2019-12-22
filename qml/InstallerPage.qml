@@ -9,6 +9,8 @@ import AutoTools 1.0
 
 Item {
 
+    property bool onlineInstaller: false
+
     Label {
         x: 20; y: 20
         font.pixelSize: 18
@@ -44,6 +46,43 @@ Item {
                 text: qsTr("Настройка config файла")
                 onClicked: _configDialog.open()
             }
+            LabelCheckBox {
+                label: qsTr("Онлайн установщик")
+                onCheckedChanged: onlineInstaller = checked
+            }
+            Row {
+                visible: onlineInstaller
+                spacing: 20
+                Label {
+                    height: 30
+                    verticalAlignment: Text.AlignVCenter
+                    text: qsTr("Список репозиториев")
+                }
+                CustomButton {
+                    width: 30; height: 30; radius: 15
+                    text: qsTr("+")
+                }
+            }
+            ListView {
+                width: parent.width; height: contentHeight
+                interactive: false
+                spacing: -1
+                visible: onlineInstaller
+                model: 2
+                delegate: Item {
+                    width: parent.width; height: 40
+                    Rectangle {
+                        width: parent.width; height: 1
+                        color: "#C4C4C4"
+                    }
+                    Rectangle {
+                        x: 0; y: 39
+                        width: parent.width; height: 1
+                        color: "#C4C4C4"
+                    }
+                }
+            }
+
             Row {
                 spacing: 20
                 Label {
@@ -56,21 +95,21 @@ Item {
                     text: qsTr("+")
                     onClicked: {
                         var component = {
-                            "name": "component " + (_packagesModel.count + 1),
-                            "description": "",
-                            "version": "1.0",
-                            "dateRelease": "",
-                            "vendor": "org.myapp.component",
-                            "virtual": false,
-                            "license": "",
-                            "script": "",
-                            "pages": "",
-                            "depends": "",
-                            "sort": "",
-                            "updateText": "",
-                            "preDefault": "false",
-                            "forsed": false,
-                            "replaces": "",
+                            "DisplayName": "component " + (_packagesModel.count + 1),
+                            "Description": "",
+                            "Version": "1.0",
+                            "ReleaseDate": "",
+                            "Name": "org.myapp.component",
+                            "Virtual": false,
+                            "Licenses": [],
+                            "Script": "",
+                            "UserInterfaces": [],
+                            "Dependencies": "",
+                            "SortingPriority": "",
+                            "UpdateText": "",
+                            "Default": "false",
+                            "ForcedInstallation": false,
+                            "Replaces": "",
                             "packageFolder": ""
                         }
                         _packagesModel.append(component)
@@ -93,18 +132,18 @@ Item {
                             width: parent.width/4; height: 40
                             verticalAlignment: Text.AlignVCenter
                             elide: Text.ElideMiddle
-                            text: name
+                            text: DisplayName
                         }
                         Label {
                             width: parent.width/3; height: 40
                             verticalAlignment: Text.AlignVCenter
                             elide: Text.ElideMiddle
-                            text: vendor
+                            text: Name
                         }
                         Label {
                             width: 40; height: 40
                             verticalAlignment: Text.AlignVCenter
-                            text: version
+                            text: Version
                         }
                         MouseArea {
                             width: 20; height: 40
@@ -158,13 +197,13 @@ Item {
                         id: _packageDialog
                         onApply: {
                             close()
-                            _packagesModel.setJsonPackage(index, packag)
+                            _packagesModel.setJsonPackage(index, packag)                            
                         }
                     }
                     FolderDialog {
                         id: _fileDialog
-                        onAccepted: {
-                            packageFolder = String(currentFolder).slice(8)
+                        onAccepted: {                            
+                            packageFolder = String(currentFolder).slice(8)                            
                         }
                     }
                 }
@@ -174,10 +213,12 @@ Item {
                 onCheckedChanged: _finstaller.setCreateOfflineInstaller(checked)
             }
             LabelCheckBox {
+                visible: onlineInstaller
                 label: qsTr("Создать онлайн установщик")
                 onCheckedChanged: _finstaller.setCreateOnlineInstaller(checked)
             }
             LabelCheckBox {
+                visible: onlineInstaller
                 label: qsTr("Создать репозиторий")
                 onCheckedChanged: _finstaller.setCreateRepo(checked)
             }
@@ -212,21 +253,21 @@ Item {
         }
 
         ListElement {
-            name: "MyApp"
-            description: ""
-            version: "1.0"
-            dateRelease: ""
-            vendor: "org.myapp.example"
-            virtual: false
-            license: ""
-            script: ""
-            pages: ""
-            depends: ""
-            sort: ""
-            updateText: ""
-            preDefault: "false"
-            forsed: false
-            replaces: ""
+            DisplayName: ""
+            Description: ""
+            Version: "1.0"
+            ReleaseDate: ""
+            Name: "org.myapp.component"
+            Virtual: false
+            Licenses: []
+            Script: ""
+            UserInterfaces: []
+            Dependencies: ""
+            SortingPriority: ""
+            UpdateText: ""
+            Default: "false"
+            ForcedInstallation: false
+            Replaces: ""
             packageFolder: ""
         }
     }

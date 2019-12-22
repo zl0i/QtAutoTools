@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
+#include <QXmlStreamWriter>
 #include "worker.h"
 
 class FInstaller : public QProcess
@@ -40,17 +41,10 @@ private:
 
     void copyDir(QString out, QString in);    
 
+    void writeXmlObjectElement(QXmlStreamWriter *stream, QString key, QJsonObject value);
 
-    QString configText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                         "<Installer>\n"
-                         "    <Name>Installer</Name>\n"
-                         "    <Version>1.0.0</Version>\n"
-                         "    <Title>1.0.0 Installer</Title>\n"
-                         "    <Publisher>Installer</Publisher>\n"
-                         "    <StartMenuDir>Installer</StartMenuDir>\n"
-                         "    <TargetDir>@RootDir@Program Files (x86)\\Installer</TargetDir>\n"
-                         "        <AllowSpaceInPath>true</AllowSpaceInPath>\n"
-                         "</Installer>\n";
+    void writeXmlTextElement(QXmlStreamWriter *stream, QString key, QString value);
+
 
     QString packageText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             "<Package>\n"
@@ -63,9 +57,6 @@ private:
             "    <ForcedInstallation>true</ForcedInstallation>\n"
             "    <RequiresAdminRights>true</RequiresAdminRights>\n"
             "</Package>\n";
-
-
-
 
 
 signals:

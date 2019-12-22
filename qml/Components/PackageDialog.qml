@@ -14,22 +14,21 @@ Dialog {
     closePolicy: Popup.NoAutoClose
 
     property var packag: {
-        "name": "",
-        "description": "",
-        "version": "1.0",
-        "dateRelease": "",
-        "vendor": "",
-        "virtual": false,
-        "license": "",
-        "script": "",
-        "pages": "",
-        "depends": "",
-        "sort": "",
-        "updateText": "",
-        "preDefault": "false",
-        "forsed": false,
-        "replaces": "",
-        "packageFolder": ""
+        "DisplayName": "",
+        "Description": "",
+        "Version": "1.0",
+        "ReleaseDate": "",
+        "Name": "org.myapp.component",
+        "Virtual": false,
+        "Licenses": [],
+        "Script": "",
+        "UserInterfaces": [],
+        "Dependencies": "",
+        "SortingPriority": "",
+        "UpdateText": "",
+        "Default": "false",
+        "ForcedInstallation": false,
+        "Replaces": "",
     }
 
     signal apply(var packag)
@@ -64,90 +63,90 @@ Dialog {
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Название пакета")
-                    text: packag.name
-                    onTextChanged: packag.name = text
+                    text: packag.DisplayName
+                    onTextChanged: packag.DisplayName = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Описание")
-                    text: packag.description
-                    onTextChanged: packag.description = text
+                    text: packag.Description
+                    onTextChanged: packag.Description = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Номер версии")
-                    text: packag.version
-                    onTextChanged: packag.version = text
+                    text: packag.Version
+                    onTextChanged: packag.Version = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Дата релиза")
-                    text: packag.dateRelease
-                    onTextChanged: packag.dateRelease = text
+                    text: packag.ReleaseDate
+                    onTextChanged: packag.ReleaseDate = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Название вендора")
-                    text: packag.vendor
-                    onTextChanged: packag.vendor = text
+                    text: packag.Name
+                    onTextChanged: packag.Name = text
                 }
                 LabelCheckBox {
                     label: qsTr("Скрыть пакет")
-                    checked: packag.virtual
-                    onCheckedChanged: packag.virtual = checked
+                    checked: packag.Virtual
+                    onCheckedChanged: packag.Virtual = checked
                 }
-                LabelFieldRow {
+                /*LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Файл лицензии")
                     text: packag.license
                     onTextChanged: packag.license = text
-                }
+                }*/
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Скрипт")
-                    text: packag.script
-                    onTextChanged: packag.script = text
+                    text: packag.Script
+                    onTextChanged: packag.Script = text
                 }
-                LabelFieldRow {
+                /*LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Дополнительные страницы")
                     text: packag.pages
                     onTextChanged: packag.pages = text
-                }
+                }*/
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Зависимости")
-                    text: packag.depends
-                    onTextChanged: packag.depends = text
+                    text: packag.Dependencies
+                    onTextChanged: packag.Dependencies = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Приоритет сортировки")
-                    text: packag.sort
-                    onTextChanged: packag.sort = text
+                    text: packag.SortingPriority
+                    onTextChanged: packag.SortingPriority = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Описание обновления пакета")
-                    text: packag.updateText
-                    onTextChanged: packag.updateText = text
+                    text: packag.UpdateText
+                    onTextChanged: packag.UpdateText = text
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Выбор компонента по умолчанию")
-                    text: packag.preDefault
-                    onTextChanged: packag.preDefault = text
+                    text: packag.Default
+                    onTextChanged: packag.Default = text
                 }
                 LabelCheckBox {
                     label: qsTr("Устанавливать всегда")
-                    checked: packag.forsed
-                    onCheckedChanged: packag.forsed = checked
+                    checked: packag.ForcedInstallation
+                    onCheckedChanged: packag.ForcedInstallation = checked
                 }
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Список заменяемых компонентов")
-                    text: packag.replaces
-                    onTextChanged: packag.replaces = text
+                    text: packag.Replaces
+                    onTextChanged: packag.Replaces = text
                 }
             }
         }
