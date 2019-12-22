@@ -19,12 +19,29 @@ Item {
     }
     FInstaller {
         id: _finstaller
+        onStarted: {
+            _busyDialog.reset()
+            _busyDialog.open()
+        }
         onFinished: {
-            _busyDialog.close()
+            if(exitCode != 0)
+                _busyDialog.errorProcess = true
+            _busyDialog.isReady = true
+        }
+        onNewOutputData: {
+            line = String(line).replace(/(\r\n){1}/g, '<br>')
+            line = String(line).replace(/[ ]/g, '&nbsp;')
+            _busyDialog.info += '<font color="#404040">'+line+'</font>'
+        }
+        onNewErrorData: {
+            line = String(line).replace(/(\r\n){1}/g, '<br>')
+            line = String(line).replace(/[ ]/g, '&nbsp;')
+            _busyDialog.info += '<font color="#E31F1F" >'+line+'</font>'
         }
     }
     BusiDialog {
         id: _busyDialog
+        onKill: _finstaller.kill()
     }
 
     Flickable {

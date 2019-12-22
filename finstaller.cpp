@@ -2,7 +2,30 @@
 
 FInstaller::FInstaller(QObject *parent) : QProcess(parent)
 {
-    //connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotFinished()));
+    connect(this, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            this, QOverload<int>::of(&FInstaller::slotFinished));
+    connect(this, &QProcess::readyRead, this, &FInstaller::slotReadChanel);
+}
+
+void FInstaller::slotReadChanel()
+{
+    setReadChannel(QProcess::StandardError);
+    QByteArray error = readAll();
+    if(!error.isEmpty())
+        emit newErrorData(error);
+
+    setReadChannel(QProcess::StandardOutput);
+    QByteArray output = readAll();
+    if(!output.isEmpty())
+        emit newOutputData(output);
+
+}
+
+void FInstaller::slotFinished(int code) {
+    if(code > 0) {
+        emit newErrorData(readAllStandardError());
+    }
+    Worker::removeBatFile();
 }
 
 void FInstaller::setPath(QString path)
@@ -14,6 +37,21 @@ void FInstaller::create(QJsonObject config, QJsonArray packages)
 {
     createConfig(config);
     createPackages(packages);
+    QStringList arguments;
+    arguments.append("-c");
+    arguments.append(path + "/config/config.xml");
+    arguments.append("-p");
+    arguments.append(path + "/packages");
+    arguments.append(path +"/" + config.value("Name").toString());
+
+    QFile *batFile = Worker::prepareBatFile(true);
+    QString str = Worker::getInstance()->qtPath() + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ");
+    batFile->write(str.toLocal8Bit());
+    batFile->close();
+    batFile->deleteLater();
+    qDebug() << str;
+
+    start(batFile->fileName());
 
 }
 
@@ -33,14 +71,9 @@ void FInstaller::setCreateRepo(bool b)
     isCreateRepository = b;
 }
 
-void FInstaller::slotFinished()
-{
-
-}
 
 void FInstaller::createConfig(QJsonObject config)
 {
-    //qDebug() << config;
     QDir configDir(path);
     configDir.mkdir("config");
     QFile configFile(configDir.path()+"/config/config.xml");
@@ -87,55 +120,54 @@ void FInstaller::createPackages(QJsonArray packages)
     packagesDir.mkdir("packages");
     packagesDir.setPath(path + "/packages");
     for (int i = 0; i < packages.size(); i++) {
-        packagesDir.mkdir(packages[i].toObject().value("vendor").toString());
-        QDir packageDir(packagesDir.path() + "/" + packages[i].toObject().value("vendor").toString());
+        packagesDir.mkdir(packages[i].toObject().value("Name").toString());
+        QDir packageDir(packagesDir.absolutePath() + "/" + packages[i].toObject().value("Name").toString());
         packageDir.mkdir("meta");
         packageDir.mkdir("data");
         copyDir(packages[i].toObject().value("packageFolder").toString(), packageDir.path() + "/data");
-        QFile packageFile(packageDir.path() + "/meta/package.xml");
+        QFile packageFile(packageDir.absolutePath() + "/meta/package.xml");
         if(packageFile.open(QIODevice::ReadWrite)) {
             QXmlStreamWriter streamPackageFile(&packageFile);
             streamPackageFile.setAutoFormatting(true);
             streamPackageFile.writeStartDocument();
             streamPackageFile.writeStartElement("Package");
 
-            for (int i = 0; i < packages.size(); i++) {
-                QJsonObject obj = packages.at(i).toObject();
-                QStringList keys = obj.keys();
-                keys.removeOne("UserInterfaces");
-                keys.removeOne("Licenses");
-                for(int i = 0; i < keys.length(); i++) {
-                    QString key = keys.at(i);
-                    if(obj.value(key).isString()) {
-                        writeXmlTextElement(&streamPackageFile, key, obj.value(key).toString());
-                    } else if (obj.value(key).isBool()) {
-                        if(obj.value(key).toBool())
-                            writeXmlTextElement(&streamPackageFile, key, "true");
-                        else
-                            writeXmlTextElement(&streamPackageFile, key, "false");
-                    }
+            QJsonObject obj = packages.at(i).toObject();
+            QStringList keys = obj.keys();
+            keys.removeOne("UserInterfaces");
+            keys.removeOne("Licenses");
+            keys.removeOne("packageFolder");
+            for(int i = 0; i < keys.length(); i++) {
+                QString key = keys.at(i);
+                if(obj.value(key).isString()) {
+                    writeXmlTextElement(&streamPackageFile, key, obj.value(key).toString());
+                } else if (obj.value(key).isBool()) {
+                    if(obj.value(key).toBool())
+                        writeXmlTextElement(&streamPackageFile, key, "true");
+                    else
+                        writeXmlTextElement(&streamPackageFile, key, "false");
                 }
+            }
 
-                if(!obj.value("Licenses").toArray().empty()) {
-                    streamPackageFile.writeStartElement("Licenses");
-                    for (int i = 0; i < obj.value("Licenses").toArray().size(); i++) {
-                        QJsonObject license = obj.value("Licenses").toArray().at(i).toObject();
-                        streamPackageFile.writeStartElement("License");
-                        streamPackageFile.writeAttribute("name", license.value("name").toString());
-                        streamPackageFile.writeAttribute("file", license.value("file").toString());
-                        streamPackageFile.writeEndElement();
-                    }
+            if(!obj.value("Licenses").toArray().empty()) {
+                streamPackageFile.writeStartElement("Licenses");
+                for (int i = 0; i < obj.value("Licenses").toArray().size(); i++) {
+                    QJsonObject license = obj.value("Licenses").toArray().at(i).toObject();
+                    streamPackageFile.writeStartElement("License");
+                    streamPackageFile.writeAttribute("name", license.value("name").toString());
+                    streamPackageFile.writeAttribute("file", license.value("file").toString());
                     streamPackageFile.writeEndElement();
                 }
+                streamPackageFile.writeEndElement();
+            }
 
-                if(!obj.value("UserInterfaces").toArray().empty()) {
-                    streamPackageFile.writeStartElement("UserInterfaces");
-                    for (int i = 0; i < obj.value("UserInterfaces").toArray().size(); i++) {
-                        QString page = obj.value("UserInterfaces").toArray().at(i).toString();
-                        streamPackageFile.writeTextElement("UserInterface", page);
-                    }
-                    streamPackageFile.writeEndElement();
+            if(!obj.value("UserInterfaces").toArray().empty()) {
+                streamPackageFile.writeStartElement("UserInterfaces");
+                for (int i = 0; i < obj.value("UserInterfaces").toArray().size(); i++) {
+                    QString page = obj.value("UserInterfaces").toArray().at(i).toString();
+                    streamPackageFile.writeTextElement("UserInterface", page);
                 }
+                streamPackageFile.writeEndElement();
             }
 
 
