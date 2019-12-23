@@ -26,6 +26,8 @@ public:
     Q_INVOKABLE void setCreateOnlineInstaller(bool);
     Q_INVOKABLE void setCreateRepo(bool);
 
+    Q_INVOKABLE void kill();
+
 
 private:   
     QProcess *process;
@@ -45,7 +47,7 @@ signals:
     void started();
     void newOutputData(QByteArray line);
     void newErrorData(QByteArray line);
-    void finished();
+    void finished(int exitCode, int exitStatus);
 
 private slots:
     void createInstallers();

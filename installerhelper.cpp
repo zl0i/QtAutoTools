@@ -58,7 +58,7 @@ void InstallerHelper::writeConfigFile(QFile *configFile, QJsonObject config)
 
     QStringList keys = config.keys();
     keys.removeOne("Arguments");
-    keys.removeOne("Repositories");
+    keys.removeOne("RemoteRepositories");
 
     for(int i = 0; i < keys.length(); i++) {
         QString key = keys.at(i);
@@ -76,6 +76,27 @@ void InstallerHelper::writeConfigFile(QFile *configFile, QJsonObject config)
         streamConfigFile.writeStartElement("RunProgramArguments");
         for (int i = 0; i < config.value("Arguments").toArray().size(); i++) {
             streamConfigFile.writeTextElement("Argument", config.value("Arguments").toArray().at(i).toString());
+        }
+        streamConfigFile.writeEndElement();
+    }
+
+    if(config.value("RemoteRepositories").toArray().size() > 0) {
+        streamConfigFile.writeStartElement("RemoteRepositories");
+        QJsonArray remoteRepositories = config.value("RemoteRepositories").toArray();
+        for (int i = 0; i < remoteRepositories.size(); i++) {
+            streamConfigFile.writeStartElement("Repository");
+            QJsonObject repository = remoteRepositories.at(i).toObject();
+
+            writeXmlTextElement(&streamConfigFile, "Url", repository.value("Url").toString());
+            writeXmlTextElement(&streamConfigFile, "Username", repository.value("Username").toString());
+            writeXmlTextElement(&streamConfigFile, "Password", repository.value("Password").toString());
+            writeXmlTextElement(&streamConfigFile, "DisplayName", repository.value("DisplayName").toString());
+            if(repository.value("Enabled").toBool())
+                writeXmlTextElement(&streamConfigFile, "Enabled", "1");
+            else
+                writeXmlTextElement(&streamConfigFile, "Enabled", "0");
+
+            streamConfigFile.writeEndElement();
         }
         streamConfigFile.writeEndElement();
     }

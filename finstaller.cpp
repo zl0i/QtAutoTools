@@ -32,6 +32,8 @@ void FInstaller::slotFinished(int code) {
         emit newErrorData(process->readAllStandardError());
     }
     Worker::removeBatFile();
+    emit newOutputData("Done!\r\n");
+    emit finished(process->exitCode(), process->exitStatus());
 }
 
 void FInstaller::setPath(QString path)
@@ -46,7 +48,7 @@ void FInstaller::create(QJsonObject config, QJsonArray packages)
 
     emit started();
     installerName = config.value("Name").toString();
-    emit newOutputData("Create config and packages dir");
+    emit newOutputData("Create config and packages dir\r\n");
     installerHelper->createConfigAndPackages(path, config, packages);
 }
 
@@ -66,9 +68,14 @@ void FInstaller::setCreateRepo(bool b)
     isCreateRepository = b;
 }
 
+void FInstaller::kill()
+{
+    process->kill();
+}
+
 void FInstaller::createInstallers()
 {
-    emit newOutputData("Create installers");
+    emit newOutputData("Create installers\r\n");
     QStringList arguments;
     arguments.append("-c");
     arguments.append(path + "/config/config.xml");

@@ -297,7 +297,6 @@ Item {
                         id: _fileDialog
                         onAccepted: {
                             packagesModel[index].packageFolder = String(currentFolder).slice(8)
-                            console.log(packagesModel[index].packageFolder)
                         }
                     }
                 }
@@ -320,7 +319,7 @@ Item {
                 text: qsTr("Выполнить")
                 onClicked: {
                     if(onlineInstaller)
-                        _configDialog.config.remoteRepository = remoteRepository
+                        _configDialog.config.RemoteRepositories = remoteRepository
                     _finstaller.create(_configDialog.config, packagesModel)
                 }
             }
