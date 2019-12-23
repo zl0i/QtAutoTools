@@ -9,10 +9,7 @@ Item {
     property real widthLabel: 150
     property alias checked: _checkBox.checked
 
-    //signal checkedChanged(var bool)
-
-
-    Label {
+   Label {
         width: widthLabel; height: 40
         verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
         wrapMode: Text.WordWrap

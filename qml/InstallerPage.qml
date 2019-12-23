@@ -78,6 +78,17 @@ Item {
                 CustomButton {
                     width: 30; height: 30; radius: 15
                     text: qsTr("+")
+                    onClicked: {
+                        var obj = {
+                            "Enabled": true,
+                            "DisplayName": "",
+                            "Url": "",
+                            "Username": "",
+                            "Password": ""
+                        }
+                        remoteRepository.push(obj)
+                        remoteRepositoryChanged()
+                    }
                 }
             }
             ListView {
@@ -85,9 +96,68 @@ Item {
                 interactive: false
                 spacing: -1
                 visible: onlineInstaller
-                model: 2
+                model: remoteRepository
                 delegate: Item {
                     width: parent.width; height: 40
+                    Row {
+                        x: 20
+                        width: parent.width-20; height: 40
+                        spacing: 10
+                        CheckBox {
+                            width: 40; height: 40
+                            checked: modelData.Enabled
+                        }
+
+                        Label {
+                            width: parent.width/4; height: 40
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.ElideMiddle
+                            text: modelData.DisplayName
+                        }
+                        Label {
+                            width: parent.width/3; height: 40
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.ElideMiddle
+                            text: modelData.Url
+                        }
+                        MouseArea {
+                            width: 40; height: 40
+                            Image {
+                                x: 12; y: 8
+                                width: 25; height: 25
+                                source: "qrc:/icon/gear-black.svg"
+                                layer.enabled: parent.pressed
+                                layer.effect: ColorOverlay {
+                                    color: "#52ABFF"
+                                }
+                            }
+                            onClicked:  _repositoryDialog.open()
+                        }
+                    }
+                    RepositoryDialog {
+                        id: _repositoryDialog
+                        repository: remoteRepository[index]
+                        onApply: {
+                            close()
+                            remoteRepository[index] = repository
+                            remoteRepositoryChanged()
+                        }
+                    }
+                    MouseArea {
+                        x: parent.width - width - 10; y: 0
+                        width: 21; height: 40
+                        Image {
+                            x: 0; y: 12
+                            width: 21; height: 21
+                            visible: remoteRepository.length > 1
+                            source: "qrc:/icon/exit-black.svg"
+                        }
+                        onClicked: {
+                            remoteRepository.splice(index, 1)
+                            remoteRepositoryChanged()
+                        }
+                    }
+
                     Rectangle {
                         width: parent.width; height: 1
                         color: "#C4C4C4"
@@ -112,12 +182,12 @@ Item {
                     text: qsTr("+")
                     onClicked: {
                         var component = {
-                            "DisplayName": "component " + (_packagesModel.count + 1),
+                            "DisplayName": "component ",
                             "Description": "",
                             "Version": "1.0",
-                            "ReleaseDate": "",
+                            "ReleaseDate": new Date().toLocaleDateString(Qt.locale(), "YYYY-MM-DD"),
                             "Name": "org.myapp.component",
-                            "Virtual": false,
+                            "Virtual": "",
                             "Licenses": [],
                             "Script": "",
                             "UserInterfaces": [],
@@ -129,7 +199,8 @@ Item {
                             "Replaces": "",
                             "packageFolder": ""
                         }
-                        _packagesModel.append(component)
+                        packagesModel.push(component)
+                        packagesModelChanged()
                     }
                 }
             }
@@ -137,7 +208,7 @@ Item {
                 width: parent.width; height: contentHeight
                 interactive: false
                 spacing: -1
-                model: _packagesModel
+                model: packagesModel
                 delegate: Item {
                     id: _delegate
                     width: parent.width; height: 40
@@ -149,18 +220,18 @@ Item {
                             width: parent.width/4; height: 40
                             verticalAlignment: Text.AlignVCenter
                             elide: Text.ElideMiddle
-                            text: DisplayName
+                            text: modelData.DisplayName
                         }
                         Label {
                             width: parent.width/3; height: 40
                             verticalAlignment: Text.AlignVCenter
                             elide: Text.ElideMiddle
-                            text: Name
+                            text: modelData.Name
                         }
                         Label {
                             width: 40; height: 40
                             verticalAlignment: Text.AlignVCenter
-                            text: Version
+                            text: modelData.Version
                         }
                         MouseArea {
                             width: 20; height: 40
@@ -195,10 +266,13 @@ Item {
                         Image {
                             x: 0; y: 12
                             width: 21; height: 21
-                            visible: _packagesModel.count > 1
+                            visible: packagesModel.length > 1
                             source: "qrc:/icon/exit-black.svg"
                         }
-                        onClicked: _packagesModel.remove(index)
+                        onClicked: {
+                            packagesModel.splice(index, 1)
+                            packagesModelChanged()
+                        }
                     }
 
                     Rectangle {
@@ -212,15 +286,18 @@ Item {
                     }
                     PackageDialog {
                         id: _packageDialog
+                        packag: packagesModel[index]
                         onApply: {
                             close()
-                            _packagesModel.setJsonPackage(index, packag)                            
+                            packagesModel[index] = packag
+                            packagesModelChanged()
                         }
                     }
                     FolderDialog {
                         id: _fileDialog
-                        onAccepted: {                            
-                            packageFolder = String(currentFolder).slice(8)                            
+                        onAccepted: {
+                            packagesModel[index].packageFolder = String(currentFolder).slice(8)
+                            console.log(packagesModel[index].packageFolder)
                         }
                     }
                 }
@@ -241,7 +318,11 @@ Item {
             }
             CustomButton {
                 text: qsTr("Выполнить")
-                onClicked: _finstaller.create(_configDialog.config, _packagesModel.getJsonPackages())
+                onClicked: {
+                    if(onlineInstaller)
+                        _configDialog.config.remoteRepository = remoteRepository
+                    _finstaller.create(_configDialog.config, packagesModel)
+                }
             }
         }
     }
@@ -251,41 +332,51 @@ Item {
         onApply: close()
     }
 
-    ListModel {
-        id: _packagesModel
-
-        function getJsonPackages() {
-            var arr = []
-            for(var i = 0; i < count; ++i) {
-                arr.push(get((i)))
-            }
-            return arr;
+    property var packagesModel: [
+        {
+            "DisplayName": "mainComponent",
+            "Description": "",
+            "Version": "1.0",
+            "ReleaseDate": new Date().toLocaleDateString(Qt.locale(), "yyyy-MM-dd"),
+            "Name": "org.myapp.component",
+            "Virtual": "",
+            "Licenses": [],
+            "Script": "",
+            "UserInterfaces": [],
+            "Dependencies": "",
+            "SortingPriority": "",
+            "UpdateText": "",
+            "Default": "false",
+            "ForcedInstallation": false,
+            "Replaces": "",
+            "packageFolder": ""
         }
+    ]
 
-        function setJsonPackage(index, obj) {
-            var item = get(index)
-            Object.keys(obj).forEach(function (key) {
-                item[key] = obj[key]
-            })
+    function getJsonPackages() {
+        var arr = []
+        for(var i = 0; i < count; ++i) {
+            arr.push(get((i)))
         }
-
-        ListElement {
-            DisplayName: ""
-            Description: ""
-            Version: "1.0"
-            ReleaseDate: ""
-            Name: "org.myapp.component"
-            Virtual: false
-            Licenses: []
-            Script: ""
-            UserInterfaces: []
-            Dependencies: ""
-            SortingPriority: ""
-            UpdateText: ""
-            Default: "false"
-            ForcedInstallation: false
-            Replaces: ""
-            packageFolder: ""
-        }
+        return arr;
     }
+
+    function setJsonPackage(index, obj) {
+        var item = packagesModel[index]
+        Object.keys(obj).forEach(function (key) {
+            item[key] = obj[key]
+        })
+    }
+
+    property var remoteRepository: [
+        {
+            "Enabled": true,
+            "DisplayName": "Example repository",
+            "Url": "http://www.example.com/packages",
+            "Username": "",
+            "Password": ""
+        }
+
+    ]
+
 }

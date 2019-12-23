@@ -8,10 +8,11 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
-#include <QXmlStreamWriter>
+#include <QThread>
+#include "installerhelper.h"
 #include "worker.h"
 
-class FInstaller : public QProcess
+class FInstaller : public QObject
 {
     Q_OBJECT
 public:
@@ -25,31 +26,29 @@ public:
     Q_INVOKABLE void setCreateOnlineInstaller(bool);
     Q_INVOKABLE void setCreateRepo(bool);
 
-    void createConfig(QJsonObject);
-    void createPackages(QJsonArray);
-
-
 
 private:   
+    QProcess *process;
+
     QString path;
+    QString installerName;
+
+    QThread *thread;
+    InstallerHelper *installerHelper;
 
     bool isCreateOfflineInstaller = false;
     bool isCreateOnlineInstaller = false;
     bool isCreateRepository = false;
 
-    //void createOffInstaller();
-
-    void copyDir(QString out, QString in);    
-
-    void writeXmlObjectElement(QXmlStreamWriter *stream, QString key, QJsonObject value);
-
-    void writeXmlTextElement(QXmlStreamWriter *stream, QString key, QString value);
-
-
 
 signals:
+    void started();
     void newOutputData(QByteArray line);
     void newErrorData(QByteArray line);
+    void finished();
+
+private slots:
+    void createInstallers();
 
 public slots:
     void slotFinished(int);

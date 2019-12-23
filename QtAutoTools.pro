@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         finstaller.cpp \
+        installerhelper.cpp \
         lupdate.cpp \
         main.cpp \
         qmldir.cpp \
@@ -42,6 +43,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     finstaller.h \
+    installerhelper.h \
     lupdate.h \
     qmldir.h \
     windeployqt.h \

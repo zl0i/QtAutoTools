@@ -13,23 +13,7 @@ Dialog {
     modal: true; dim: true
     closePolicy: Popup.NoAutoClose
 
-    property var packag: {
-        "DisplayName": "",
-        "Description": "",
-        "Version": "1.0",
-        "ReleaseDate": "",
-        "Name": "org.myapp.component",
-        "Virtual": false,
-        "Licenses": [],
-        "Script": "",
-        "UserInterfaces": [],
-        "Dependencies": "",
-        "SortingPriority": "",
-        "UpdateText": "",
-        "Default": "false",
-        "ForcedInstallation": false,
-        "Replaces": "",
-    }
+    property var packag
 
     signal apply(var packag)
 
