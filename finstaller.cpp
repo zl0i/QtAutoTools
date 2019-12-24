@@ -52,6 +52,11 @@ void FInstaller::create(QJsonObject config, QJsonArray packages)
     installerHelper->createConfigAndPackages(path, config, packages);
 }
 
+void FInstaller::setCreateMixedInstaller(bool b)
+{
+    isCreateMixedInstaller = b;
+}
+
 
 void FInstaller::setCreateOfflineInstaller(bool b)
 {
@@ -76,26 +81,57 @@ void FInstaller::kill()
 void FInstaller::createInstallers()
 {
     emit newOutputData("Create installers\r\n");
-    QStringList arguments;
-    arguments.append("-c");
-    arguments.append(path + "/config/config.xml");
-    arguments.append("-p");
-    arguments.append(path + "/packages");
-    arguments.append(path +"/" + installerName);
-
     QFile *batFile = Worker::prepareBatFile(true);
-    QString str = Worker::getInstance()->qtPath() + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ");
-    batFile->write(str.toLocal8Bit());
+    QStringList arguments;
+    if(isCreateMixedInstaller) {
+        arguments.clear();
+        arguments.append("-c");
+        arguments.append(path + "/config/config.xml");
+        arguments.append("-p");
+        arguments.append(path + "/packages");
+        arguments.append(path +"/" + installerName + "Mixed");
+
+        QString str = Worker::getInstance()->qtPath() + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ") + "\r\n";
+        batFile->write(str.toLocal8Bit());
+    }
+
+    if(isCreateOnlineInstaller) {
+        arguments.clear();
+        arguments.append("-n");
+        arguments.append("-c");
+        arguments.append(path + "/config/config.xml");
+        arguments.append("-p");
+        arguments.append(path + "/packages");
+        arguments.append(path +"/" + installerName + "Online");
+
+        QString str = Worker::getInstance()->qtPath() + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ") + "\r\n";
+        batFile->write(str.toLocal8Bit());
+    }
+
+    if(isCreateOfflineInstaller) {
+        arguments.clear();
+        arguments.append("-f");
+        arguments.append("-c");
+        arguments.append(path + "/config/config.xml");
+        arguments.append("-p");
+        arguments.append(path + "/packages");
+        arguments.append(path +"/" + installerName + "Offline");
+
+        QString str = Worker::getInstance()->qtPath() + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ") + "\r\n";
+        batFile->write(str.toLocal8Bit());
+    }
+
+    if(isCreateRepository) {
+        arguments.clear();
+        arguments.append("-p");
+        arguments.append(path + "/packages");
+        arguments.append(path +"/repository");
+
+        QString str = Worker::getInstance()->qtPath() + "/Tools/QtInstallerFramework/3.1/bin/repogen " + arguments.join(" ") + "\r\n";
+        batFile->write(str.toLocal8Bit());
+    }
+
     batFile->close();
     batFile->deleteLater();
-    qDebug() << str;
-
     process->start(batFile->fileName());
 }
-
-
-
-
-
-
-

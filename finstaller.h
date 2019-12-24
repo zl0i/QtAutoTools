@@ -22,6 +22,7 @@ public:
 
     Q_INVOKABLE void create(QJsonObject config, QJsonArray packages);
 
+    Q_INVOKABLE void setCreateMixedInstaller(bool);
     Q_INVOKABLE void setCreateOfflineInstaller(bool);
     Q_INVOKABLE void setCreateOnlineInstaller(bool);
     Q_INVOKABLE void setCreateRepo(bool);
@@ -38,7 +39,8 @@ private:
     QThread *thread;
     InstallerHelper *installerHelper;
 
-    bool isCreateOfflineInstaller = false;
+    bool isCreateMixedInstaller = false;
+    bool isCreateOfflineInstaller = true;
     bool isCreateOnlineInstaller = false;
     bool isCreateRepository = false;
 

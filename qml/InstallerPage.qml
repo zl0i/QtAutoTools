@@ -302,7 +302,15 @@ Item {
                 }
             }
             LabelCheckBox {
+                label: qsTr("Создать смешанный установщик")
+                checked: onlineInstaller
+                visible: onlineInstaller
+                onCheckedChanged: _finstaller.setCreateMixedInstaller(checked)
+            }
+            LabelCheckBox {
                 label: qsTr("Создать офлайн установщик")
+                checked: !onlineInstaller
+                enabledCheckBox: onlineInstaller
                 onCheckedChanged: _finstaller.setCreateOfflineInstaller(checked)
             }
             LabelCheckBox {
@@ -375,7 +383,6 @@ Item {
             "Username": "",
             "Password": ""
         }
-
     ]
 
 }

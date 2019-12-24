@@ -8,6 +8,8 @@ Item {
     property string label: ""
     property real widthLabel: 150
     property alias checked: _checkBox.checked
+    property bool enabledCheckBox: true
+
 
    Label {
         width: widthLabel; height: 40
@@ -19,6 +21,7 @@ Item {
         id: _checkBox
         x: parent.width-width
         width: 40; height: 40
+        enabled: enabledCheckBox
         onCheckedChanged: {
             _root.checkedChanged(checked)
         }
