@@ -5,9 +5,8 @@ InstallerHelper::InstallerHelper(QObject *parent) : QObject(parent)
 
 }
 
-void InstallerHelper::createConfigAndPackages(QString path, QJsonObject config, QJsonArray packages)
+void InstallerHelper::run()
 {
-    this->path = path;
     createConfig(config);
     createPackages(packages);
     emit finished();
@@ -16,6 +15,16 @@ void InstallerHelper::createConfigAndPackages(QString path, QJsonObject config, 
 void InstallerHelper::setPath(QString path)
 {
     this->path = path;
+}
+
+void InstallerHelper::setConfig(QJsonObject config)
+{
+    this->config = config;
+}
+
+void InstallerHelper::setPackages(QJsonArray packages)
+{
+    this->packages = packages;
 }
 
 

@@ -15,19 +15,21 @@ class InstallerHelper : public QObject
 public:
     explicit InstallerHelper(QObject *parent = nullptr);
 
-    void createConfigAndPackages(QString, QJsonObject, QJsonArray);
 
     void setPath(QString);
-
-    void createConfig(QJsonObject);
-    void createPackages(QJsonArray);
+    void setConfig(QJsonObject);
+    void setPackages(QJsonArray);
 
 private:
 
     QString path;
+    QJsonObject config;
+    QJsonArray packages;
 
-     void writeConfigFile(QFile*, QJsonObject);
+    void createConfig(QJsonObject);
+    void writeConfigFile(QFile*, QJsonObject);
 
+    void createPackages(QJsonArray);
     QString createDirPackage(QString path, QString name);
     void writePackageFile(QFile*, QJsonObject);
 
@@ -35,6 +37,9 @@ private:
 
     void writeXmlObjectElement(QXmlStreamWriter *stream, QString key, QJsonObject value);
     void writeXmlTextElement(QXmlStreamWriter *stream, QString key, QString value);
+
+public slots:
+    void run();
 
 signals:
 

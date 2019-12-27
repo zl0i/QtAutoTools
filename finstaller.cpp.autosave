@@ -57,7 +57,6 @@ void FInstaller::create(QJsonObject config, QJsonArray packages)
     installerHelper->setConfig(config);
     installerHelper->setPackages(packages);
     thread->start();
-
 }
 
 void FInstaller::setCreateMixedInstaller(bool b)
