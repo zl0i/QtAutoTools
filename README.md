@@ -1,8 +1,8 @@
 # QtAutoTools
 
-<img src="https://habrastorage.org/webt/dc/iq/f7/dciqf78gir_jddxhwgy6b7bbyuy.png" />
 # Программа для удобного использования утилит Qt
 
+<img src="https://habrastorage.org/webt/dc/iq/f7/dciqf78gir_jddxhwgy6b7bbyuy.png" />
 
 Возможности программы:
 
