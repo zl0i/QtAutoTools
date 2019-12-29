@@ -52,7 +52,7 @@ private:
 
     QString getFileName(QString);
     QString getExtension(QString);
-
+    QString buildString(QModelIndex);
     QString getStringVersion();
 
     QString path;

@@ -104,12 +104,9 @@ void QmlDir::createModule() {
         stream << nameModule;
         for(int i = 0; i < filesModel->rowCount(); i++) {
             QModelIndex index = filesModel->index(i, 0);
-            stream << filesModel->data(index, QmlDir::Type).toString() + " " +
-                      filesModel->data(index, QmlDir::Name).toString() + " " +
-                      filesModel->data(index, QmlDir::Version).toString() + " " +
-                      filesModel->data(index, QmlDir::File).toString() + "\n" ;
-
+            stream << buildString(index);
         }
+
 
         if(supportDesigner)
             stream << "designersupported\n";
@@ -169,6 +166,28 @@ QString QmlDir::getExtension(QString file)
 
 }
 
+QString QmlDir::buildString(QModelIndex index)
+{
+    QString line;
+    if(!filesModel->data(index, QmlDir::Type).toString().isEmpty()) {
+        line += filesModel->data(index, QmlDir::Type).toString() + " ";
+    }
+    if(!filesModel->data(index, QmlDir::Name).toString().isEmpty()) {
+        line += filesModel->data(index, QmlDir::Name).toString() + " ";
+    } else {
+        emit newErrorData("Empty name\r\n");
+    }
+    if(!filesModel->data(index, QmlDir::Version).toString().isEmpty()) {
+        line += filesModel->data(index, QmlDir::Version).toString() + " ";
+    }
+    if(!filesModel->data(index, QmlDir::File).toString().isEmpty()) {
+        line += filesModel->data(index, QmlDir::File).toString() + "\r\n";
+    } else {
+       emit newErrorData("Empty file name\r\n");
+    }
+    return line;
+}
+
 QString QmlDir::getMinimumVersion()
 {
     int major = 100;
@@ -193,7 +212,7 @@ void QmlDir::processFinished(int exitCode, QProcess::ExitStatus status)
         QFile file(path + "/qmldir");
         if(file.exists()) {
             if(file.open(QIODevice::Append)) {
-                QString str = "typeinfo " + path.split("/").last().toLower() + ".qmltypes\n\r";
+                QString str = "typeinfo " + path.split("/").last().toLower() + ".qmltypes\r\n";
                 file.write(str.toLocal8Bit());
                 file.close();
             }

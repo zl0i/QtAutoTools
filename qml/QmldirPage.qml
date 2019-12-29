@@ -94,6 +94,7 @@ Item {
                         id: _versionLabel
                         width: 40; height: 40
                         text: version
+                        validator: RegExpValidator { regExp: /[0-9]{1,2}[.]{1}[0-9]{1,2}/}
                         enabled: !(_typesBox.currentText == "internal" || extension == "dll" || extension == "so")
                         property string lastVersion: text !== "" ? text : lastVersion
                         onTextChanged:  {

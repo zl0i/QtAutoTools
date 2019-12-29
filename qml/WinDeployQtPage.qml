@@ -58,6 +58,7 @@ Item {
             spacing: 20
             LabelFieldRow {
                 label: qsTr("Исполняемый файл")
+                filterFile: qsTr("Испольняемый файл (*.exe)")
                 mode: LabelFieldRow.Mode.File                
                 onTextChanged: {
                     _windeployqt.setExeFile(text)

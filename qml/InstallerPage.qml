@@ -81,8 +81,8 @@ Item {
                     onClicked: {
                         var obj = {
                             "Enabled": true,
-                            "DisplayName": "",
-                            "Url": "",
+                            "DisplayName": "Example repository",
+                            "Url": "http://www.example.com/packages",
                             "Username": "",
                             "Password": ""
                         }
@@ -146,10 +146,10 @@ Item {
                     MouseArea {
                         x: parent.width - width - 10; y: 0
                         width: 21; height: 40
+                        visible: remoteRepository.length > 1
                         Image {
                             x: 0; y: 12
-                            width: 21; height: 21
-                            visible: remoteRepository.length > 1
+                            width: 21; height: 21                            
                             source: "qrc:/icon/exit-black.svg"
                         }
                         onClicked: {
@@ -185,7 +185,7 @@ Item {
                             "DisplayName": "component ",
                             "Description": "",
                             "Version": "1.0",
-                            "ReleaseDate": new Date().toLocaleDateString(Qt.locale(), "YYYY-MM-DD"),
+                            "ReleaseDate": new Date().toLocaleDateString(Qt.locale(), "yyyy-MM-dd"),
                             "Name": "org.myapp.component",
                             "Virtual": "",
                             "Licenses": [],
@@ -263,10 +263,10 @@ Item {
                     MouseArea {
                         x: parent.width - width - 10; y: 0
                         width: 21; height: 40
+                        visible: packagesModel.length > 1
                         Image {
                             x: 0; y: 12
-                            width: 21; height: 21
-                            visible: packagesModel.length > 1
+                            width: 21; height: 21                            
                             source: "qrc:/icon/exit-black.svg"
                         }
                         onClicked: {
@@ -316,11 +316,13 @@ Item {
             LabelCheckBox {
                 visible: onlineInstaller
                 label: qsTr("Создать онлайн установщик")
+                checked: onlineInstaller
                 onCheckedChanged: _finstaller.setCreateOnlineInstaller(checked)
             }
             LabelCheckBox {
                 visible: onlineInstaller
                 label: qsTr("Создать репозиторий")
+                checked: onlineInstaller
                 onCheckedChanged: _finstaller.setCreateRepo(checked)
             }
             CustomButton {

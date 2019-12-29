@@ -64,7 +64,12 @@ QFile* Worker::prepareBatFile(bool addQtPath) {
 
 void Worker::removeBatFile()
 {
-     QFile::remove("temp.bat");
+    QFile::remove("temp.bat");
+}
+
+QString Worker::getInstallerFrameworkPath()
+{
+
 }
 
 void Worker::parseInstallerVersion()
@@ -72,8 +77,9 @@ void Worker::parseInstallerVersion()
     QDir dir(m_qtPath + "/Tools/QtInstallerFramework");
     if(!dir.exists())
         return;
+
     QFileInfoList version = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
-    qDebug() << version;
+
 
 }
 

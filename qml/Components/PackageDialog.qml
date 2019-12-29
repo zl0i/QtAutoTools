@@ -59,6 +59,7 @@ Dialog {
                 LabelFieldRow {
                     isPopupButton: false
                     label: qsTr("Номер версии")
+                    textValidator: RegExpValidator { regExp: /[0-9]{1,9}[.]{0,1}[0-9]{1,9}/ }
                     text: packag.Version
                     onTextChanged: packag.Version = text
                 }

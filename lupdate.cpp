@@ -67,6 +67,12 @@ void Lupdate::createTs() {
 
     translatorList.clear();
 
+    if(filesModel->rowCount()-1 == 0)
+        return;
+
+    if(langList.length() == 0)
+        return;
+
     QStringList arguments;
     for(int i = 0; i < filesModel->rowCount()-1; i++) {
         QModelIndex index = filesModel->index(i ,0);
@@ -75,8 +81,17 @@ void Lupdate::createTs() {
     arguments.append("-ts");
     for(int i = 0; i < filesModel->rowCount()-1; i++) {
         QModelIndex index = filesModel->index(i ,0);
-        translatorList.append(getStringFileTs(filesModel->data(index, Qt::UserRole+1).toString()));
-        arguments.append(translatorList.last());
+        QString file = filesModel->data(index, Qt::UserRole+1).toString();
+        if(file.split(" ").length() > 1) {
+            QStringList files = file.split(" ");
+            for (int j = 0; j < files.length(); j++) {
+                translatorList.append(getStringFileTs(files.at(j)));
+                arguments.append(translatorList.last());
+            }
+        } else {
+            translatorList.append(getStringFileTs(file));
+            arguments.append(translatorList.last());
+        }
     }
 
     QString program = Worker::getInstance()->compilerPath() + "/bin/lupdate " + arguments.join(" ");

@@ -18,6 +18,7 @@ Row {
 
     property alias text: _field.text
     property alias fieldFocus: _field.focus
+    property alias textValidator: _field.validator
 
     property var flagsModel
     property var librariesModel
@@ -26,6 +27,7 @@ Row {
 
     enum Mode {
         File,
+        Files,
         Folder,
         Flags,
         Libraries
@@ -71,12 +73,23 @@ Row {
                 }
                 item.open()
             }
+            if(_root.mode === LabelFieldRow.Mode.Files) {
+                item = _fileComponent.createObject(_root)
+                item.fileMode = FileDialog.OpenFiles
+                if(_field.text.length > 0) {
+                    buf = _field.text.split("/")
+                    buf.pop()
+                    item.folder = "file:///" + buf.join("/")
+                }
+                item.open()
+            }
             if(_root.mode === LabelFieldRow.Mode.Flags) {
                 item = _flagsComponent.createObject(_root, {"flagsList": _field.text.split(" ")})
                 item.open()
             }
             if(_root.mode === LabelFieldRow.Mode.Libraries) {
-                item = _librariesComponent.createObject(_root, {"librariesList": _field.text.split(" ") })
+                var lib = _field.text == "" ? Array() : _field.text.split(" ")
+                item = _librariesComponent.createObject(_root, {"librariesList": lib })
                 item.open()
             }            
         }
@@ -112,8 +125,16 @@ Row {
             fileMode: FileDialog.OpenFile
             nameFilters: _root.filterFile
             onAccepted: {
-                _field.text = String(currentFile).slice(8)
-                _root.access(_field.text)
+                if(fileMode == FileDialog.OpenFile) {
+                    _field.text = String(currentFile).slice(8)
+                    _root.access(_field.text)
+                }
+                if(fileMode == FileDialog.OpenFiles) {
+                    _field.text = files.map(function (item) {
+                        return String(item).slice(8)
+                    }).join(" ")
+                    _root.access(_field.text)
+                }
             }
         }
     }
@@ -132,7 +153,7 @@ Row {
         id: _librariesComponent
         LibrariesDialog {
             model: _root.librariesModel
-            onApply: {
+            onApply: {                
                 _field.text = libraries
                 _root.access(libraries)
                 close()

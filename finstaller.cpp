@@ -3,12 +3,10 @@
 FInstaller::FInstaller(QObject *parent) : QObject(parent)
 {
     thread = new QThread(this);
-    installerHelper = new InstallerHelper();
-    installerHelper->moveToThread(thread);
-
-
+    installerHelper = new InstallerHelper();    
     connect(thread, &QThread::started, installerHelper, &InstallerHelper::run);
     connect(installerHelper, &InstallerHelper::finished, this, &FInstaller::createInstallers);
+    installerHelper->moveToThread(thread);
 
     process = new QProcess(this);
     connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
@@ -57,7 +55,6 @@ void FInstaller::create(QJsonObject config, QJsonArray packages)
     installerHelper->setConfig(config);
     installerHelper->setPackages(packages);
     thread->start();
-
 }
 
 void FInstaller::setCreateMixedInstaller(bool b)

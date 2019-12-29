@@ -59,16 +59,16 @@ Dialog {
                         }
                         if(_dialog.librariesList.indexOf("--no-" + modelData) > -1) {
                             _checBox.checkState = Qt.PartiallyChecked
-                        }
+                        }                        
                     }
 
-                    onCheckStateChanged: {
+                    onClicked: {
                         if(checkState === 0) { // delete xml
                             var pos = _dialog.librariesList.indexOf("-"+modelData);
                             if(pos > -1)
                                 _dialog.librariesList.splice(pos, 1)
                         }
-                        if(checkState === 1) { // --no-xml
+                        if(checkState === 1) { // --no-xml                            
                             _dialog.librariesList.push("--no-"+modelData)
                         }
                         if(checkState === 2) { // -xml
@@ -91,7 +91,7 @@ Dialog {
             x: parent.width-240; y: parent.height-35
             width: 100
             text: qsTr("Применить")
-            onClicked: {
+            onClicked: {              
                 _dialog.apply(_dialog.librariesList.join(" "))
             }
         }

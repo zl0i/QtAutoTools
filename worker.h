@@ -15,7 +15,7 @@ class Worker : public QObject
     Q_PROPERTY(QString compilerPath READ compilerPath WRITE setCompilerPath NOTIFY compilerPathChanged)
     Q_PROPERTY(QString compilerToolPath READ compilerToolPath WRITE setCompilerToolPath NOTIFY compilerToolPathChanged)
 
-    //Q_PROPERTY(QString installerVersionList READ compilerToolPath NOTIFY installerVersionListChanged)
+    //Q_PROPERTY(QStringList installerVersionList READ installerVersionList NOTIFY installerVersionListChanged)
     //Q_PROPERTY(QString installerVersion READ installerVersion WRITE setInstallerVersion NOTIFY installerVersionChanged)
 
 
@@ -36,10 +36,18 @@ public:
     QString compilerToolPath();
     void setCompilerToolPath(QString);
 
-    Q_INVOKABLE void clearAllSettings();
+    QStringList installerVersionList();
+
+    QString installerVersion();
+    void setInstallerVersion(QString);
+
+    Q_INVOKABLE void clearAllSettings();    
+
 
     static QFile* prepareBatFile(bool addQtPath = false);
     static void removeBatFile();
+
+    QString getInstallerFrameworkPath();
 
 private:
 
@@ -51,6 +59,7 @@ private:
     QString m_qtPath = settings->value("global/qtPath", "").toString();
     QString m_compilerPath = settings->value("global/compilerPath", "").toString();
     QString m_compilerToolePath = settings->value("global/compilerToolPath", "").toString();
+    QStringList m_installerVersionList = settings->value("global/installerVersionList", "").toStringList();
 
 
 signals:

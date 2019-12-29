@@ -55,9 +55,9 @@ Item {
                 model: _lupdate.files
                 interactive: false
                 delegate:  LabelFieldRow {
-                    label: qsTr("Переводимый файл")
+                    label: qsTr("Переводимые файлы")
                     text: file
-                    mode: LabelFieldRow.Mode.File
+                    mode: LabelFieldRow.Mode.Files
                     filterFile: ["Qt Files (*.pro *.qml *.ui *.c *.c++ *.cc *.cpp *.cxx *.ch *.h *.h++ *.hh *.hpp *.hxx)", qsTr("Все файлы (*)")]
                     onFieldFocusChanged: {
                         if(!fieldFocus && text == "" && index !== ListView.view.count-1) {
