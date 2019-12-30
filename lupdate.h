@@ -21,8 +21,10 @@ public:
     Q_INVOKABLE void addFile();
     Q_INVOKABLE void removeFile(int);
 
-    Q_INVOKABLE void setFile(int, QString);
+    Q_INVOKABLE void setFiles(int, QString);
     Q_INVOKABLE void setLanguage(QString);
+    Q_INVOKABLE void setUpdateFile(QString);
+    Q_INVOKABLE void setTsFileName(QString);
 
     Q_INVOKABLE void createTs();
     Q_INVOKABLE void runLinguist();
@@ -32,9 +34,12 @@ public:
 private:
     QString getStringFileTs(QString file);
 
-    QString path;
+
+    QString tsFile;
+    QString updateFile;
     QStringList langList;
-    QStringList translatorList;
+    QString translatorList;
+
 
     QStandardItemModel *filesModel = new QStandardItemModel(this);
 

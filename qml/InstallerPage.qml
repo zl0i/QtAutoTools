@@ -308,7 +308,7 @@ Item {
                 onCheckedChanged: _finstaller.setCreateMixedInstaller(checked)
             }
             LabelCheckBox {
-                label: qsTr("Создать офлайн установщик")
+                label: qsTr("Создать оффлайн установщик")
                 checked: !onlineInstaller
                 enabledCheckBox: onlineInstaller
                 onCheckedChanged: _finstaller.setCreateOfflineInstaller(checked)

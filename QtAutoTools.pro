@@ -22,6 +22,9 @@ SOURCES += \
         windeployqt.cpp \
         worker.cpp
 
+TRANSLATIONS = translation/ts_files/QtAutoTools_en.ts
+
+
 RESOURCES += qml.qrc \
     icon.qrc \
     translation.qrc

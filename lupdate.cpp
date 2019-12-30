@@ -40,13 +40,23 @@ void Lupdate::addFile() {
     filesModel->setData(index, "", Qt::UserRole+1);
 }
 
-void Lupdate::setFile(int row, QString url) {
+void Lupdate::setFiles(int row, QString url) {
     QModelIndex index = filesModel->index(row, 0);
     filesModel->setData(index, url, Qt::UserRole+1);
 }
 
 void Lupdate::setLanguage(QString list) {
     this->langList = list.split(" ", QString::SkipEmptyParts);
+}
+
+void Lupdate::setUpdateFile(QString file)
+{
+    this->updateFile = file;
+}
+
+void Lupdate::setTsFileName(QString name)
+{
+    tsFile = name;
 }
 
 QString Lupdate::getStringFileTs(QString url) {
@@ -63,9 +73,7 @@ QString Lupdate::getStringFileTs(QString url) {
     return  tsFile.join(" ");
 }
 
-void Lupdate::createTs() {
-
-    translatorList.clear();
+void Lupdate::createTs() {    
 
     if(filesModel->rowCount()-1 == 0)
         return;
@@ -73,24 +81,34 @@ void Lupdate::createTs() {
     if(langList.length() == 0)
         return;
 
+    translatorList.clear();
+
     QStringList arguments;
     for(int i = 0; i < filesModel->rowCount()-1; i++) {
         QModelIndex index = filesModel->index(i ,0);
         arguments.append(filesModel->data(index, Qt::UserRole+1).toString());
     }
+
     arguments.append("-ts");
-    for(int i = 0; i < filesModel->rowCount()-1; i++) {
-        QModelIndex index = filesModel->index(i ,0);
-        QString file = filesModel->data(index, Qt::UserRole+1).toString();
-        if(file.split(" ").length() > 1) {
-            QStringList files = file.split(" ");
-            for (int j = 0; j < files.length(); j++) {
-                translatorList.append(getStringFileTs(files.at(j)));
-                arguments.append(translatorList.last());
-            }
+
+    if(!updateFile.isEmpty()) {
+        translatorList = updateFile;
+        arguments.append(updateFile);
+    } else {
+        QString url = filesModel->data(filesModel->index(0 ,0), Qt::UserRole+1).toString();
+        QStringList list;
+        if(url.split(" ").length() > 0) {
+            list = url.split(" ").at(0).split("/");
         } else {
-            translatorList.append(getStringFileTs(file));
-            arguments.append(translatorList.last());
+            list = url.split("/");
+        }
+        list.removeLast();
+        if(!tsFile.isEmpty()) {
+            translatorList = getStringFileTs(list.join("/")+"/" + tsFile + ".qml");
+            arguments.append(translatorList);
+        } else {
+            translatorList = getStringFileTs(list.join("/")+"/main.qml");
+            arguments.append(translatorList);
         }
     }
 
@@ -106,10 +124,9 @@ void Lupdate::createTs() {
 }
 
 void Lupdate::runLinguist() {
-    if(translatorList.count() != 0) {
-        startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist " + translatorList.join(" "));
-    }
-    else  {
+    if(!translatorList.isEmpty()) {
+        startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist " + translatorList);
+    } else  {
         startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist");
     }
 }

@@ -71,8 +71,24 @@ Item {
                         }
                     }
                     onAccess: {
-                        _lupdate.setFile(index, text)
+                        _lupdate.setFiles(index, text)
                     }
+                }
+            }
+            LabelFieldRow {
+                id: _tsFileName
+                label: qsTr("Имя файла перевода")
+                isPopupButton: false
+                onTextChanged: {
+                   _lupdate.setTsFileName(text)
+                }
+            }
+            LabelFieldRow {
+                label: qsTr("Файл обновления (не обязательно)")
+                mode: LabelFieldRow.Mode.Files
+                enabled: _tsFileName.text.length == 0
+                onTextChanged: {
+                    _lupdate.setUpdateFile(text)
                 }
             }
 
