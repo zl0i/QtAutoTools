@@ -193,7 +193,7 @@
     <message>
         <location filename="../../qml/LUpdatePage.qml" line="91"/>
         <source>Файлы перевода (*.ts)</source>
-        <translation>Translation Files (* .ts)</translation>
+        <translation>Translation Files (*.ts)</translation>
     </message>
     <message>
         <source>Файл обновления (не обязательно)</source>
