@@ -78,7 +78,7 @@ void Lupdate::createTs() {
     if(filesModel->rowCount()-1 == 0)
         return;
 
-    if(langList.length() == 0)
+    if(langList.length() == 0 && updateFile.isEmpty())
         return;
 
     translatorList.clear();

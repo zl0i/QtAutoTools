@@ -84,9 +84,11 @@ Item {
                 }
             }
             LabelFieldRow {
-                label: qsTr("Файл обновления (не обязательно)")
+                id: _updateFiles
+                label: qsTr("Файлы обновления (не обязательно)")
                 mode: LabelFieldRow.Mode.Files
                 enabled: _tsFileName.text.length == 0
+                filterFile: qsTr("Файлы перевода (*.ts)")
                 onTextChanged: {
                     _lupdate.setUpdateFile(text)
                 }
@@ -96,6 +98,7 @@ Item {
                 label: qsTr("Языки")
                 mode: LabelFieldRow.Mode.Flags
                 flagsModel: Data.modelLanguages
+                enabled: _updateFiles.text.length == 0
                 onTextChanged: {
                     _lupdate.setLanguage(text)
                 }

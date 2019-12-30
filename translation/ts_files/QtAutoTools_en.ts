@@ -186,22 +186,31 @@
         <translation>Translation File Name</translation>
     </message>
     <message>
-        <location filename="../../qml/LUpdatePage.qml" line="87"/>
-        <source>Файл обновления (не обязательно)</source>
+        <location filename="../../qml/LUpdatePage.qml" line="88"/>
+        <source>Файлы обновления (не обязательно)</source>
         <translation>Update file (optional)</translation>
     </message>
     <message>
-        <location filename="../../qml/LUpdatePage.qml" line="96"/>
+        <location filename="../../qml/LUpdatePage.qml" line="91"/>
+        <source>Файлы перевода (*.ts)</source>
+        <translation>Translation Files (* .ts)</translation>
+    </message>
+    <message>
+        <source>Файл обновления (не обязательно)</source>
+        <translation type="vanished">Update file (optional)</translation>
+    </message>
+    <message>
+        <location filename="../../qml/LUpdatePage.qml" line="98"/>
         <source>Языки</source>
         <translation>Languages</translation>
     </message>
     <message>
-        <location filename="../../qml/LUpdatePage.qml" line="104"/>
+        <location filename="../../qml/LUpdatePage.qml" line="107"/>
         <source>Создать</source>
         <translation>Create</translation>
     </message>
     <message>
-        <location filename="../../qml/LUpdatePage.qml" line="110"/>
+        <location filename="../../qml/LUpdatePage.qml" line="113"/>
         <source>Запустить Qt Linguist</source>
         <translation>Run Qt Linguist</translation>
     </message>
