@@ -1,11 +1,14 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QIcon>
+#include <QObject>
+#include <QQmlContext>
 #include "worker.h"
 #include "windeployqt.h"
 #include "qmldir.h"
 #include "lupdate.h"
 #include "finstaller.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -17,9 +20,14 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/icon/icon.png"));
 
+
     QQmlApplicationEngine engine;
+    QObject::connect(Worker::getInstance(), &Worker::retranslate, &engine, &QQmlEngine::retranslate);
+
     engine.addImportPath(":/qml");
     engine.addImportPath("D://Project//Qt//ModuleQML");
+
+    engine.rootContext()->setContextProperty("_worker", Worker::getInstance());
 
     qmlRegisterType<Worker>("AutoTools", 1, 0, "Worker");
     qmlRegisterType<Windeployqt>("AutoTools", 1, 0, "Windeployqt");
@@ -27,7 +35,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<Lupdate>("AutoTools", 1, 0, "Lupdate");
     qmlRegisterType<FInstaller>("AutoTools", 1, 0, "FInstaller");
 
-    engine.load("qrc:/main.qml");
+    engine.load("qrc:/main.qml");       
+    Worker::getInstance()->setLanguage();
 
     return app.exec();
 }

@@ -42,7 +42,7 @@ ApplicationWindow {
             "component": "/qml/LUpdatePage.qml"
         },
         {
-            "title": "Настройки",
+            "title": qsTr("Настройки"),
             "info": "",
             "component": "/qml/Settings.qml"
         }

@@ -15,8 +15,6 @@ Item {
         text: qsTr("Настройки")
     }
 
-    Worker { id: _worker  }
-
     Column {
         x: 20; y: 50
         spacing: 20
@@ -34,7 +32,7 @@ Item {
             label: qsTr("Путь к компилятору")
             mode: LabelFieldRow.Mode.Folder
             Component.onCompleted: {
-                 text = _worker.compilerPath
+                text = _worker.compilerPath
             }
             onTextChanged: {
                 _worker.compilerPath = text
@@ -45,7 +43,7 @@ Item {
             label: qsTr("Путь к компилятору Tool")
             mode: LabelFieldRow.Mode.Folder
             Component.onCompleted: {
-                 text = _worker.compilerToolPath
+                text = _worker.compilerToolPath
             }
             onTextChanged: {
                 _worker.compilerToolPath = text
@@ -60,7 +58,27 @@ Item {
                 text: qsTr("Язык")
             }
             ComboBox {
-                model: ["Русский", "English"]
+                model: ListModel {
+                    id: _languageList
+                    ListElement {
+                        title: "Русский"
+                        code: "ru"
+                    }
+                    ListElement {
+                        title: "English"
+                        code: "en"
+                    }
+                }
+                textRole: "title"
+
+                onActivated: _worker.language = _languageList.get(currentIndex).code
+                Component.onCompleted: {
+                    for(var i = 0; i < _languageList.count; i++) {
+                        if(_languageList.get(i).code === _worker.language) {
+                            currentIndex = i
+                        }
+                    }
+                }
             }
         }
         Button {
@@ -69,5 +87,5 @@ Item {
                 _worker.clearAllSettings()
             }
         }
-    }   
+    }
 }
