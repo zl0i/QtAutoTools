@@ -8,5 +8,6 @@ LabelCheckBox 1.0 LabelCheckBox.qml
 ConfigDialog 1.0 ConfigDialog.qml
 PackageDialog 1.0 PackageDialog.qml
 RepositoryDialog 1.0 RepositoryDialog.qml
+LoadingAnimation 1.0 LoadingAnimation.qml
 
 singleton Data 1.0 Data.qml

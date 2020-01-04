@@ -1,3 +1,4 @@
 
 *.user
-QtAutoTools.pro.user
+*.user.*
+

@@ -24,8 +24,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     QObject::connect(Worker::getInstance(), &Worker::retranslate, &engine, &QQmlEngine::retranslate);
 
-    engine.addImportPath(":/qml");
-    engine.addImportPath("D://Project//Qt//ModuleQML");
+    engine.addImportPath(":/qml");    
 
     engine.rootContext()->setContextProperty("_worker", Worker::getInstance());
 
