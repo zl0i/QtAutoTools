@@ -21,5 +21,6 @@
         <file>qml/Components/ConfigDialog.qml</file>
         <file>qml/Components/PackageDialog.qml</file>
         <file>qml/Components/RepositoryDialog.qml</file>
+        <file>qml/Components/LoadingAnimation.qml</file>
     </qresource>
 </RCC>

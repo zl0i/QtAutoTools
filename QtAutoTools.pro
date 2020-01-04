@@ -33,8 +33,8 @@ RESOURCES += qml.qrc \
 #QMAKE_POST_LINK += $$(QTDIR)/bin/windeployqt --qmldir $$PWD $$DESTDIR
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH = $$PWD/qml D:/Project/Qt/ModuleQML
-QML2_IMPORT_PATH = $$PWD/qml D:/Project/Qt/ModuleQML
+QML_IMPORT_PATH = $$PWD/qml
+QML2_IMPORT_PATH = $$PWD/qml
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =

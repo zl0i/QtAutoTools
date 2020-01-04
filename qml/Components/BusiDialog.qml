@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 
-import LoadingAnimation 1.0
+
 import Components.Controls 1.0
 
 Dialog {
