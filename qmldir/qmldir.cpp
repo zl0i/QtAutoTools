@@ -1,4 +1,4 @@
-#include "qmldir.h"
+#include "qmldir/qmldir.h"
 
 QmlDir::QmlDir(QObject *parent) : QObject(parent)
 {

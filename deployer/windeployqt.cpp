@@ -1,4 +1,4 @@
-#include "windeployqt.h"
+#include "deployer/windeployqt.h"
 
 Windeployqt::Windeployqt(QObject *parent) : QProcess(parent)
 {   

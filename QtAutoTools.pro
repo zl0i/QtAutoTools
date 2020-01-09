@@ -14,12 +14,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        finstaller.cpp \
-        installerhelper.cpp \
+        deployer/windeployqt.cpp \
+        installer/finstaller.cpp \
+        installer/installerhelper.cpp \
         lupdate.cpp \
         main.cpp \
-        qmldir.cpp \
-        windeployqt.cpp \
+        qmldir/qmldir.cpp \
         worker.cpp
 
 TRANSLATIONS = translation/ts_files/QtAutoTools_en.ts
@@ -45,11 +45,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    finstaller.h \
-    installerhelper.h \
+    deployer/windeployqt.h \
+    installer/finstaller.h \
+    installer/installerhelper.h \
     lupdate.h \
-    qmldir.h \
-    windeployqt.h \
+    qmldir/qmldir.h \
     worker.h
 
 DISTFILES +=
