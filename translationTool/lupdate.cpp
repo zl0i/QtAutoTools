@@ -1,4 +1,4 @@
-#include "lupdate.h"
+#include "./lupdate.h"
 
 Lupdate::Lupdate(QObject *parent) : QProcess(parent)
 {

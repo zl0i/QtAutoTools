@@ -1,4 +1,4 @@
-#include "installer/finstaller.h"
+#include "./finstaller.h"
 
 FInstaller::FInstaller(QObject *parent) : QObject(parent)
 {

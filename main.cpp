@@ -4,10 +4,10 @@
 #include <QObject>
 #include <QQmlContext>
 #include "worker.h"
-#include "deployer/windeployqt.h"
-#include "qmldir/qmldir.h"
-#include "lupdate.h"
-#include "installer/finstaller.h"
+#include "deployTool/windeployqt.h"
+#include "qmldirTool/qmldir.h"
+#include "translationTool/lupdate.h"
+#include "installTool/finstaller.h"
 
 
 int main(int argc, char *argv[])

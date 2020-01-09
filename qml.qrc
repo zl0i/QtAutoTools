@@ -25,5 +25,7 @@
         <file>qml/Components/Elements/LabelFieldRow.qml</file>
         <file>qml/Components/Elements/LoadingAnimation.qml</file>
         <file>qml/Components/Elements/qmldir</file>
+        <file>qml/BasicPage.qml</file>
+        <file>qml/BuildPage.qml</file>
     </qresource>
 </RCC>

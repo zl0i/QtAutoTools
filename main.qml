@@ -10,9 +10,7 @@ ApplicationWindow {
     height: 480
     minimumWidth: 720
     minimumHeight: 360
-    title: qsTr("QtAutoTools")    
-
-
+    title: qsTr("QtAutoTools")
 
     font {
         pixelSize: 14
@@ -22,19 +20,28 @@ ApplicationWindow {
 
     readonly property var toolsModel: [
         {
-            "title": "windeployqt",            
+            "title": "builder",
+            "visible": true,
+            "component": "qml/BuildPage.qml"
+        },
+        {
+            "title": "windeployqt",
+            "visible": true,
             "component": "qml/WinDeployQtPage.qml"
         },
         {
-            "title": "installer",           
+            "title": "installer",
+            "visible": true,
             "component": "/qml/InstallerPage.qml"
         },
         {
-            "title": "qmldir",            
+            "title": "qmldir",
+            "visible": true,
             "component": "/qml/QmldirPage.qml"
-        },        
+        },
         {
-            "title": "lupdate",           
+            "title": "lupdate",
+            "visible": true,
             "component": "/qml/LUpdatePage.qml"
         },
         {
@@ -43,6 +50,25 @@ ApplicationWindow {
             "component": "/qml/Settings.qml"
         }
     ]
+
+    Component.onCompleted: {
+        toolsModel.forEach(function (item) {
+            if(item.visible) {
+                _toolModel.append({
+                                      "title": item.title,
+                                      "component": item.component
+                                  })
+            }
+        })
+        _list.currentIndex = 0
+        _loader.source = Qt.binding(function() {
+            return _toolModel.get(_list.currentIndex).component
+        })
+    }
+
+    ListModel {
+        id: _toolModel
+    }
 
 
     Rectangle {
@@ -53,20 +79,19 @@ ApplicationWindow {
             id: _list
             width: 200; height: parent.height
             interactive: false
-            model: toolsModel
+            model: _toolModel
             delegate: Rectangle {
                 width: 200; height: 45
-                color: "transparent" //ListView.isCurrentItem ? "#87CEEB" : "#FFFFFF"
+                color: "transparent"
                 Label {
                     x: 20
                     width: parent.width-20; height: parent.height
                     verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 18
-                    //font.weight: Font.Bold
                     color: "#FFFFFF"
-                    text: modelData.title
+                    text: title
                 }
-                Rectangle {                   
+                Rectangle {
                     width: 3; height: 45
                     color: "#39A0FF"
                     visible: parent.ListView.isCurrentItem
@@ -100,11 +125,7 @@ ApplicationWindow {
                     width: parent.width; height: parent.height
                     hoverEnabled: true
                     property bool hovered: false
-                    onClicked: {
-                        _list.currentIndex = index
-                        _loader.source = modelData.component
-
-                    }
+                    onClicked:  _list.currentIndex = index
                     onEntered: hovered = true
                     onExited: hovered = false
                 }
@@ -116,7 +137,6 @@ ApplicationWindow {
         id: _loader
         x: 200; y:0
         width: parent.width-x; height: parent.height
-        source: "qml/WinDeployQtPage.qml"
         asynchronous: true
     }
 }

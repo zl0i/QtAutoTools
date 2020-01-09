@@ -1,4 +1,4 @@
-#include "installer/installerhelper.h"
+#include "./installerhelper.h"
 
 InstallerHelper::InstallerHelper(QObject *parent) : QObject(parent)
 {
