@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
 
-import Components 1.0
+import Components.Elements 1.0
 
 Flipable {
     id: _flipable

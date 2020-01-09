@@ -28,7 +28,6 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("_worker", Worker::getInstance());
 
-    qmlRegisterType<Worker>("AutoTools", 1, 0, "Worker");
     qmlRegisterType<Windeployqt>("AutoTools", 1, 0, "Windeployqt");
     qmlRegisterType<QmlDir>("AutoTools", 1, 0, "QmlDir");   
     qmlRegisterType<Lupdate>("AutoTools", 1, 0, "Lupdate");

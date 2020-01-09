@@ -3,9 +3,11 @@ import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.1
 
-import Components 1.0
-import Components.Controls 1.0
 import AutoTools 1.0
+
+import Components.Elements 1.0
+import Components.Controls 1.0
+import Components.Dialogs 1.0
 
 Item {
 
@@ -39,7 +41,7 @@ Item {
             _busyDialog.info += '<font color="#E31F1F" >'+line+'</font>'
         }
     }
-    BusiDialog {
+    BusyDialog {
         id: _busyDialog
         onKill: _finstaller.kill()
     }

@@ -22,28 +22,24 @@ ApplicationWindow {
 
     readonly property var toolsModel: [
         {
-            "title": "windeployqt",
-            "info": "Подключает все библиотеки используемые в exe файле",
+            "title": "windeployqt",            
             "component": "qml/WinDeployQtPage.qml"
         },
         {
-            "title": "installer",
-            "info": "Создани уставнощика из деплоя",
+            "title": "installer",           
             "component": "/qml/InstallerPage.qml"
         },
         {
-            "title": "qmldir",
-            "info": "Автоматическое создание и заполение qmldir",
+            "title": "qmldir",            
             "component": "/qml/QmldirPage.qml"
         },        
         {
-            "title": "lupdate",
-            "info": "",
+            "title": "lupdate",           
             "component": "/qml/LUpdatePage.qml"
         },
         {
             "title": qsTr("Настройки"),
-            "info": "",
+            "visible": true,
             "component": "/qml/Settings.qml"
         }
     ]

@@ -2,6 +2,8 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import Qt.labs.platform 1.1
 
+import Components.Dialogs 1.0
+
 Row {
     id: _root
     spacing: 10

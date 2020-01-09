@@ -207,6 +207,7 @@ QString QmlDir::getMinimumVersion()
 
 void QmlDir::processFinished(int exitCode, QProcess::ExitStatus status)
 {
+    Worker::removeBatFile();
     if(exitCode == 0) {
         emit newOutputData("Write typeinfo to qmldir\r\n");
         QFile file(path + "/qmldir");
@@ -216,12 +217,10 @@ void QmlDir::processFinished(int exitCode, QProcess::ExitStatus status)
                 file.write(str.toLocal8Bit());
                 file.close();
             }
-        }
-        Worker::removeBatFile();
+        }        
         emit newOutputData("Ready!\r\n");
     }
     emit finished(exitCode, status);
-
 }
 
 void QmlDir::readChanel()

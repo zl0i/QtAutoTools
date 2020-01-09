@@ -10,7 +10,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-
+//[\d]{1}[\.]{1}[\d]{1,2}[\.]{1}[\d]{1,2}
 class Worker : public QObject
 {
     Q_OBJECT

@@ -5,8 +5,10 @@ import QtGraphicalEffects 1.0
 
 import AutoTools 1.0
 
-import Components 1.0
+import Components.Elements 1.0
 import Components.Controls 1.0
+import Components.Dialogs 1.0
+import Components.Data 1.0
 
 Item {
     id: _root
@@ -35,7 +37,7 @@ Item {
         }
     }
 
-    BusiDialog {
+    BusyDialog {
         id: _busiDialog
         onKill: _windeployqt.kill()
     }
