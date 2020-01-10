@@ -58,56 +58,56 @@ Item {
             id: _content
             x:0; y: 10
             spacing: 20
-            LabelFieldRow {
+            LabelFieldDialog {
                 label: qsTr("Исполняемый файл")
                 filterFile: qsTr("Испольняемый файл (*.exe)")
-                mode: LabelFieldRow.Mode.File                
+                mode: LabelFieldDialog.Mode.File
                 onTextChanged: {
                     _windeployqt.setExeFile(text)
                 }
             }
-            LabelFieldRow {
+            LabelFieldDialog {
                 label: qsTr("Папка развертывания")              
                 onTextChanged: {
                     _windeployqt.setDir(text)
                 }
             }
-            LabelFieldRow {
+            LabelFieldDialog {
                 label: qsTr("Папка подключаемых библиотек")
                 onTextChanged: {
                     _windeployqt.setLibdir(text)
                 }
             }
-            LabelFieldRow {
+            LabelFieldDialog {
                 label: qsTr("Папка подключаемых плагинов")
                 onTextChanged: {
                     _windeployqt.setPlugindir(text)
                 }
             }
-            LabelFieldRow {
+            LabelFieldDialog {
                 label: qsTr("Папка используемых qml файлов")
                 onTextChanged: {
                     _windeployqt.setQmldir(text)
                 }
             }
-            LabelFieldRow {
+            LabelFieldDialog {
                 label: qsTr("Папка подключаемых qml модулей")
                 onTextChanged: {
                     _windeployqt.setQmlimport(text)
                 }
             }
-            LabelFieldRow {
+            LabelFieldDialog {
                 label: qsTr("Флаги")
-                mode: LabelFieldRow.Mode.Flags
+                mode: LabelFieldDialog.Mode.Flags
                 flagsModel: Data.modelFlagsWinDeployQt
                 onTextChanged: {
                     _windeployqt.setFlags(flags)
                 }
             }
-            LabelFieldRow {
+            LabelFieldDialog {
                 width: 100;  height: 40               
                 label: qsTr("Библиотеки")
-                mode: LabelFieldRow.Mode.Libraries
+                mode: LabelFieldDialog.Mode.Libraries
                 librariesModel: Data.modelLibraryWindDeployQt
                 onTextChanged: {
                     _windeployqt.setLibraries(text)

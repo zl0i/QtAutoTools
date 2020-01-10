@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QQmlContext>
 #include "worker.h"
+#include "buildTool/builder.h"
 #include "deployTool/windeployqt.h"
 #include "qmldirTool/qmldir.h"
 #include "translationTool/lupdate.h"
@@ -28,6 +29,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("_worker", Worker::getInstance());
 
+    qmlRegisterType<Builder>("AutoTools", 1, 0, "Builder");
     qmlRegisterType<Windeployqt>("AutoTools", 1, 0, "Windeployqt");
     qmlRegisterType<QmlDir>("AutoTools", 1, 0, "QmlDir");   
     qmlRegisterType<Lupdate>("AutoTools", 1, 0, "Lupdate");

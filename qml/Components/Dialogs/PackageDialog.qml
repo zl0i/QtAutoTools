@@ -45,32 +45,32 @@ Dialog {
             Column {
                 id: _column
                 spacing: 10
-                LabelFieldRow {
+                LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Название пакета")
                     text: packag.DisplayName
                     onTextChanged: packag.DisplayName = text
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Описание")
                     text: packag.Description
                     onTextChanged: packag.Description = text
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Номер версии")
                     textValidator: RegExpValidator { regExp: /[0-9]{1,9}[.]{0,1}[0-9]{1,9}/ }
                     text: packag.Version
                     onTextChanged: packag.Version = text
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Дата релиза")
                     text: packag.ReleaseDate
                     onTextChanged: packag.ReleaseDate = text
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Название вендора")
                     text: packag.Name
@@ -81,43 +81,43 @@ Dialog {
                     checked: packag.Virtual
                     onCheckedChanged: packag.Virtual = checked
                 }
-                /*LabelFieldRow {
+                /*LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Файл лицензии")
                     text: packag.license
                     onTextChanged: packag.license = text
                 }*/
-                LabelFieldRow {
+                LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Скрипт")
                     text: packag.Script
                     onTextChanged: packag.Script = text
                 }
-                /*LabelFieldRow {
+                /*LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Дополнительные страницы")
                     text: packag.pages
                     onTextChanged: packag.pages = text
                 }*/
-                LabelFieldRow {
+                LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Зависимости")
                     text: packag.Dependencies
                     onTextChanged: packag.Dependencies = text
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Приоритет сортировки")
                     text: packag.SortingPriority
                     onTextChanged: packag.SortingPriority = text
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Описание обновления пакета")
                     text: packag.UpdateText
                     onTextChanged: packag.UpdateText = text
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Выбор компонента по умолчанию")
                     text: packag.Default
@@ -128,7 +128,7 @@ Dialog {
                     checked: packag.ForcedInstallation
                     onCheckedChanged: packag.ForcedInstallation = checked
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     isPopupButton: false
                     label: qsTr("Список заменяемых компонентов")
                     text: packag.Replaces

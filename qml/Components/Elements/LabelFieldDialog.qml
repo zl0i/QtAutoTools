@@ -34,7 +34,7 @@ Row {
         Flags,
         Libraries
     }
-    property int mode: LabelFieldRow.Mode.Folder
+    property int mode: LabelFieldDialog.Mode.Folder
 
     signal access(var text)
     signal plusClicked()
@@ -59,14 +59,14 @@ Row {
         visible:  _root.isPopupButton
         text: "..."       
         onClicked:  {
-            if(_root.mode === LabelFieldRow.Mode.Folder) {
+            if(_root.mode === LabelFieldDialog.Mode.Folder) {
                 var item = _folderComponent.createObject(_root)
                 if(_field.text.length > 0) {
                     item.folder = "file:///" + _field.text
                 }
                 item.open()                
             }
-            if(_root.mode === LabelFieldRow.Mode.File) {                
+            if(_root.mode === LabelFieldDialog.Mode.File) {
                 item = _fileComponent.createObject(_root)
                 if(_field.text.length > 0) {
                     var buf = _field.text.split("/")
@@ -75,7 +75,7 @@ Row {
                 }
                 item.open()
             }
-            if(_root.mode === LabelFieldRow.Mode.Files) {
+            if(_root.mode === LabelFieldDialog.Mode.Files) {
                 item = _fileComponent.createObject(_root)
                 item.fileMode = FileDialog.OpenFiles
                 if(_field.text.length > 0) {
@@ -85,11 +85,11 @@ Row {
                 }
                 item.open()
             }
-            if(_root.mode === LabelFieldRow.Mode.Flags) {
+            if(_root.mode === LabelFieldDialog.Mode.Flags) {
                 item = _flagsComponent.createObject(_root, {"flagsList": _field.text.split(" ")})
                 item.open()
             }
-            if(_root.mode === LabelFieldRow.Mode.Libraries) {
+            if(_root.mode === LabelFieldDialog.Mode.Libraries) {
                 var lib = _field.text == "" ? Array() : _field.text.split(" ")
                 item = _librariesComponent.createObject(_root, {"librariesList": lib })
                 item.open()

@@ -19,9 +19,9 @@ Item {
     Column {
         x: 20; y: 50
         spacing: 20
-        LabelFieldRow {
+        LabelFieldDialog {
             label: qsTr("Путь к Qt")
-            mode: LabelFieldRow.Mode.Folder
+            mode: LabelFieldDialog.Mode.Folder
             Component.onCompleted: {
                 text = _worker.qtPath
             }
@@ -29,9 +29,9 @@ Item {
                 _worker.qtPath = text
             }
         }
-        LabelFieldRow {
+        LabelFieldDialog {
             label: qsTr("Путь к компилятору")
-            mode: LabelFieldRow.Mode.Folder
+            mode: LabelFieldDialog.Mode.Folder
             Component.onCompleted: {
                 text = _worker.compilerPath
             }
@@ -40,9 +40,9 @@ Item {
             }
         }
 
-        LabelFieldRow {
+        LabelFieldDialog {
             label: qsTr("Путь к компилятору Tool")
-            mode: LabelFieldRow.Mode.Folder
+            mode: LabelFieldDialog.Mode.Folder
             Component.onCompleted: {
                 text = _worker.compilerToolPath
             }

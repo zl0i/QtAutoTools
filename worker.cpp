@@ -99,7 +99,7 @@ void Worker::removeBatFile()
 
 QString Worker::getInstallerFrameworkPath()
 {
-
+    return QString {};
 }
 
 void Worker::parseInstallerVersion()

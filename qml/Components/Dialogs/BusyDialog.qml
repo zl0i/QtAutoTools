@@ -33,6 +33,24 @@ Dialog {
         errorProcess = false
     }
 
+    function finished(code) {
+        if(code !== 0)
+            _dialog.errorProcess = true
+        _dialog.isReady = true
+    }
+
+    function addOutput(output) {
+        output = String(output).replace(/(\r\n){1}/g, '<br>')
+        output = String(output).replace(/[ ]/g, '&nbsp;')
+        _dialog.info += '<font color="#404040">'+output+'</font>'
+    }
+
+    function addError(error) {
+        error = String(error).replace(/(\r\n){1}/g, '<br>')
+        error = String(error).replace(/[ ]/g, '&nbsp;')
+        _dialog.info += '<font color="#E31F1F" >'+error+'</font>'
+    }
+
     Overlay.modal: Rectangle {
         color: "#DF000000"
     }

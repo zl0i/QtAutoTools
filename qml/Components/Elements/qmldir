@@ -2,5 +2,6 @@ module Elements
 CheckBoxRow 1.0 CheckBoxRow.qml
 FlagsDialog 1.0 FlagsDialog.qml
 LabelCheckBox 1.0 LabelCheckBox.qml
-LabelFieldRow 1.0 LabelFieldRow.qml
+LabelFieldDialog 1.0 LabelFieldDialog.qml
+LabelComboBox 1.0 LabelComboBox.qml
 LoadingAnimation 1.0 LoadingAnimation.qml

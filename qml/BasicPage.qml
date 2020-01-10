@@ -8,7 +8,7 @@ Item {
     id: _page
 
     property string title
-    property list<Item> contentItem
+    property Item contentItem
     property string buttonText: qsTr("Запустить")
     property alias busiDialog: _busiDialog
 
@@ -30,21 +30,22 @@ Item {
     Flickable {
         x: 20; y: 60
         width: parent.width; height: parent.height-y
-        contentHeight: _content.height+40
+        contentHeight: _content.height + 100
         interactive: contentHeight > height
         clip: true
         Column {
             id: _content
             x:0; y: 10
-            spacing: 20
             children: _page.contentItem
-            CustomButton {
-                text: _page.buttonText
-                onClicked: _page.run()
+        }
+        CustomButton {
+            id: _button
+            anchors { top: _content.bottom; topMargin: 20}
+            text: _page.buttonText
+            onClicked: {
+                _busiDialog.reset()
+                _page.run()
             }
         }
     }
-
-
-
 }

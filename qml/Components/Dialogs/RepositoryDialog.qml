@@ -51,22 +51,22 @@ Dialog {
                     checked: repository.Enabled
                     onCheckedChanged: repository.Enabled = checked
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     label: qsTr("Название")
                     text: repository.DisplayName
                     onTextChanged: repository.DisplayName = text
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     label: qsTr("Url")
                     text: repository.Url
                     onTextChanged: repository.Url = text
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     label: qsTr("Логин")
                     text: repository.Username
                     onTextChanged: repository.Username = text
                 }
-                LabelFieldRow {
+                LabelFieldDialog {
                     label: qsTr("Пароль")
                     text: repository.Password
                     onTextChanged: repository.Password = text

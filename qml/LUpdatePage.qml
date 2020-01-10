@@ -58,10 +58,10 @@ Item {
                 spacing: 20
                 model: _lupdate.files
                 interactive: false
-                delegate:  LabelFieldRow {
+                delegate:  LabelFieldDialog {
                     label: qsTr("Переводимые файлы")
                     text: file
-                    mode: LabelFieldRow.Mode.Files
+                    mode: LabelFieldDialog.Mode.Files
                     filterFile: ["Qt Files (*.pro *.qml *.ui *.c *.c++ *.cc *.cpp *.cxx *.ch *.h *.h++ *.hh *.hpp *.hxx)", qsTr("Все файлы (*)")]
                     onFieldFocusChanged: {
                         if(!fieldFocus && text == "" && index !== ListView.view.count-1) {
@@ -79,7 +79,7 @@ Item {
                     }
                 }
             }
-            LabelFieldRow {
+            LabelFieldDialog {
                 id: _tsFileName
                 label: qsTr("Имя файла перевода")
                 isPopupButton: false
@@ -87,10 +87,10 @@ Item {
                    _lupdate.setTsFileName(text)
                 }
             }
-            LabelFieldRow {
+            LabelFieldDialog {
                 id: _updateFiles
                 label: qsTr("Файлы обновления (не обязательно)")
-                mode: LabelFieldRow.Mode.Files
+                mode: LabelFieldDialog.Mode.Files
                 enabled: _tsFileName.text.length == 0
                 filterFile: qsTr("Файлы перевода (*.ts)")
                 onTextChanged: {
@@ -98,9 +98,9 @@ Item {
                 }
             }
 
-            LabelFieldRow {
+            LabelFieldDialog {
                 label: qsTr("Языки")
-                mode: LabelFieldRow.Mode.Flags
+                mode: LabelFieldDialog.Mode.Flags
                 flagsModel: Data.modelLanguages
                 enabled: _updateFiles.text.length == 0
                 onTextChanged: {

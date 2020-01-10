@@ -22,10 +22,11 @@
         <file>qml/Components/Elements/CheckBoxRow.qml</file>
         <file>qml/Components/Elements/FlagsDialog.qml</file>
         <file>qml/Components/Elements/LabelCheckBox.qml</file>
-        <file>qml/Components/Elements/LabelFieldRow.qml</file>
+        <file>qml/Components/Elements/LabelFieldDialog.qml</file>
         <file>qml/Components/Elements/LoadingAnimation.qml</file>
         <file>qml/Components/Elements/qmldir</file>
         <file>qml/BasicPage.qml</file>
         <file>qml/BuildPage.qml</file>
+        <file>qml/Components/Elements/LabelComboBox.qml</file>
     </qresource>
 </RCC>

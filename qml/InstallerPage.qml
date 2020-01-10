@@ -56,9 +56,9 @@ Item {
             id: _content
             width: parent.width-20
             spacing: 20
-            LabelFieldRow {
+            LabelFieldDialog {
                 label: qsTr("Папка установки")
-                mode: LabelFieldRow.Mode.Folder
+                mode: LabelFieldDialog.Mode.Folder
                 onTextChanged: _finstaller.setPath(text)
             }
             CustomButton {

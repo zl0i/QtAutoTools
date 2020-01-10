@@ -8,15 +8,14 @@
 class AbstractTool : public QObject
 {
     Q_OBJECT
+
 public:
     AbstractTool(QObject *parent = nullptr);
 
     Q_INVOKABLE void kill();
 
 protected:
-
     QProcess *process;
-
 
 signals:
     void started();

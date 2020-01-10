@@ -216,9 +216,9 @@
     </message>
 </context>
 <context>
-    <name>LabelFieldRow</name>
+    <name>LabelFieldDialog</name>
     <message>
-        <location filename="../../qml/Components/LabelFieldRow.qml" line="26"/>
+        <location filename="../../qml/Components/LabelFieldDialog.qml" line="26"/>
         <source>Все файлы (*)</source>
         <translation>All files (*)</translation>
     </message>

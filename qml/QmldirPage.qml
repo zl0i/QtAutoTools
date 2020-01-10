@@ -57,7 +57,7 @@ Item {
             id: _content
             width: parent.width
             spacing: 20
-            LabelFieldRow {
+            LabelFieldDialog {
                 label: qsTr("Папка с компонентами")
                 onAccess:  {
                     _qmldir.setPath(text)

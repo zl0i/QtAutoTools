@@ -61,9 +61,12 @@ ApplicationWindow {
             }
         })
         _list.currentIndex = 0
+
+
         _loader.source = Qt.binding(function() {
-            return _toolModel.get(_list.currentIndex).component
+            return  _list.currentIndex != 0 ? _toolModel.get(_list.currentIndex).component : _toolModel.get(_list.currentIndex).component
         })
+
     }
 
     ListModel {
@@ -79,7 +82,7 @@ ApplicationWindow {
             id: _list
             width: 200; height: parent.height
             interactive: false
-            model: _toolModel
+            model: _toolModel            
             delegate: Rectangle {
                 width: 200; height: 45
                 color: "transparent"
@@ -125,7 +128,10 @@ ApplicationWindow {
                     width: parent.width; height: parent.height
                     hoverEnabled: true
                     property bool hovered: false
-                    onClicked:  _list.currentIndex = index
+                    onClicked:  {
+                        //_loader.source = component
+                        _list.currentIndex = index
+                    }
                     onEntered: hovered = true
                     onExited: hovered = false
                 }
@@ -137,6 +143,7 @@ ApplicationWindow {
         id: _loader
         x: 200; y:0
         width: parent.width-x; height: parent.height
+
         asynchronous: true
     }
 }
