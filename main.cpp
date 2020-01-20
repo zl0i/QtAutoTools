@@ -10,7 +10,6 @@
 #include "translationTool/lupdate.h"
 #include "installTool/finstaller.h"
 
-
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
