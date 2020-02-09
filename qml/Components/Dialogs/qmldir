@@ -4,3 +4,4 @@ ConfigDialog 1.0 ConfigDialog.qml
 LibrariesDialog 1.0 LibrariesDialog.qml
 PackageDialog 1.0 PackageDialog.qml
 RepositoryDialog 1.0 RepositoryDialog.qml
+SettingsDialog 1.0 SettingsDialog.qml

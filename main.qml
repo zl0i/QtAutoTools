@@ -3,6 +3,8 @@ import QtQuick.Controls 2.5
 import QtQuick.Window 2.12
 import QtGraphicalEffects 1.0
 
+import Components.Dialogs 1.0
+
 ApplicationWindow {
     id: _window
     visible: true
@@ -17,6 +19,10 @@ ApplicationWindow {
         family: "Roboto"
     }
 
+    SettingsDialog {
+        visible: true
+    }
+
 
     readonly property var toolsModel: [
         {
@@ -26,12 +32,12 @@ ApplicationWindow {
         },
         {
             "title": "windeployqt",
-            "visible": true,
+            "visible": _detector.detectTools.windeployqt,
             "component": "qml/WinDeployQtPage.qml"
         },
         {
             "title": "installer",
-            "visible": true,
+            "visible": _detector.detectTools.qtInstallerFramework,
             "component": "/qml/InstallerPage.qml"
         },
         {
@@ -41,7 +47,7 @@ ApplicationWindow {
         },
         {
             "title": "lupdate",
-            "visible": true,
+            "visible": _detector.detectTools.lupdate,
             "component": "/qml/LUpdatePage.qml"
         },
         {

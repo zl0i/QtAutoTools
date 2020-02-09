@@ -84,7 +84,7 @@ QFile* Worker::prepareBatFile(bool addQtPath) {
     QFile *file = new QFile("temp.bat");
     if(file->open(QIODevice::ReadWrite)) {
         if(addQtPath) {
-            QString str = "set PATH="+ Worker::getInstance()->compilerPath() + "/bin;" + Worker::getInstance()->compilerToolPath() + "/bin;%PATH%\n";
+            QString str = "set PATH="+ Worker::getInstance()->compilerPath() + "/bin;%PATH%\n"; //+ Worker::getInstance()->compilerToolPath() + "/bin;%PATH%\n";
             file->write(str.toLocal8Bit());
         }
         return file;

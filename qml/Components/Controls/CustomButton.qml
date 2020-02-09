@@ -2,29 +2,36 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 
-Button {
+MouseArea {
     id: _button
 
+    width: _label.contentWidth+40
     height: 40
+
+    property string text: ""
     property int radius: 5
 
-    contentItem: Label {
-        width: parent.width; height: parent.height
+    property color disableColor: "#C4C4C4"
+    property color disableTextColor: "#FFFFFF"
+
+    property color pressedColor: "#2C71B1"
+    property color releasedColor: "#52ABFF"
+
+    property color pressedTextColor: "#FFFFFF"
+    property color releaseTextColor: "#FFFFFF"
+
+
+    Rectangle {
+        width: _button.width; height: _button.height; radius: _button.radius
+        color: _button.enabled ? (_button.down ? pressedColor : releasedColor) : disableColor
+    }
+
+    Label {
+        id: _label
+        width: _button.width; height: _button.height
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        color: "#FFFFFF"
-        text: parent.text
+        color: _button.enabled ? (_button.down ? pressedTextColor : releaseTextColor) : disableTextColor
+        text: _button.text
     }
-
-    background: Rectangle {
-        width: parent.width; height: parent.height; radius: parent.radius
-        color: parent.down ? "#2C71B1" : "#52ABFF"
-        /*layer.enabled: true
-        layer.effect: DropShadow {
-            radius: 8
-            samples: 16
-            color: "#80000000"
-        }*/
-    }
-
 }

@@ -21,6 +21,8 @@ SOURCES += \
         installTool/installerhelper.cpp \
         main.cpp \
         qmldirTool/qmldir.cpp \
+        toolsdetector.cpp \
+        toolssaver.cpp \
         translationTool/lupdate.cpp \
         worker.cpp
 
@@ -53,6 +55,8 @@ HEADERS += \
     installTool/finstaller.h \
     installTool/installerhelper.h \
     qmldirTool//qmldir.h \
+    toolsdetector.h \
+    toolssaver.h \
     translationTool/lupdate.h \
     worker.h
 

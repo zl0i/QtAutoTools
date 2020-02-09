@@ -17,6 +17,8 @@ public:
 protected:
     QProcess *process;
 
+    QFile* prepareBatFile(bool);
+
 signals:
     void started();
     void newOutputData(QByteArray line);

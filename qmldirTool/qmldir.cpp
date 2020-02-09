@@ -24,7 +24,8 @@ QmlDir::~QmlDir()
 }
 
 
-void QmlDir::setPath(QString path) {
+void QmlDir::setPath(QString path)
+{
     this->path = path;
 
     filesModel->clear();
@@ -90,7 +91,8 @@ void QmlDir::setVersionByIndex(int row, QString version)
 }
 
 
-void QmlDir::createModule() {
+void QmlDir::createModule()
+{
     emit started();
 
     emit newOutputData("Create qmldir file \r\n");
@@ -106,7 +108,6 @@ void QmlDir::createModule() {
             QModelIndex index = filesModel->index(i, 0);
             stream << buildString(index);
         }
-
 
         if(supportDesigner)
             stream << "designersupported\n";

@@ -9,23 +9,25 @@
 #include "qmldirTool/qmldir.h"
 #include "translationTool/lupdate.h"
 #include "installTool/finstaller.h"
+#include "toolsdetector.h"
+#include "toolssaver.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QCoreApplication::setOrganizationName("zloi");
-    QCoreApplication::setApplicationName("QtAutoTools");   
+    QCoreApplication::setApplicationName("QtAutoTools");
 
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/icon/icon.png"));
+    ToolsDetector detector;
 
 
     QQmlApplicationEngine engine;
     QObject::connect(Worker::getInstance(), &Worker::retranslate, &engine, &QQmlEngine::retranslate);
-
     engine.addImportPath(":/qml");
-
+    engine.rootContext()->setContextProperty("_detector", &detector);
     engine.rootContext()->setContextProperty("_worker", Worker::getInstance());
 
     qmlRegisterType<Builder>("AutoTools", 1, 0, "Builder");

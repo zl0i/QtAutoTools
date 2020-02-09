@@ -28,5 +28,6 @@
         <file>qml/BasicPage.qml</file>
         <file>qml/BuildPage.qml</file>
         <file>qml/Components/Elements/LabelComboBox.qml</file>
+        <file>qml/Components/Dialogs/SettingsDialog.qml</file>
     </qresource>
 </RCC>
