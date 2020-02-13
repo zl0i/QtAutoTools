@@ -5,9 +5,11 @@
 #include <QDebug>
 #include <QFile>
 #include <QProcess>
+#include <QJsonObject>
+#include "abstracttool.h"
 #include "worker.h"
 
-class Windeployqt : public QProcess
+class Windeployqt : public AbstractTool
 {
     Q_OBJECT
 public:
@@ -22,7 +24,8 @@ public:
     Q_INVOKABLE void setFlags(QString);
     Q_INVOKABLE void setLibraries(QString);
 
-    Q_INVOKABLE void deploy();
+    void configFromJson(QJsonObject) override;
+    void run() override;
 
 
 private:
@@ -38,13 +41,11 @@ private:
 
 signals:  
 
-    void newOutputData(QByteArray line);
-    void newErrorData(QByteArray line);
+
 
 
 public slots:
-    void slotFinished(int);
-    void slotReadChanel();
+
 
 };
 

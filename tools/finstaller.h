@@ -9,10 +9,11 @@
 #include <QJsonArray>
 #include <QDebug>
 #include <QThread>
+#include "abstracttool.h"
 #include "installerhelper.h"
 #include "worker.h"
 
-class FInstaller : public QObject
+class FInstaller : public AbstractTool
 {
     Q_OBJECT
 public:
@@ -27,7 +28,8 @@ public:
     Q_INVOKABLE void setCreateOnlineInstaller(bool);
     Q_INVOKABLE void setCreateRepo(bool);
 
-    Q_INVOKABLE void kill();
+    void configFromJson(QJsonObject) override;
+    void run() override;
 
 
 private:   
@@ -45,18 +47,6 @@ private:
     bool isCreateRepository = false;
 
 
-signals:
-    void started();
-    void newOutputData(QByteArray line);
-    void newErrorData(QByteArray line);
-    void finished(int exitCode, int exitStatus);
-
-private slots:
-    void createInstallers();
-
-public slots:
-    void slotFinished(int);
-    void slotReadChanel();
 };
 
 #endif // FINSTALLER_H

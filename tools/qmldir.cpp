@@ -1,6 +1,6 @@
 #include "./qmldir.h"
 
-QmlDir::QmlDir(QObject *parent) : QObject(parent)
+QmlDir::QmlDir(QObject *parent) : AbstractTool(parent)
 {
 
     QHash<int, QByteArray> hash;
@@ -11,11 +11,6 @@ QmlDir::QmlDir(QObject *parent) : QObject(parent)
     hash.insert(QmlDir::Version, "version");
     hash.insert(QmlDir::File, "file");
     filesModel->setItemRoleNames(hash);
-
-    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            this, &QmlDir::processFinished);
-    process->setReadChannel(QProcess::StandardError);
-    connect(process, &QProcess::readyRead, this, &QmlDir::readChanel);
 }
 
 QmlDir::~QmlDir()
@@ -142,10 +137,16 @@ void QmlDir::createModule()
     }
 }
 
-void QmlDir::kill()
+void QmlDir::configFromJson(QJsonObject)
 {
-    process->kill();
+
 }
+
+void QmlDir::run()
+{
+
+}
+
 
 QString QmlDir::getFileName(QString file)
 {
@@ -206,7 +207,7 @@ QString QmlDir::getMinimumVersion()
     return QString::number(major) + "." + QString::number(minor);
 }
 
-void QmlDir::processFinished(int exitCode, QProcess::ExitStatus status)
+void QmlDir::slotFinished(int exitCode)
 {
     Worker::removeBatFile();
     if(exitCode == 0) {
@@ -221,13 +222,7 @@ void QmlDir::processFinished(int exitCode, QProcess::ExitStatus status)
         }        
         emit newOutputData("Ready!\r\n");
     }
-    emit finished(exitCode, status);
+    emit finished(process->exitCode(), process->exitStatus());
 }
 
-void QmlDir::readChanel()
-{
-    process->setReadChannel(QProcess::StandardError);
-    QByteArray error = process->readAll();
-    if(!error.isEmpty())
-        emit newErrorData(error);
-}
+

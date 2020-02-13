@@ -10,10 +10,12 @@
 #include <QHash>
 #include <QJsonObject>
 #include <QProcess>
+#include <QJsonObject>
+#include "abstracttool.h"
 #include "worker.h"
 
 
-class QmlDir : public QObject
+class QmlDir : public AbstractTool
 {
     Q_OBJECT
     Q_PROPERTY(QStandardItemModel *files READ files NOTIFY filesChanged)
@@ -32,11 +34,10 @@ public:
 
     QStandardItemModel *files() { return filesModel; }
 
-
     Q_INVOKABLE void createModule();
 
-    Q_INVOKABLE void kill();
-
+    void configFromJson(QJsonObject) override;
+    void run() override;
 
 private:    
     typedef enum {
@@ -67,16 +68,13 @@ private:
     QString getMinimumVersion();
 
 signals:
-    void started();
-    void finished(int exitCode, int status);
-    void newOutputData(QByteArray line);
-    void newErrorData(QByteArray line);
-
     void filesChanged();
 
-private slots:
-    void processFinished(int, QProcess::ExitStatus);
-    void readChanel();
+public slots:
+    void slotFinished(int) override;
+
+
+
 };
 
 #endif // QMLDIR_H

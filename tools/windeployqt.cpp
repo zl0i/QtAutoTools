@@ -1,24 +1,10 @@
 #include "./windeployqt.h"
 
-Windeployqt::Windeployqt(QObject *parent) : QProcess(parent)
+Windeployqt::Windeployqt(QObject *parent) : AbstractTool(parent)
 {   
-    connect(this, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            this, QOverload<int>::of(&Windeployqt::slotFinished));
-    connect(this, &QProcess::readyRead, this, &Windeployqt::slotReadChanel);
-}
-
-void Windeployqt::slotReadChanel() {    
-    setReadChannel(QProcess::StandardError);
-    QByteArray error = readAll();   
-    if(!error.isEmpty())
-        emit newErrorData(error);
-
-    setReadChannel(QProcess::StandardOutput);
-    QByteArray output = readAll();    
-    if(!output.isEmpty())
-        emit newOutputData(output);
 
 }
+
 
 void Windeployqt::setExeFile(QString path)
 {
@@ -60,11 +46,13 @@ void Windeployqt::setLibraries(QString libraries)
     this->libraries = libraries;
 }
 
-void Windeployqt::deploy()
-{   
-    if(!QFile(exeFile).exists())
-        return;    
 
+void Windeployqt::configFromJson(QJsonObject)
+{
+    qDebug() << "tut";
+    if(!QFile(exeFile).exists())
+        return;
+qDebug() << "tut2";
     QStringList arguments;
     if(!dir.isEmpty()) {
         arguments.append("--dir " + dir);
@@ -90,22 +78,17 @@ void Windeployqt::deploy()
     if(libraries.length() != 0) {
         arguments.append(libraries);
     }
-    QFile *file = Worker::prepareBatFile(true);
+    QFile *file = prepareBatFile(true);
     QString str = Worker::getInstance()->compilerPath() + "/bin/windeployqt " + arguments.join(" ");
     file->write(str.toLocal8Bit());
     file->close();
     file->deleteLater();
-    start(file->fileName());
+    process->start(file->fileName());
 }
 
-void Windeployqt::slotFinished(int code) {
-    if(code > 0) {
-        emit newErrorData(readAllStandardError());
-    } else {
-        if(!dir.isEmpty()) {
-            QString nameExeFile = exeFile.split("/").last();
-            QFile::copy(exeFile, dir+"/" + nameExeFile);
-        }
-    }
-    Worker::removeBatFile();
+void Windeployqt::run()
+{
+
 }
+
+

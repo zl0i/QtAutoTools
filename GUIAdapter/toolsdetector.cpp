@@ -43,17 +43,17 @@ void ToolsDetector::detectProfile(QString versionDir)
 
 void ToolsDetector::setProfile(QString path)
 {
-    ToolsSaver::getInstance()->setProfilePath(path);
+    //ToolsSaver::getInstance()->setProfilePath(path);
 }
 
 void ToolsDetector::setCompiler(QString path)
 {
-    ToolsSaver::getInstance()->setCompilerPath(path);
+    //ToolsSaver::getInstance()->setCompilerPath(path);
 }
 
 void ToolsDetector::setInstallerFramework(QString path)
 {
-    ToolsSaver::getInstance()->setInstallerFramework(path);
+   // ToolsSaver::getInstance()->setInstallerFramework(path);
 }
 
 void ToolsDetector::detectCompiler()

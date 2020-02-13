@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QDir>
 #include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include "abstracttool.h"
 #include "worker.h"
 
@@ -25,7 +27,8 @@ public:
     Q_INVOKABLE void setMkSpec(QString);
     Q_INVOKABLE void setConfigure(QString);
 
-    Q_INVOKABLE void build();
+    void configFromJson(QJsonObject) override;
+    void run() override;
 
 private:
     QStringList m_specList;

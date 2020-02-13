@@ -1,41 +1,14 @@
 #include "./finstaller.h"
 
-FInstaller::FInstaller(QObject *parent) : QObject(parent)
+FInstaller::FInstaller(QObject *parent) : AbstractTool(parent)
 {
-    thread = new QThread(this);
-    installerHelper = new InstallerHelper();    
+    /*thread = new QThread(this);
+    installerHelper = new InstallerHelper();
     connect(thread, &QThread::started, installerHelper, &InstallerHelper::run);
     connect(installerHelper, &InstallerHelper::finished, this, &FInstaller::createInstallers);
-    installerHelper->moveToThread(thread);
-
-    process = new QProcess(this);
-    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            this, QOverload<int>::of(&FInstaller::slotFinished));
-    connect(process, &QProcess::readyRead, this, &FInstaller::slotReadChanel);
+    installerHelper->moveToThread(thread);*/
 }
 
-void FInstaller::slotReadChanel()
-{
-    process->setReadChannel(QProcess::StandardError);
-    QByteArray error = process->readAll();
-    if(!error.isEmpty())
-        emit newErrorData(error);
-
-    process->setReadChannel(QProcess::StandardOutput);
-    QByteArray output = process->readAll();
-    if(!output.isEmpty())
-        emit newOutputData(output);
-
-}
-
-void FInstaller::slotFinished(int code) {
-    if(code > 0) {
-        emit newErrorData(process->readAllStandardError());
-    }
-    Worker::removeBatFile();
-    emit newOutputData("Done!\r\n");
-    emit finished(process->exitCode(), process->exitStatus());
-}
 
 void FInstaller::setPath(QString path)
 {
@@ -78,12 +51,11 @@ void FInstaller::setCreateRepo(bool b)
     isCreateRepository = b;
 }
 
-void FInstaller::kill()
-{
-    process->kill();
+void FInstaller::configFromJson(QJsonObject) {
+
 }
 
-void FInstaller::createInstallers()
+void FInstaller::run()
 {
     emit newOutputData("Create installers\r\n");
     QFile *batFile = Worker::prepareBatFile(true);

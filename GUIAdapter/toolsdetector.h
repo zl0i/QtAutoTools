@@ -7,7 +7,7 @@
 #include <QDir>
 #include <QProcess>
 #include <QJsonObject>
-#include "toolssaver.h"
+
 
 class ToolsDetector : public QObject
 {

@@ -11,33 +11,11 @@ Builder::Builder(QObject *parent) : AbstractTool(parent)
     emit specListChanged();
 }
 
-void Builder::setProFile(QString path)
-{
-    proFile = path;
+void Builder::configFromJson(QJsonObject) {
+
 }
 
-void Builder::setSystemBuild(QString system)
-{
-    systemBuild = system;
-}
-
-void Builder::setBuildDir(QString path)
-{
-    buildDir = path;
-}
-
-void Builder::setMkSpec(QString spec)
-{
-    mkspec = spec;
-}
-
-void Builder::setConfigure(QString configure)
-{
-    addConfigure = configure;
-}
-
-void Builder::build()
-{
+void Builder::run() {
     QStringList arguments;
     if(proFile.isEmpty() || buildDir.isEmpty())
         return;
@@ -70,5 +48,30 @@ void Builder::build()
         bat->deleteLater();
         process->start(bat->fileName());
     }
+}
+
+void Builder::setProFile(QString path)
+{
+    proFile = path;
+}
+
+void Builder::setSystemBuild(QString system)
+{
+    systemBuild = system;
+}
+
+void Builder::setBuildDir(QString path)
+{
+    buildDir = path;
+}
+
+void Builder::setMkSpec(QString spec)
+{
+    mkspec = spec;
+}
+
+void Builder::setConfigure(QString configure)
+{
+    addConfigure = configure;
 }
 

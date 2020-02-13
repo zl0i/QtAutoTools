@@ -1,6 +1,6 @@
 #include "./lupdate.h"
 
-Lupdate::Lupdate(QObject *parent) : QProcess(parent)
+Lupdate::Lupdate(QObject *parent) : AbstractTool(parent)
 {
     QHash<int, QByteArray> hash;
     hash.insert(Qt::UserRole+1, "file");
@@ -8,24 +8,8 @@ Lupdate::Lupdate(QObject *parent) : QProcess(parent)
     filesModel->insertColumn(0);
     filesModel->insertRow(0);
     filesModel->setData(filesModel->index(0, 0), "", Qt::UserRole+1);
-
-    connect(this, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            this, QOverload<int>::of(&Lupdate::slotFinished));
-    connect(this, &QProcess::readyRead, this, &Lupdate::slotReadChanel);
 }
 
-void Lupdate::slotReadChanel() {
-    setReadChannel(QProcess::StandardError);
-    QByteArray error = readAll();
-    if(!error.isEmpty())
-        emit newErrorData(error);
-
-    setReadChannel(QProcess::StandardOutput);
-    QByteArray output = readAll();
-    if(!output.isEmpty())
-        emit newOutputData(output);
-
-}
 
 void Lupdate::removeFile(int row)
 {
@@ -73,8 +57,21 @@ QString Lupdate::getStringFileTs(QString url) {
     return  tsFile.join(" ");
 }
 
-void Lupdate::createTs() {    
+void Lupdate::runLinguist() {
+    if(!translatorList.isEmpty()) {
+        process->startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist " + translatorList);
+    } else  {
+        process->startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist");
+    }
+}
 
+void Lupdate::configFromJson(QJsonObject)
+{
+
+}
+
+void Lupdate::run()
+{
     if(filesModel->rowCount()-1 == 0)
         return;
 
@@ -119,23 +116,8 @@ void Lupdate::createTs() {
         file->write(program.toLocal8Bit());
         file->close();
         file->deleteLater();
-        start("temp.bat");
+        process->start("temp.bat");
     }
 }
 
-void Lupdate::runLinguist() {
-    if(!translatorList.isEmpty()) {
-        startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist " + translatorList);
-    } else  {
-        startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist");
-    }
-}
 
-void Lupdate::slotFinished(int code) {
-    if(code > 0) {
-        emit newErrorData(readAllStandardError());
-    } else {
-        emit newOutputData("Done!");
-    }
-    Worker::removeBatFile();
-}

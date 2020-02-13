@@ -8,9 +8,11 @@
 #include <QFile>
 #include <QProcess>
 #include <QStandardItemModel>
+#include <QJsonObject>
+#include "abstracttool.h"
 
 
-class Lupdate : public QProcess
+class Lupdate : public AbstractTool
 {
     Q_OBJECT
     Q_PROPERTY(QStandardItemModel *files READ files NOTIFY filesChanged)
@@ -26,8 +28,10 @@ public:
     Q_INVOKABLE void setUpdateFile(QString);
     Q_INVOKABLE void setTsFileName(QString);
 
-    Q_INVOKABLE void createTs();
     Q_INVOKABLE void runLinguist();
+
+    void configFromJson(QJsonObject) override;
+    void run() override;
 
     QStandardItemModel *files() { return filesModel; }
 
@@ -45,14 +49,9 @@ private:
 
 
 signals:
-    void newOutputData(QByteArray line);
-    void newErrorData(QByteArray line);
 
     void filesChanged();
 
-public slots:    
-    void slotFinished(int);
-    void slotReadChanel();
 
 };
 

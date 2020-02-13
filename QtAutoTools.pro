@@ -15,15 +15,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         abstracttool.cpp \
-        buildTool/builder.cpp \
-        deployTool/windeployqt.cpp \
-        installTool/finstaller.cpp \
-        installTool/installerhelper.cpp \
+        taskmanager.cpp \
+        tools/builder.cpp \
+        tools/windeployqt.cpp \
+        tools/finstaller.cpp \
+        tools/installerhelper.cpp \
         main.cpp \
-        qmldirTool/qmldir.cpp \
-        toolsdetector.cpp \
-        toolssaver.cpp \
-        translationTool/lupdate.cpp \
+        tools/qmldir.cpp \
+        GUIAdapter\toolsdetector.cpp \
+        tools/lupdate.cpp \
+        toolsfabric.cpp \
+        toolworker.cpp \
         worker.cpp
 
 TRANSLATIONS = translation/ts_files/QtAutoTools_en.ts
@@ -49,15 +51,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    IAdapter.h \
     abstracttool.h \
-    buildTool/builder.h \
-    deployTool//windeployqt.h \
-    installTool/finstaller.h \
-    installTool/installerhelper.h \
-    qmldirTool//qmldir.h \
-    toolsdetector.h \
-    toolssaver.h \
-    translationTool/lupdate.h \
+    taskmanager.h \
+    tools/builder.h \
+    tools/windeployqt.h \
+    tools/finstaller.h \
+    tools/installerhelper.h \
+    tools/qmldir.h \
+    GUIAdapter/toolsdetector.h \
+    tools/lupdate.h \
+    toolsfabric.h \
+    toolworker.h \
     worker.h
 
 DISTFILES +=
