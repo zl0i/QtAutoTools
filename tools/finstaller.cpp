@@ -58,7 +58,7 @@ void FInstaller::configFromJson(QJsonObject) {
 void FInstaller::run()
 {
     emit newOutputData("Create installers\r\n");
-    QFile *batFile = Worker::prepareBatFile(true);
+    QFile *batFile = prepareBatFile(true);
     QStringList arguments;
     if(isCreateMixedInstaller) {
         arguments.clear();

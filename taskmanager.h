@@ -4,6 +4,7 @@
 #include <QObject>
 #include "toolsfabric.h"
 #include "toolworker.h"
+#include "IAdapter.h"
 
 class TaskManager : public QObject
 {
@@ -14,7 +15,8 @@ public:
 
 
 private:
-    ToolWorker *worker;
+    //ToolWorker *worker;
+    //QList<ToolWorker*> listToolWorker;
 
 signals:
     void taskStarted();
@@ -23,7 +25,7 @@ signals:
     void taskFinished();
 
 public slots:
-    void executeTask(QJsonArray);
+    void executeTask(QJsonObject);
 
 
 

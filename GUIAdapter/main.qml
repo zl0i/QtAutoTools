@@ -2,8 +2,10 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Window 2.12
 import QtGraphicalEffects 1.0
+import QtQml.Models 2.3
 
 import Components.Dialogs 1.0
+import "qrc:/GUIAdapter/qml"
 
 ApplicationWindow {
     id: _window
@@ -23,61 +25,63 @@ ApplicationWindow {
         visible: true
     }
 
+    Connections {
+        target: _guiAdapter
+        onStarted: _busyDialog.open()
+        onFinished: _busyDialog.finished(exitCode)
+        onNewOutputData: _busyDialog.addOutput(line)
+        onNewErrorData: _busyDialog.addError(line)
+    }
 
-    readonly property var toolsModel: [
-        {
-            "title": "builder",
-            "visible": true,
-            "component": "qml/BuildPage.qml"
-        },
-        {
-            "title": "windeployqt",
-            "visible": _detector.detectTools.windeployqt,
-            "component": "qml/WinDeployQtPage.qml"
-        },
-        {
-            "title": "installer",
-            "visible": _detector.detectTools.qtInstallerFramework,
-            "component": "/qml/InstallerPage.qml"
-        },
-        {
-            "title": "qmldir",
-            "visible": true,
-            "component": "/qml/QmldirPage.qml"
-        },
-        {
-            "title": "lupdate",
-            "visible": _detector.detectTools.lupdate,
-            "component": "/qml/LUpdatePage.qml"
-        },
-        {
-            "title": qsTr("Настройки"),
-            "visible": true,
-            "component": "/qml/Settings.qml"
+
+
+    BusyDialog {
+        id: _busyDialog
+        onKill: {
+            _guiAdapter.kill();
         }
-    ]
-
-    Component.onCompleted: {
-        toolsModel.forEach(function (item) {
-            if(item.visible) {
-                _toolModel.append({
-                                      "title": item.title,
-                                      "component": item.component
-                                  })
-            }
-        })
-        _list.currentIndex = 0
-
-
-        _loader.source = Qt.binding(function() {
-            return  _list.currentIndex != 0 ? _toolModel.get(_list.currentIndex).component : _toolModel.get(_list.currentIndex).component
-        })
-
+        onApplied: {
+            close()
+        }
     }
 
-    ListModel {
+
+
+
+
+
+    ObjectModel {
+        id: _objTool
+        BuildPage {
+            width: ListView.view.width
+            height: ListView.view.height
+            onRun: _guiAdapter.executeTask(task)
+
+        }
+        WinDeployQtPage {
+            width: ListView.view.width
+            height: ListView.view.height
+        }
+        QmldirPage {
+            width: ListView.view.width
+            height: ListView.view.height
+        }
+        LUpdatePage {
+            width: ListView.view.width
+            height: ListView.view.height
+        }
+        Settings {
+            width: ListView.view.width
+            height: ListView.view.height
+        }
+    }
+
+
+
+    /*ListModel {
         id: _toolModel
-    }
+
+    }*/
 
 
     Rectangle {
@@ -88,7 +92,8 @@ ApplicationWindow {
             id: _list
             width: 200; height: parent.height
             interactive: false
-            model: _toolModel            
+            currentIndex: 0
+            model: ["1", "2", "3", "4", "5"]
             delegate: Rectangle {
                 width: 200; height: 45
                 color: "transparent"
@@ -135,7 +140,7 @@ ApplicationWindow {
                     hoverEnabled: true
                     property bool hovered: false
                     onClicked:  {
-                        //_loader.source = component
+                        _toolView.positionViewAtIndex(index, ListView.Center)
                         _list.currentIndex = index
                     }
                     onEntered: hovered = true
@@ -145,11 +150,14 @@ ApplicationWindow {
         }
     }
 
-    Loader {
-        id: _loader
-        x: 200; y:0
-        width: parent.width-x; height: parent.height
+  ListView {
+       id: _toolView
+       x: 200; y:0
+       width: parent.width-x; height: parent.height
+       snapMode: ListView.SnapOneItem
+       interactive: false
+       model: _objTool
+   }
 
-        asynchronous: true
-    }
+
 }

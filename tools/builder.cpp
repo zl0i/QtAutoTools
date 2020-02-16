@@ -7,8 +7,10 @@ Builder::Builder(QObject *parent) : AbstractTool(parent)
 
     QDir dir(Worker::getInstance()->compilerPath() + "/mkspecs");
     m_specList = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    mkspec = m_specList.at(0);
-    emit specListChanged();
+    if(!m_specList.isEmpty()) {
+        mkspec = m_specList.at(0);
+        emit specListChanged();
+    }
 }
 
 void Builder::configFromJson(QJsonObject) {
@@ -33,7 +35,7 @@ void Builder::run() {
             arguments.append("\"CONFIG+=" + config.at(i) + "\"");
         }
 
-        QFile *bat = Worker::prepareBatFile(true);
+        QFile *bat = prepareBatFile(true);
 
         QStringList command;
 

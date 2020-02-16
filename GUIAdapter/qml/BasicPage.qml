@@ -10,15 +10,8 @@ Item {
     property string title
     property Item contentItem
     property string buttonText: qsTr("Запустить")
-    property alias busiDialog: _busiDialog
 
     signal run()
-    signal kill()
-
-    BusyDialog {
-        id: _busiDialog
-        onKill: _page.kill()
-    }
 
     Label {
         x: 20; y: 20
@@ -42,8 +35,7 @@ Item {
             id: _button
             anchors { top: _content.bottom; topMargin: 20}
             text: _page.buttonText
-            onClicked: {
-                _busiDialog.reset()
+            onClicked: {                
                 _page.run()
             }
         }

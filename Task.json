@@ -1,0 +1,19 @@
+{
+    "name": "task1",
+    "tasks": [
+        {
+            "tool": "console"
+        },
+        {
+            "tool": "builder",
+            "proFile": "G:\Projects\QtAutoTools\testBuild",
+            "systemBuild": "qmake",
+            "mkspec": "win32",
+            "buildDir": "G:\Projects\QtAutoTools\testBuild",
+            "configure": ""
+        },
+        {
+            "tool": "windeployqt"
+        }
+    ]
+}

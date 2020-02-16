@@ -3,7 +3,6 @@ import QtQuick.Controls 2.5
 import Qt.labs.platform 1.1
 import QtGraphicalEffects 1.0
 
-import AutoTools 1.0
 
 import Components.Elements 1.0
 import Components.Controls 1.0
@@ -16,13 +15,13 @@ BasicPage {
     title: "Windeployqt"
      buttonText: qsTr("Развернуть")
 
-    Windeployqt {
+    /*Windeployqt {
         id: _windeployqt
         onStarted: busiDialog.open()
         onFinished: busiDialog.finished(exitCode)
         onNewOutputData: busiDialog.addOutput(line)
         onNewErrorData: busiDialog.addError(line)
-    }
+    }*/
 
     contentItem: Column {
         spacing: 20
@@ -95,6 +94,6 @@ BasicPage {
     }
 
     onRun: _windeployqt.deploy()
-    onKill: _windeployqt.kill()
+
 
 }

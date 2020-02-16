@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/GUIAdapter">
         <file>main.qml</file>
         <file>qml/WinDeployQtPage.qml</file>
         <file>qml/InstallerPage.qml</file>

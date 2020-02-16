@@ -14,6 +14,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        BaseAdapter/baseadapter.cpp \
+        BaseAdapter/scriptstorage.cpp \
+        GUIAdapter/guiadapter.cpp \
+        GUIAdapter/guitranslator.cpp \
         abstracttool.cpp \
         taskmanager.cpp \
         tools/builder.cpp \
@@ -22,25 +26,25 @@ SOURCES += \
         tools/installerhelper.cpp \
         main.cpp \
         tools/qmldir.cpp \
-        GUIAdapter\toolsdetector.cpp \
+        BaseAdapter/toolsdetector.cpp \
         tools/lupdate.cpp \
         toolsfabric.cpp \
         toolworker.cpp \
         worker.cpp
 
-TRANSLATIONS = translation/ts_files/QtAutoTools_en.ts
+TRANSLATIONS = GUIAdapter/translation/ts_files/QtAutoTools_en.ts
 
 
-RESOURCES += qml.qrc \
-    icon.qrc \
-    translation.qrc
+RESOURCES += GUIAdapter/qml.qrc \
+    GUIAdapter/icon.qrc \
+    GUIAdapter/translation.qrc
 
 #DESTDIR = ../Deploy
 #QMAKE_POST_LINK += $$(QTDIR)/bin/windeployqt --qmldir $$PWD $$DESTDIR
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH = $$PWD/qml
-QML2_IMPORT_PATH = $$PWD/qml
+QML_IMPORT_PATH = $$PWD/GUIAdapter/qml
+QML2_IMPORT_PATH = $$PWD/GUIAdapter/qml
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
@@ -51,6 +55,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    BaseAdapter/baseadapter.h \
+    BaseAdapter/scriptstorage.h \
+    GUIAdapter/guiadapter.h \
+    GUIAdapter/guitranslator.h \
     IAdapter.h \
     abstracttool.h \
     taskmanager.h \
@@ -59,10 +67,11 @@ HEADERS += \
     tools/finstaller.h \
     tools/installerhelper.h \
     tools/qmldir.h \
-    GUIAdapter/toolsdetector.h \
+    BaseAdapter/toolsdetector.h \
     tools/lupdate.h \
     toolsfabric.h \
     toolworker.h \
     worker.h
 
-DISTFILES +=
+DISTFILES += \
+    Task.json

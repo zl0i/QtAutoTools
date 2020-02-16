@@ -1,7 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 
-import AutoTools 1.0
 
 import Components.Elements 1.0
 import Components.Controls 1.0
@@ -15,13 +14,13 @@ BasicPage {
     title: "lupdate"
     buttonText: qsTr("Запустить Qt Linguist")
 
-    Lupdate {
+    /*Lupdate {
         id: _lupdate
         onStarted: busiDialog.open()
         onFinished: busiDialog.finished(exitCode)
         onNewOutputData: busiDialog.addOutput(line)
         onNewErrorData: busiDialog.addError(line)
-    }
+    }*/
 
 
     contentItem: Column {
@@ -90,7 +89,7 @@ BasicPage {
         }
     }
     onRun: _lupdate.runLinguist()
-    onKill: _lupdate.kill()
+    //onKill: _lupdate.kill()
 }
 
 

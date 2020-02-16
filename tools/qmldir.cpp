@@ -120,7 +120,7 @@ void QmlDir::createModule()
 
             QString program = Worker::getInstance()->compilerPath() + "/bin/qmlplugindump " + arguments.join(" ");
             emit newOutputData("Starting " + program.toLocal8Bit()+ "\r\n");
-            QFile *batFile = Worker::prepareBatFile(true);
+            QFile *batFile = prepareBatFile(true);
 
             batFile->write(program.toLocal8Bit());
             batFile->close();

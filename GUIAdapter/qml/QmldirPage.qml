@@ -1,7 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 
-import AutoTools 1.0
 
 import Components.Elements 1.0
 import Components.Controls 1.0
@@ -13,13 +12,13 @@ BasicPage {
     title: "QmlDir"
     buttonText: qsTr("Создать")
 
-    QmlDir {
+    /*QmlDir {
         id: _qmldir
         onStarted: busiDialog.open()
         onFinished: busiDialog.finished(exitCode)
         onNewOutputData: busiDialog.addOutput(line)
         onNewErrorData: busiDialog.addError(line)
-    }
+    }*/
 
     contentItem: Column {
         spacing: 20
@@ -92,6 +91,6 @@ BasicPage {
     }
 
     onRun: _qmldir.createModule()
-    onKill: _qmldir.kill()
+    //onKill: _qmldir.kill()
 
 }

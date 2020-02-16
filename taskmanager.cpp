@@ -3,15 +3,22 @@
 TaskManager::TaskManager(QObject *parent) : QObject(parent)
 {
 
-    worker = new ToolWorker;
-
-    connect(worker, &ToolWorker::started, this, &TaskManager::taskStarted);
-    connect(worker, &ToolWorker::finished, this, &TaskManager::taskFinished);
 }
 
-void TaskManager::executeTask(QJsonArray arr)
+void TaskManager::executeTask(QJsonObject obj)
 {
-    worker->setTaskJson(arr)->start();
+    ToolWorker *worker = new ToolWorker;
+    //listToolWorker.append(worker);
+    QJsonArray tasks = obj.value("tasks").toArray();
+
+    IAdapter *adapter = qobject_cast<IAdapter*>(sender());
+
+    connect(worker, &ToolWorker::started, adapter, &IAdapter::started);
+    connect(worker, &ToolWorker::newOutputData, adapter, &IAdapter::newOutputData);
+    connect(worker, &ToolWorker::newErrorData, adapter, &IAdapter::newErrorData);
+    connect(worker, &ToolWorker::finished, adapter, &IAdapter::finished);
+    connect(worker, &ToolWorker::finished, worker, &ToolWorker::deleteLater);
+    worker->setTaskJson(tasks)->start();
 }
 
 

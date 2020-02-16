@@ -3,8 +3,6 @@ import QtQuick.Controls 2.5
 import QtQuick.Dialogs 1.2
 import Qt.labs.platform 1.1
 
-import AutoTools 1.0
-
 import Components.Elements 1.0
 
 Item {

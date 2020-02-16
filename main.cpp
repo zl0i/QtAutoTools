@@ -1,16 +1,8 @@
 #include <QGuiApplication>
-#include <QQmlApplicationEngine>
 #include <QIcon>
 #include <QObject>
-#include <QQmlContext>
-#include "worker.h"
-#include "tools/builder.h"
-#include "tools/windeployqt.h"
-#include "tools/qmldir.h"
-#include "tools/lupdate.h"
-#include "tools/finstaller.h"
-#include "GUIAdapter/toolsdetector.h"
 #include "taskmanager.h"
+#include "GUIAdapter/guiadapter.h"
 
 
 int main(int argc, char *argv[])
@@ -19,29 +11,19 @@ int main(int argc, char *argv[])
 
     QCoreApplication::setOrganizationName("zloi");
     QCoreApplication::setApplicationName("QtAutoTools");
+    //qRegisterMetaType<ToolWorker>();
 
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/icon/icon.png"));
 
-   TaskManager manager;
-
-    //ToolsDetector detector;
+    TaskManager manager;
 
 
-    QQmlApplicationEngine engine;
-    QObject::connect(Worker::getInstance(), &Worker::retranslate, &engine, &QQmlEngine::retranslate);
-    engine.addImportPath(":/qml");
-    //engine.rootContext()->setContextProperty("_detector", &detector);
-    engine.rootContext()->setContextProperty("_worker", Worker::getInstance());
+    GUIAdapter adapter;
+    adapter.start();
 
-    qmlRegisterType<Builder>("AutoTools", 1, 0, "Builder");
-    qmlRegisterType<Windeployqt>("AutoTools", 1, 0, "Windeployqt");
-    qmlRegisterType<QmlDir>("AutoTools", 1, 0, "QmlDir");   
-    qmlRegisterType<Lupdate>("AutoTools", 1, 0, "Lupdate");
-    qmlRegisterType<FInstaller>("AutoTools", 1, 0, "FInstaller");
+    QObject::connect(&adapter, &GUIAdapter::signalExecuteTask, &manager, &TaskManager::executeTask);
 
-    engine.load("qrc:/main.qml");       
-    Worker::getInstance()->setLanguage();
 
     return app.exec();
 }

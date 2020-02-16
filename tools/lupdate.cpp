@@ -111,7 +111,7 @@ void Lupdate::run()
 
     QString program = Worker::getInstance()->compilerPath() + "/bin/lupdate " + arguments.join(" ");
 
-    QFile *file = Worker::prepareBatFile();
+    QFile *file = prepareBatFile(true);
     if(file) {
         file->write(program.toLocal8Bit());
         file->close();
