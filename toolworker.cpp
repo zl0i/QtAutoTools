@@ -29,6 +29,7 @@ ToolWorker::~ToolWorker()
 
 void ToolWorker::run()
 {
+    emit started();
     for(int i = 0; i < taskArray.size(); ++i) {
         QJsonObject task = taskArray.at(i).toObject();
         AbstractTool *tool = ToolsFabric::createTool(task.value("tool").toString());
@@ -37,4 +38,5 @@ void ToolWorker::run()
         tool->run();
         tool->deleteLater();
     }
+    emit finished(0, 0);
 }

@@ -51,10 +51,6 @@ void Worker::clearAllSettings()
     emit compilerToolPathChanged();
 }
 
-void Worker::removeBatFile()
-{
-    QFile::remove("temp.bat");
-}
 
 
 

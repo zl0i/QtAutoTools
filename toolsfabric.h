@@ -2,6 +2,7 @@
 #define TOOLSFABRIC_H
 
 #include <QObject>
+#include <QMetaEnum>
 #include "abstracttool.h"
 #include "tools/builder.h"
 #include "tools/finstaller.h"

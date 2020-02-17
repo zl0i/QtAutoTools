@@ -12,7 +12,7 @@ class GUIAdapter : public BaseAdapter
 {
     Q_OBJECT
 public:
-    explicit GUIAdapter(QObject *parent = nullptr);
+    explicit GUIAdapter(SettingsStorage *storage, QObject *parent = nullptr);
 
     void start();
 

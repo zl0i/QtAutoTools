@@ -209,7 +209,7 @@ QString QmlDir::getMinimumVersion()
 
 void QmlDir::slotFinished(int exitCode)
 {
-    Worker::removeBatFile();
+    removeBatFile();
     if(exitCode == 0) {
         emit newOutputData("Write typeinfo to qmldir\r\n");
         QFile file(path + "/qmldir");

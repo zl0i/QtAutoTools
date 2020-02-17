@@ -10,7 +10,7 @@ void TaskManager::executeTask(QJsonObject obj)
     ToolWorker *worker = new ToolWorker;
     //listToolWorker.append(worker);
     QJsonArray tasks = obj.value("tasks").toArray();
-
+    qDebug() << obj;
     IAdapter *adapter = qobject_cast<IAdapter*>(sender());
 
     connect(worker, &ToolWorker::started, adapter, &IAdapter::started);

@@ -11,7 +11,8 @@ Item {
     property Item contentItem
     property string buttonText: qsTr("Запустить")
 
-    signal run()
+    property var task: {}
+    signal run(var task)
 
     Label {
         x: 20; y: 20
@@ -36,7 +37,7 @@ Item {
             anchors { top: _content.bottom; topMargin: 20}
             text: _page.buttonText
             onClicked: {                
-                _page.run()
+                _page.run(task)
             }
         }
     }

@@ -20,7 +20,7 @@ void AbstractTool::slotFinished(int code)
     if(code > 0) {
         emit newErrorData(process->readAllStandardError());
     }
-    Worker::removeBatFile();
+    removeBatFile();
     emit newOutputData("Done!\r\n");
     emit finished(process->exitCode(), process->exitStatus());
 }
@@ -42,10 +42,15 @@ QFile* AbstractTool::prepareBatFile(bool addQtPath) {
     QFile *file = new QFile("temp.bat");
     if(file->open(QIODevice::ReadWrite)) {
         if(addQtPath) {
-            QString str = "set PATH="+ Worker::getInstance()->compilerPath() + "/bin;%PATH%\n"; //+ Worker::getInstance()->compilerToolPath() + "/bin;%PATH%\n";
-            file->write(str.toLocal8Bit());
+            //QString str = "set PATH="+ Worker::getInstance()->compilerPath() + "/bin;%PATH%\n"; //+ Worker::getInstance()->compilerToolPath() + "/bin;%PATH%\n";
+            //file->write(str.toLocal8Bit());
         }
         return file;
     }
     return  nullptr;
+}
+
+void AbstractTool::removeBatFile()
+{
+    QFile::remove("temp.bat");
 }

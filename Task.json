@@ -1,19 +1,59 @@
 {
     "name": "task1",
+    "version": "1.0",
     "tasks": [
         {
+            "label": "step_one",
             "tool": "console"
         },
         {
+            "label": "step_two",
             "tool": "builder",
             "proFile": "G:\Projects\QtAutoTools\testBuild",
             "systemBuild": "qmake",
             "mkspec": "win32",
             "buildDir": "G:\Projects\QtAutoTools\testBuild",
-            "configure": ""
+            "configure": "",
+            "dependence": "step_one"
         },
         {
+            "label": "step_free",
             "tool": "windeployqt"
+        },
+        {
+            "tool": "finstaller"
+        },
+        {
+            "label": "step_four",
+            "tool": "qmldir",
+            "files": [
+                        {
+                            "type": "",
+                            "path": "G:\Projects\Qt\QtAutoTools\TestQmlDir\CustomButton.qml",
+                            "version": "1.0",
+                            "name": "CustomButton"
+                        },
+                        {
+                            "type": "singleton",
+                            "path": "G:\Projects\Qt\QtAutoTools\TestQmlDir\CustomButton.qml",
+                            "version": "1.0",
+                            "name": "CustomButton"
+                        }
+                    ],
+            "qmltypes": false,
+            "supportDesigner": false,
+            "dependence": "prepare"
+        },
+        {
+            "tool": "lupdate",
+            "tool": "lupdate",
+            "files": [
+                    "G:\Projects\Qt\QtAutoTools\TestQmlDir\BuilderPage.qml",
+                    "G:\Projects\Qt\QtAutoTools\TestQmlDir\BuilderPage.qml"
+                    ],
+            "language": "ru eu ua",
+            "translatorName": "main",
+            "updateFiles": "G:/Projects/Qt/QtAutoTools/QtAutoTools/GUIAdapter/translation/ts_files/QtAutoTools_en.ts"
         }
     ]
 }

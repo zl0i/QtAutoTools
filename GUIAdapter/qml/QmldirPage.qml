@@ -12,20 +12,32 @@ BasicPage {
     title: "QmlDir"
     buttonText: qsTr("Создать")
 
-    /*QmlDir {
-        id: _qmldir
-        onStarted: busiDialog.open()
-        onFinished: busiDialog.finished(exitCode)
-        onNewOutputData: busiDialog.addOutput(line)
-        onNewErrorData: busiDialog.addError(line)
-    }*/
+    task: {
+        "tool": "qmldir",
+        "files": [
+                    {
+                        "type": "",
+                        "path": "G:\Projects\Qt\QtAutoTools\TestQmlDir\CustomButton.qml",
+                        "version": "1.0",
+                        "name": "CustomButton"
+                    },
+                    {
+                        "type": "singleton",
+                        "path": "G:\Projects\Qt\QtAutoTools\TestQmlDir\CustomButton.qml",
+                        "version": "1.0",
+                        "name": "CustomButton"
+                    }
+                ],
+        "qmltypes": false,
+        "supportDesigner": false
+    }
 
     contentItem: Column {
         spacing: 20
         LabelFieldDialog {
             label: qsTr("Папка с компонентами")
             onAccess:  {
-                _qmldir.setPath(text)
+                //_qmldir.setPath(text)
             }
         }
         ListView {
@@ -33,7 +45,7 @@ BasicPage {
             width: parent.width
             height: count * 40 + (count-1) * spacing
             spacing: 15
-            model: _qmldir.files
+            //model: _qmldir.files
             delegate: Row {
                 id: _delegate
                 width: parent.width; height: 40
@@ -49,7 +61,7 @@ BasicPage {
                         else
                             _versionLabel.text = _versionLabel.lastVersion
 
-                        _qmldir.setTypeByIndex(parent.row, currentText)
+                        //_qmldir.setTypeByIndex(parent.row, currentText)
                     }
                 }
                 TextField {

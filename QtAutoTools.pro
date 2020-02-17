@@ -16,8 +16,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         BaseAdapter/baseadapter.cpp \
         BaseAdapter/scriptstorage.cpp \
+        BaseAdapter/settingsstorage.cpp \
         GUIAdapter/guiadapter.cpp \
         GUIAdapter/guitranslator.cpp \
+        Storage/filestorage.cpp \
+        Storage/qsettingsstorage.cpp \
+        Storage/sqlstorage.cpp \
         abstracttool.cpp \
         taskmanager.cpp \
         tools/builder.cpp \
@@ -57,9 +61,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     BaseAdapter/baseadapter.h \
     BaseAdapter/scriptstorage.h \
+    BaseAdapter/settingsstorage.h \
     GUIAdapter/guiadapter.h \
     GUIAdapter/guitranslator.h \
     IAdapter.h \
+    Storage/filestorage.h \
+    Storage/qsettingsstorage.h \
+    Storage/sqlstorage.h \
     abstracttool.h \
     taskmanager.h \
     tools/builder.h \

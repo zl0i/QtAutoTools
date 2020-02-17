@@ -4,12 +4,6 @@
 #include <QObject>
 #include <QDebug>
 #include <QSettings>
-#include <QFile>
-#include <QDir>
-
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-
 
 class Worker : public QObject
 {
@@ -42,10 +36,6 @@ public:
     void setCompilerToolPath(QString);
 
     Q_INVOKABLE void clearAllSettings();    
-
-
-
-    static void removeBatFile();
 
 
 private:

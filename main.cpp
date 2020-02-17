@@ -3,6 +3,7 @@
 #include <QObject>
 #include "taskmanager.h"
 #include "GUIAdapter/guiadapter.h"
+#include "Storage/qsettingsstorage.h"
 
 
 int main(int argc, char *argv[])
@@ -18,8 +19,8 @@ int main(int argc, char *argv[])
 
     TaskManager manager;
 
-
-    GUIAdapter adapter;
+    QSettingsStorage *storage = new QSettingsStorage();
+    GUIAdapter adapter(storage);
     adapter.start();
 
     QObject::connect(&adapter, &GUIAdapter::signalExecuteTask, &manager, &TaskManager::executeTask);

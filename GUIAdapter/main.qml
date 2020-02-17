@@ -21,6 +21,8 @@ ApplicationWindow {
         family: "Roboto"
     }
 
+    readonly property var toolsList: ["Builder", "Windeployqt", "qmldir", "lupdate", "Settings"]
+
     SettingsDialog {
         visible: true
     }
@@ -33,8 +35,6 @@ ApplicationWindow {
         onNewErrorData: _busyDialog.addError(line)
     }
 
-
-
     BusyDialog {
         id: _busyDialog
         onKill: {
@@ -45,18 +45,12 @@ ApplicationWindow {
         }
     }
 
-
-
-
-
-
     ObjectModel {
         id: _objTool
         BuildPage {
             width: ListView.view.width
             height: ListView.view.height
             onRun: _guiAdapter.executeTask(task)
-
         }
         WinDeployQtPage {
             width: ListView.view.width
@@ -77,13 +71,6 @@ ApplicationWindow {
     }
 
 
-
-    /*ListModel {
-        id: _toolModel
-
-    }*/
-
-
     Rectangle {
         width: 200; height: parent.height
         color: "#4B4B4B"
@@ -93,7 +80,7 @@ ApplicationWindow {
             width: 200; height: parent.height
             interactive: false
             currentIndex: 0
-            model: ["1", "2", "3", "4", "5"]
+            model: toolsList
             delegate: Rectangle {
                 width: 200; height: 45
                 color: "transparent"
@@ -103,7 +90,7 @@ ApplicationWindow {
                     verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 18
                     color: "#FFFFFF"
-                    text: title
+                    text: modelData
                 }
                 Rectangle {
                     width: 3; height: 45

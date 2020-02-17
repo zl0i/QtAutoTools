@@ -14,13 +14,15 @@ BasicPage {
     title: "lupdate"
     buttonText: qsTr("Запустить Qt Linguist")
 
-    /*Lupdate {
-        id: _lupdate
-        onStarted: busiDialog.open()
-        onFinished: busiDialog.finished(exitCode)
-        onNewOutputData: busiDialog.addOutput(line)
-        onNewErrorData: busiDialog.addError(line)
-    }*/
+    task: {
+        "tool": "lupdate",
+        "files": [
+                "G:\Projects\Qt\QtAutoTools\TestQmlDir\BuilderPage.qml"
+                ],
+        "language": "ru eu ua",
+        "translatorName": "main",
+        "updateFiles": "G:/Projects/Qt/QtAutoTools/QtAutoTools/GUIAdapter/translation/ts_files/QtAutoTools_en.ts"
+    }
 
 
     contentItem: Column {
@@ -30,7 +32,7 @@ BasicPage {
         ListView {
             width: parent.width; height: count * 40 + (count-1) * spacing
             spacing: 20
-            model: _lupdate.files
+            //model: _lupdate.files
             interactive: false
             delegate:  LabelFieldDialog {
                 label: qsTr("Переводимые файлы")
@@ -84,12 +86,12 @@ BasicPage {
         CustomButton {
             text: qsTr("Создать")
             onClicked: {
-                _lupdate.createTs()
+                //_lupdate.createTs()
             }
         }
     }
-    onRun: _lupdate.runLinguist()
-    //onKill: _lupdate.kill()
+    //onRun: _lupdate.runLinguist()
+
 }
 
 

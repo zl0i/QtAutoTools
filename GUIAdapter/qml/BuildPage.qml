@@ -6,9 +6,18 @@ import Components.Controls 1.0
 import Components.Elements 1.0
 
 BasicPage {
-
+    id: _builderPage
     title: "Build"
     buttonText: qsTr("Собрать")
+
+    task: {
+        "tool": "builder",
+        "proFile": "G:\Projects\QtAutoTools\testBuild",
+        "systemBuild": "qmake",
+        "mkspec": "win32",
+        "buildDir": "G:\Projects\QtAutoTools\testBuild",
+        "configure": ""
+    }
 
     contentItem: Column {
         spacing: 20
@@ -17,40 +26,40 @@ BasicPage {
             filterFile: qsTr("Файл проекта (*.pro)")
             mode: LabelFieldDialog.Mode.File
             onTextChanged: {
-                //_builder.setProFile(text)
+                task.proFile = text
             }
         }
         LabelComboBox {
             label: qsTr("Система сборки")
             model: []//_builder.systemBuildList
             onActivated: {
-                //_builder.setSystemBuild(currentText)
+                task.systemBuild = currentText
             }
         }
         LabelComboBox {
-            label: qsTr("Спецификация")
+            label: qsTr("Профиль")
             model: []//_builder.specList
             onActivated: {
-                //_builder.setMkSpec(currentText)
+                task.mkspec = currentText
             }
         }
 
         LabelFieldDialog {
             label: qsTr("Папка сборки")
             onTextChanged: {
-                //_builder.setBuildDir(text)
+                task.buildDir = text
             }
         }
         LabelFieldDialog {
             label: qsTr("CONFIG +=")
             isPopupButton: false
             onTextChanged: {
-                //_builder.setConfigure(text)
+                task.configure = text
             }
         }
     }
 
-    //onRun: _builder.build()
+
 
 
 

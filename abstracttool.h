@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QProcess>
-#include "worker.h"
+#include "QFile"
 
 class AbstractTool : public QObject
 {
@@ -16,12 +16,11 @@ public:
     virtual void configFromJson(QJsonObject) = 0;
     virtual void run() = 0;
 
-    Q_INVOKABLE void kill();
-
 protected:
     QProcess *process;
 
     QFile* prepareBatFile(bool);    
+    void removeBatFile();
 
 signals:
     void started();
@@ -32,6 +31,7 @@ signals:
 public slots:
     virtual void slotFinished(int);
     void slotReadChanel();
+    void kill();
 };
 
 #endif // ABSTRACTTOOL_H
