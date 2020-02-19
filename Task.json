@@ -18,7 +18,20 @@
         },
         {
             "label": "step_free",
-            "tool": "windeployqt"
+            "tool": "windeployqt",
+            "exeFile": "",
+            "deployDir": "",
+            "libraryDir": "",
+            "pluginDir": "",
+            "qmlFilesDir": "",
+            "qmlPluginsDir": "",
+            "flags": "",
+            "library": "",
+            "settings": {
+                "qtPath": "G:/Qt",
+                "profilePath": "G:/Qt/5.14.1/mingw73_64",
+                "compilerPth": "G:/Qt/Tools/mingw730_64"
+            }
         },
         {
             "tool": "finstaller"
@@ -46,7 +59,6 @@
         },
         {
             "tool": "lupdate",
-            "tool": "lupdate",
             "files": [
                     "G:\Projects\Qt\QtAutoTools\TestQmlDir\BuilderPage.qml",
                     "G:\Projects\Qt\QtAutoTools\TestQmlDir\BuilderPage.qml"
@@ -55,5 +67,9 @@
             "translatorName": "main",
             "updateFiles": "G:/Projects/Qt/QtAutoTools/QtAutoTools/GUIAdapter/translation/ts_files/QtAutoTools_en.ts"
         }
-    ]
+    ],
+    "globalSettings": {
+        "FrameworkInstallerPath": "",
+        "CMakePath": ""
+    }
 }

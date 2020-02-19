@@ -5,7 +5,7 @@
         <file>qml/InstallerPage.qml</file>
         <file>qml/QmldirPage.qml</file>
         <file>qml/LUpdatePage.qml</file>
-        <file>qml/Settings.qml</file>
+        <file>qml/SettingsPage.qml</file>
         <file>qml/Components/Controls/CustomButton.qml</file>
         <file>qml/Components/Controls/qmldir</file>
         <file>qml/Components/Controls/CustomToolTip.qml</file>

@@ -10,11 +10,8 @@ class IAdapter : public QObject
 public:
 
 
-public slots:
-    virtual void kill() {}
-
 signals:
-
+    void kill(QString);
     void started();
     void newOutputData(QByteArray line);
     void newErrorData(QByteArray line);

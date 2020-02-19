@@ -1,6 +1,6 @@
 #include "./lupdate.h"
 
-Lupdate::Lupdate(QObject *parent) : AbstractTool(parent)
+Lupdate::Lupdate(QJsonObject settings, QObject *parent) : AbstractTool(settings, parent)
 {
     QHash<int, QByteArray> hash;
     hash.insert(Qt::UserRole+1, "file");
@@ -59,9 +59,9 @@ QString Lupdate::getStringFileTs(QString url) {
 
 void Lupdate::runLinguist() {
     if(!translatorList.isEmpty()) {
-        process->startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist " + translatorList);
+        process->startDetached(profilePath + "/bin/linguist " + translatorList);
     } else  {
-        process->startDetached(Worker::getInstance()->compilerPath() + "/bin/linguist");
+        process->startDetached(profilePath + "/bin/linguist");
     }
 }
 
@@ -109,7 +109,7 @@ void Lupdate::run()
         }
     }
 
-    QString program = Worker::getInstance()->compilerPath() + "/bin/lupdate " + arguments.join(" ");
+    QString program = profilePath + "/bin/lupdate " + arguments.join(" ");
 
     QFile *file = prepareBatFile(true);
     if(file) {

@@ -13,20 +13,33 @@
 class BaseAdapter : public IAdapter
 {
     Q_OBJECT
+    Q_PROPERTY(SettingsStorage *storage READ storage NOTIFY storageChanged)
 
 public:
     explicit BaseAdapter(SettingsStorage *storage, QObject *parent = nullptr);
 
 
 protected:
-    ScriptStorage scriptStorage;
-    SettingsStorage *settingsStorage;
+
+    QString currentNameTask;
+
+    SettingsStorage *storage() const;
+
+    void killCurrentTask();
+    void killScript(QString);
+
+private:
     ToolsDetector *toolDetector;
+    SettingsStorage *settingsStorage;
+    ScriptStorage scriptStorage;
 
 signals:
+
     void signalExecuteTask(QJsonObject);
 
+    void storageChanged();
 public slots:
+
     void executeTask(QJsonObject obj);
     void executeScript(QString);
 

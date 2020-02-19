@@ -8,11 +8,14 @@
 class QSettingsStorage : public SettingsStorage
 {
     Q_OBJECT
-    //Q_PROPERTY(QString qtPath WRITE )
 
 public:
     explicit QSettingsStorage(QObject *parent = nullptr);
 
+    void setCustomValue(QString, QVariant) override;
+    QVariant getCustomValue(QString) override;
+
+public slots:
     QString getQtPath() override;
     void setQtPath(QString) override;
 
@@ -22,8 +25,7 @@ public:
     QString getCompilerPath() override;
     void setCompilerPath(QString) override;
 
-    void setCustomValue(QString, QVariant) override;
-    QVariant setCustomValue(QString) override;
+
 
     void clearAllSettings() override;
 

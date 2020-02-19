@@ -7,7 +7,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include "abstracttool.h"
-#include "worker.h"
 
 class Builder : public AbstractTool
 {
@@ -16,7 +15,7 @@ class Builder : public AbstractTool
     Q_PROPERTY(QStringList systemBuildList READ systemBuildList NOTIFY systemBuildListChanged)
 
 public:
-    explicit Builder(QObject *parent = nullptr);
+    explicit Builder(QJsonObject settings, QObject *parent = nullptr);
 
     QStringList specList() { return  m_specList; }
     QStringList systemBuildList() { return  m_systemBuildList; }

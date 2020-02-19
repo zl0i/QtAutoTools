@@ -12,6 +12,11 @@ class SettingsStorage : public QObject
 public:
     explicit SettingsStorage(QObject *parent = nullptr);
 
+    virtual void setCustomValue(QString, QVariant) = 0;
+    virtual QVariant getCustomValue(QString) = 0;
+
+public slots:
+
     virtual QString getQtPath() = 0;
     virtual void setQtPath(QString) = 0;
 
@@ -20,9 +25,6 @@ public:
 
     virtual QString getCompilerPath() = 0;
     virtual void setCompilerPath(QString) = 0;
-
-    virtual void setCustomValue(QString, QVariant) = 0;
-    virtual QVariant setCustomValue(QString) = 0;
 
     virtual void clearAllSettings() = 0;
 

@@ -15,14 +15,14 @@ class ToolsFabric : public QObject
     Q_OBJECT
 public:
 
-    static AbstractTool *createTool(QString type);
+    static AbstractTool *createTool(QString type, QJsonObject settings);
 
     enum Tools {
-        Builder = 0,
-        Windeployqt,
-        Installer,
-        Qmldir,
-        Lupdate
+        BUILDER = 0,
+        WINDEPLOYQT,
+        INSTALLER,
+        QMLDIR,
+        LUPDATE
     };
     Q_ENUM(Tools)
 

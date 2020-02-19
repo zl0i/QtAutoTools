@@ -1,6 +1,6 @@
 #include "./qmldir.h"
 
-QmlDir::QmlDir(QObject *parent) : AbstractTool(parent)
+QmlDir::QmlDir(QJsonObject settings, QObject *parent) : AbstractTool(settings, parent)
 {
 
     QHash<int, QByteArray> hash;
@@ -118,7 +118,7 @@ void QmlDir::createModule()
             arguments.append(">");
             arguments.append(path + "/" + path.split("/").last().toLower() + ".qmltypes");
 
-            QString program = Worker::getInstance()->compilerPath() + "/bin/qmlplugindump " + arguments.join(" ");
+            QString program =profilePath + "/bin/qmlplugindump " + arguments.join(" ");
             emit newOutputData("Starting " + program.toLocal8Bit()+ "\r\n");
             QFile *batFile = prepareBatFile(true);
 

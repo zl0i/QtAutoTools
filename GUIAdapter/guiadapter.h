@@ -4,9 +4,9 @@
 #include <QObject>
 #include <QQmlContext>
 #include <QQmlApplicationEngine>
+#include <QLocale>
 #include "BaseAdapter/baseadapter.h"
 #include "guitranslator.h"
-#include "worker.h"
 
 class GUIAdapter : public BaseAdapter
 {
@@ -21,6 +21,9 @@ private:
     GUITranslator translator;
 
 signals:
+
+public slots:
+    void setLanguage(QString);
 
 };
 

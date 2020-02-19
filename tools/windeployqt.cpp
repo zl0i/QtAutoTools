@@ -1,6 +1,6 @@
 #include "./windeployqt.h"
 
-Windeployqt::Windeployqt(QObject *parent) : AbstractTool(parent)
+Windeployqt::Windeployqt(QJsonObject settings, QObject *parent) : AbstractTool(settings, parent)
 {   
 
 }
@@ -47,12 +47,23 @@ void Windeployqt::setLibraries(QString libraries)
 }
 
 
-void Windeployqt::configFromJson(QJsonObject)
+void Windeployqt::configFromJson(QJsonObject obj)
 {
-    qDebug() << "tut";
+    exeFile = obj.value("exeFile").toString();
+    dir = obj.value("deployDir").toString();
+    plugindir = obj.value("pluginDir").toString();
+    libdir = obj.value("libraryDir").toString();
+    qmldir = obj.value("qmlFilesDir").toString();
+    qmlimport = obj.value("qmlPluginsDir").toString();
+    flags = obj.value("flags").toString();
+    libraries = obj.value("library").toString();
+}
+
+void Windeployqt::run()
+{
     if(!QFile(exeFile).exists())
         return;
-qDebug() << "tut2";
+
     QStringList arguments;
     if(!dir.isEmpty()) {
         arguments.append("--dir " + dir);
@@ -79,16 +90,18 @@ qDebug() << "tut2";
         arguments.append(libraries);
     }
     QFile *file = prepareBatFile(true);
-    QString str = Worker::getInstance()->compilerPath() + "/bin/windeployqt " + arguments.join(" ");
+    QString str = profilePath + "/bin/windeployqt " + arguments.join(" ");
     file->write(str.toLocal8Bit());
     file->close();
     file->deleteLater();
     process->start(file->fileName());
 }
 
-void Windeployqt::run()
-{
-
+void Windeployqt::successFinished() {
+    if(!dir.isEmpty()) {
+        QString nameExeFile = exeFile.split("/").last();
+        QFile::copy(exeFile, dir+"/" + nameExeFile);
+    }
 }
 
 

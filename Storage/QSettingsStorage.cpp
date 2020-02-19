@@ -40,7 +40,7 @@ void QSettingsStorage::setCustomValue(QString name, QVariant value)
     settings.setValue(name, value);
 }
 
-QVariant QSettingsStorage::setCustomValue(QString name)
+QVariant QSettingsStorage::getCustomValue(QString name)
 {
     return settings.value(name);
 }

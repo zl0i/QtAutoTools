@@ -13,15 +13,19 @@ BasicPage {
     id: _root
 
     title: "Windeployqt"
-     buttonText: qsTr("Развернуть")
+    buttonText: qsTr("Развернуть")
 
-    /*Windeployqt {
-        id: _windeployqt
-        onStarted: busiDialog.open()
-        onFinished: busiDialog.finished(exitCode)
-        onNewOutputData: busiDialog.addOutput(line)
-        onNewErrorData: busiDialog.addError(line)
-    }*/
+    task: {
+        "tool": "windeployqt",
+        "exeFile": "",
+        "deployDir": "",
+        "libraryDir": "",
+        "pluginDir": "",
+        "qmlFilesDir": "",
+        "qmlPluginsDir": "",
+        "flags": "",
+        "libraries": ""
+    }
 
     contentItem: Column {
         spacing: 20
@@ -30,37 +34,37 @@ BasicPage {
             filterFile: qsTr("Испольняемый файл (*.exe)")
             mode: LabelFieldDialog.Mode.File
             onTextChanged: {
-                _windeployqt.setExeFile(text)
+                task.exeFile = text
             }
         }
         LabelFieldDialog {
             label: qsTr("Папка развертывания")
             onTextChanged: {
-                _windeployqt.setDir(text)
+                task.deployDir = text
             }
         }
         LabelFieldDialog {
             label: qsTr("Папка подключаемых библиотек")
             onTextChanged: {
-                _windeployqt.setLibdir(text)
+                task.libraryDir = text
             }
         }
         LabelFieldDialog {
             label: qsTr("Папка подключаемых плагинов")
             onTextChanged: {
-                _windeployqt.setPlugindir(text)
+               task.pluginDir = text
             }
         }
         LabelFieldDialog {
             label: qsTr("Папка используемых qml файлов")
             onTextChanged: {
-                _windeployqt.setQmldir(text)
+                task.qmlFilesDir = text
             }
         }
         LabelFieldDialog {
             label: qsTr("Папка подключаемых qml модулей")
             onTextChanged: {
-                _windeployqt.setQmlimport(text)
+                task.qmlPluginsDir = text
             }
         }
         LabelFieldDialog {
@@ -68,7 +72,7 @@ BasicPage {
             mode: LabelFieldDialog.Mode.Flags
             flagsModel: Data.modelFlagsWinDeployQt
             onTextChanged: {
-                _windeployqt.setFlags(flags)
+                task.flags = text
             }
         }
         LabelFieldDialog {
@@ -77,23 +81,8 @@ BasicPage {
             mode: LabelFieldDialog.Mode.Libraries
             librariesModel: Data.modelLibraryWindDeployQt
             onTextChanged: {
-                _windeployqt.setLibraries(text)
-            }
-        }
-        Repeater {
-            width: parent.width; height: 300
-            model: _root.modelFlags
-            delegate: Item {
-                width: _checBox.width; height: 20
-                CheckBox {
-                    id: _checBox
-                    text: modelData
-                }
+                task.libraries = text
             }
         }
     }
-
-    onRun: _windeployqt.deploy()
-
-
 }

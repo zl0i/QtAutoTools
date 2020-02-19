@@ -23,13 +23,16 @@ ApplicationWindow {
 
     readonly property var toolsList: ["Builder", "Windeployqt", "qmldir", "lupdate", "Settings"]
 
-    SettingsDialog {
+    /*SettingsDialog {
         visible: true
-    }
+    }*/
 
     Connections {
         target: _guiAdapter
-        onStarted: _busyDialog.open()
+        onStarted: {
+            _busyDialog.reset()
+            _busyDialog.open()
+        }
         onFinished: _busyDialog.finished(exitCode)
         onNewOutputData: _busyDialog.addOutput(line)
         onNewErrorData: _busyDialog.addError(line)
@@ -55,6 +58,7 @@ ApplicationWindow {
         WinDeployQtPage {
             width: ListView.view.width
             height: ListView.view.height
+            onRun: _guiAdapter.executeTask(task)
         }
         QmldirPage {
             width: ListView.view.width
@@ -64,7 +68,7 @@ ApplicationWindow {
             width: ListView.view.width
             height: ListView.view.height
         }
-        Settings {
+        SettingsPage {
             width: ListView.view.width
             height: ListView.view.height
         }

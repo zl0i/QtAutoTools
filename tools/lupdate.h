@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QDebug>
-#include "worker.h"
 #include <QDir>
 #include <QFile>
 #include <QProcess>
@@ -18,7 +17,7 @@ class Lupdate : public AbstractTool
     Q_PROPERTY(QStandardItemModel *files READ files NOTIFY filesChanged)
 
 public:
-    explicit Lupdate(QObject *parent = nullptr);
+    explicit Lupdate(QJsonObject settings, QObject *parent = nullptr);
 
     Q_INVOKABLE void addFile();
     Q_INVOKABLE void removeFile(int);

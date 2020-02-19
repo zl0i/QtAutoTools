@@ -11,13 +11,12 @@
 #include <QThread>
 #include "abstracttool.h"
 #include "installerhelper.h"
-#include "worker.h"
 
 class FInstaller : public AbstractTool
 {
     Q_OBJECT
 public:
-    explicit FInstaller(QObject *parent = nullptr);
+    explicit FInstaller(QJsonObject settings, QObject *parent = nullptr);
 
     Q_INVOKABLE void setPath(QString);
 
@@ -30,7 +29,6 @@ public:
 
     void configFromJson(QJsonObject) override;
     void run() override;
-
 
 private:   
     QProcess *process;

@@ -1,12 +1,30 @@
 #include "abstracttool.h"
 
-AbstractTool::AbstractTool(QObject *parent) : QObject(parent)
+AbstractTool::AbstractTool(QJsonObject settings, QObject *parent) : QObject(parent),
+    qtPath(settings.value("qtPath").toString()),
+    profilePath(settings.value("profilePath").toString()),
+    compilerPath(settings.value("compilerPath").toString())
 {
     process = new QProcess();
 
     connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, QOverload<int>::of(&AbstractTool::slotFinished));
     connect(process, &QProcess::readyRead, this, &AbstractTool::slotReadChanel);
+}
+
+void AbstractTool::waitFinished()
+{
+    process->waitForFinished(-1);
+}
+
+void AbstractTool::successFinished()
+{
+
+}
+
+void AbstractTool::failFinished()
+{
+
 }
 
 
@@ -17,11 +35,14 @@ void AbstractTool::kill()
 
 void AbstractTool::slotFinished(int code)
 {
-    if(code > 0) {
+    if(code == 0) {
+        successFinished();
+        emit newOutputData("Done!\r\n");
+    } else {
+        failFinished();
         emit newErrorData(process->readAllStandardError());
     }
     removeBatFile();
-    emit newOutputData("Done!\r\n");
     emit finished(process->exitCode(), process->exitStatus());
 }
 
@@ -38,12 +59,12 @@ void AbstractTool::slotReadChanel()
         emit newOutputData(output);
 }
 
-QFile* AbstractTool::prepareBatFile(bool addQtPath) {
+QFile* AbstractTool::prepareBatFile(bool addQtPath) const {
     QFile *file = new QFile("temp.bat");
     if(file->open(QIODevice::ReadWrite)) {
         if(addQtPath) {
-            //QString str = "set PATH="+ Worker::getInstance()->compilerPath() + "/bin;%PATH%\n"; //+ Worker::getInstance()->compilerToolPath() + "/bin;%PATH%\n";
-            //file->write(str.toLocal8Bit());
+            QString str = "set PATH="+ profilePath + "/bin;" + compilerPath + "/bin;%PATH%\n";
+            file->write(str.toLocal8Bit());
         }
         return file;
     }

@@ -12,8 +12,6 @@
 #include <QProcess>
 #include <QJsonObject>
 #include "abstracttool.h"
-#include "worker.h"
-
 
 class QmlDir : public AbstractTool
 {
@@ -21,7 +19,7 @@ class QmlDir : public AbstractTool
     Q_PROPERTY(QStandardItemModel *files READ files NOTIFY filesChanged)
 
 public:
-    explicit QmlDir(QObject *parent = nullptr);
+    explicit QmlDir(QJsonObject settings, QObject *parent = nullptr);
     ~QmlDir();
 
     Q_INVOKABLE void setPath(QString);

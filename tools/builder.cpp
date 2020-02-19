@@ -1,16 +1,16 @@
 #include "./builder.h"
 
-Builder::Builder(QObject *parent) : AbstractTool(parent)
+Builder::Builder(QJsonObject settings, QObject *parent) : AbstractTool(settings, parent)
 {
     m_systemBuildList.append("qmake");
     systemBuild  = "qmake";
 
-    QDir dir(Worker::getInstance()->compilerPath() + "/mkspecs");
+    /*QDir dir(Worker::getInstance()->compilerPath() + "/mkspecs");
     m_specList = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     if(!m_specList.isEmpty()) {
         mkspec = m_specList.at(0);
         emit specListChanged();
-    }
+    }*/
 }
 
 void Builder::configFromJson(QJsonObject) {
@@ -40,10 +40,10 @@ void Builder::run() {
         QStringList command;
 
         command.append("cd " + buildDir);
-        command.append(Worker::getInstance()->compilerPath() + "/bin/qmake.exe " + arguments.join(" "));
-        command.append(Worker::getInstance()->compilerToolPath() + "/bin/mingw32-make.exe -f " + buildDir + "/Makefile "  + "qmake_all");
-        command.append(Worker::getInstance()->compilerToolPath() + "/bin/mingw32-make.exe");
-        command.append(Worker::getInstance()->compilerToolPath() + "/bin/mingw32-make.exe install");
+        command.append(profilePath + "/bin/qmake.exe " + arguments.join(" "));
+        command.append(compilerPath + "/bin/mingw32-make.exe -f " + buildDir + "/Makefile "  + "qmake_all");
+        command.append(compilerPath + "/bin/mingw32-make.exe");
+        command.append(compilerPath + "/bin/mingw32-make.exe install");
 
         bat->write(command.join("\r\n").toLocal8Bit());
         bat->close();

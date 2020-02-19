@@ -21,31 +21,31 @@ Item {
             label: qsTr("Путь к Qt")
             mode: LabelFieldDialog.Mode.Folder
             Component.onCompleted: {
-                text = _worker.qtPath
+                text = _guiAdapter.storage.qtPath
             }
             onTextChanged: {
-                _worker.qtPath = text
+                _guiAdapter.storage.qtPath = text
             }
         }
         LabelFieldDialog {
-            label: qsTr("Путь к компилятору")
+            label: qsTr("Профиль")
             mode: LabelFieldDialog.Mode.Folder
             Component.onCompleted: {
-                text = _worker.compilerPath
+                text = _guiAdapter.storage.profilePath
             }
             onTextChanged: {
-                _worker.compilerPath = text
+                _guiAdapter.storage.profilePath = text
             }
         }
 
         LabelFieldDialog {
-            label: qsTr("Путь к компилятору Tool")
+            label: qsTr("Компилятор")
             mode: LabelFieldDialog.Mode.Folder
             Component.onCompleted: {
-                text = _worker.compilerToolPath
+                text = _guiAdapter.storage.compilerPath
             }
             onTextChanged: {
-                _worker.compilerToolPath = text
+                _guiAdapter.storage.compilerPath = text
             }
         }
 
@@ -70,20 +70,21 @@ Item {
                 }
                 textRole: "title"
 
-                onActivated: _worker.language = _languageList.get(currentIndex).code
-                Component.onCompleted: {
+                onActivated: _guiAdapter.setLanguage(_languageList.get(currentIndex).code)
+                /*Component.onCompleted: {
                     for(var i = 0; i < _languageList.count; i++) {
                         if(_languageList.get(i).code === _worker.language) {
                             currentIndex = i
+                            break
                         }
                     }
-                }
+                }*/
             }
         }
         Button {
             text: qsTr("Удалить все настройки")
             onClicked: {
-                _worker.clearAllSettings()
+                _guiAdapter.storage.clearAllSettings()
             }
         }
     }

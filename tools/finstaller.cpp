@@ -1,6 +1,6 @@
 #include "./finstaller.h"
 
-FInstaller::FInstaller(QObject *parent) : AbstractTool(parent)
+FInstaller::FInstaller(QJsonObject settings, QObject *parent) : AbstractTool(settings, parent)
 {
     /*thread = new QThread(this);
     installerHelper = new InstallerHelper();
@@ -68,7 +68,7 @@ void FInstaller::run()
         arguments.append(path + "/packages");
         arguments.append(path +"/" + installerName + "Mixed");
 
-        QString str = Worker::getInstance()->qtPath() + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ") + "\r\n";
+        QString str = qtPath + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ") + "\r\n";
         batFile->write(str.toLocal8Bit());
     }
 
@@ -81,7 +81,7 @@ void FInstaller::run()
         arguments.append(path + "/packages");
         arguments.append(path +"/" + installerName + "Online");
 
-        QString str = Worker::getInstance()->qtPath() + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ") + "\r\n";
+        QString str = qtPath + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ") + "\r\n";
         batFile->write(str.toLocal8Bit());
     }
 
@@ -94,7 +94,7 @@ void FInstaller::run()
         arguments.append(path + "/packages");
         arguments.append(path +"/" + installerName + "Offline");
 
-        QString str = Worker::getInstance()->qtPath() + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ") + "\r\n";
+        QString str = qtPath + "/Tools/QtInstallerFramework/3.1/bin/binarycreator " + arguments.join(" ") + "\r\n";
         batFile->write(str.toLocal8Bit());
     }
 
@@ -104,7 +104,7 @@ void FInstaller::run()
         arguments.append(path + "/packages");
         arguments.append(path +"/repository");
 
-        QString str = Worker::getInstance()->qtPath() + "/Tools/QtInstallerFramework/3.1/bin/repogen " + arguments.join(" ") + "\r\n";
+        QString str = qtPath + "/Tools/QtInstallerFramework/3.1/bin/repogen " + arguments.join(" ") + "\r\n";
         batFile->write(str.toLocal8Bit());
     }
 

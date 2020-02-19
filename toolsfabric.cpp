@@ -2,25 +2,25 @@
 
 
 
-AbstractTool *ToolsFabric::createTool(QString type)
+AbstractTool *ToolsFabric::createTool(QString type, QJsonObject settings)
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ToolsFabric::Tools>();
 
-    switch (metaEnum.keyToValue(type.toLatin1())) {
-    case Builder: {
-        return new class Builder();
+    switch (metaEnum.keyToValue(type.toUpper().toLatin1())) {
+    case BUILDER: {
+        return new class Builder(settings);
     }
-    case Windeployqt: {
-        return new class Windeployqt();
+    case WINDEPLOYQT: {
+        return new class Windeployqt(settings);
     }
-    case Installer: {
-        return new class FInstaller();
+    case INSTALLER: {
+        return new class FInstaller(settings);
     }
-    case Qmldir: {
-        return new class QmlDir();
+    case QMLDIR: {
+        return new class QmlDir(settings);
     }
-    case Lupdate: {
-        return new class Lupdate();
+    case LUPDATE: {
+        return new class Lupdate(settings);
     }
     }
     return nullptr;

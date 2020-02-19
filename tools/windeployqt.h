@@ -7,13 +7,12 @@
 #include <QProcess>
 #include <QJsonObject>
 #include "abstracttool.h"
-#include "worker.h"
 
 class Windeployqt : public AbstractTool
 {
     Q_OBJECT
 public:
-    explicit Windeployqt(QObject *parent = nullptr);
+    explicit Windeployqt(QJsonObject settings,QObject *parent = nullptr);
 
     Q_INVOKABLE void setExeFile(QString);
     Q_INVOKABLE void setDir(QString);
@@ -26,6 +25,9 @@ public:
 
     void configFromJson(QJsonObject) override;
     void run() override;
+
+protected:
+    void successFinished() override;
 
 
 private:
@@ -45,6 +47,7 @@ signals:
 
 
 public slots:
+
 
 
 };
