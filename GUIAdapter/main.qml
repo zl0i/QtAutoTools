@@ -21,7 +21,7 @@ ApplicationWindow {
         family: "Roboto"
     }
 
-    readonly property var toolsList: ["Builder", "Windeployqt", "qmldir", "lupdate", "Settings"]
+    readonly property var toolsList: ["Builder", "Windeployqt", "Installer", "qmldir", "lupdate", "Settings"]
 
     /*SettingsDialog {
         visible: true
@@ -60,6 +60,10 @@ ApplicationWindow {
             height: ListView.view.height
             onRun: _guiAdapter.executeTask(task)
         }
+        InstallerPage {
+            width: ListView.view.width
+            height: ListView.view.height
+        }
         QmldirPage {
             width: ListView.view.width
             height: ListView.view.height
@@ -67,6 +71,7 @@ ApplicationWindow {
         LUpdatePage {
             width: ListView.view.width
             height: ListView.view.height
+            onRun: console.log(JSON.stringify(task))
         }
         SettingsPage {
             width: ListView.view.width
