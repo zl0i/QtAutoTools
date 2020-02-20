@@ -4,6 +4,8 @@ BaseAdapter::BaseAdapter(SettingsStorage *storage, QObject *parent)
 {
     this->setParent(parent);
     settingsStorage = storage;
+    //connect(this, &BaseAdapter::started, this, &BaseAdapter::taskStarted);
+    //connect(this, &BaseAdapter::finished, this, &BaseAdapter::taskFinished);
 }
 
 SettingsStorage *BaseAdapter::storage() const
@@ -11,21 +13,14 @@ SettingsStorage *BaseAdapter::storage() const
     return settingsStorage;
 }
 
-void BaseAdapter::killCurrentTask()
-{
-    emit kill(currentNameTask);
-}
-
-void BaseAdapter::killScript(QString name)
-{
-    emit kill(name);
-}
-
 void BaseAdapter::executeTask(QJsonObject obj)
 {
+    if(isRunningTask(sender()))
+        return;
+
     QJsonObject main;
-    currentNameTask = QString::number(QDateTime::currentMSecsSinceEpoch());
-    main.insert("name", currentNameTask);
+    QString nameTask = QString::number(QDateTime::currentMSecsSinceEpoch());
+    main.insert("name", nameTask);
     main.insert("version", "1.0");
 
     QJsonObject settings;
@@ -42,6 +37,10 @@ void BaseAdapter::executeTask(QJsonObject obj)
 
 void BaseAdapter::executeScript(QString name)
 {
+    if(isRunningTask(sender()))
+        return;
+
     QJsonObject main = scriptStorage.getScriptByName(name);
     emit signalExecuteTask(main);
 }
+

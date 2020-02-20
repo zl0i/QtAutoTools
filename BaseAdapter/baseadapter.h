@@ -18,15 +18,15 @@ class BaseAdapter : public IAdapter
 public:
     explicit BaseAdapter(SettingsStorage *storage, QObject *parent = nullptr);
 
+    virtual void start() = 0;
+
 
 protected:
 
-    QString currentNameTask;
+    virtual bool isRunningTask(QObject* sender = nullptr) = 0;
+
 
     SettingsStorage *storage() const;
-
-    void killCurrentTask();
-    void killScript(QString);
 
 private:
     ToolsDetector *toolDetector;
@@ -34,15 +34,15 @@ private:
     ScriptStorage scriptStorage;
 
 signals:
-
     void signalExecuteTask(QJsonObject);
-
+    void killTask(QString);
     void storageChanged();
-public slots:
 
+public slots:
     void executeTask(QJsonObject obj);
     void executeScript(QString);
 
+    virtual void kill() = 0;
 };
 
 #endif // BASEADAPTER_H

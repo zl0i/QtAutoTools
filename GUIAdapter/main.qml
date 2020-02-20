@@ -29,13 +29,15 @@ ApplicationWindow {
 
     Connections {
         target: _guiAdapter
-        onStarted: {
+        onStartedTask: {
             _busyDialog.reset()
-            _busyDialog.open()
+            _busyDialog.open()            
         }
-        onFinished: _busyDialog.finished(exitCode)
-        onNewOutputData: _busyDialog.addOutput(line)
-        onNewErrorData: _busyDialog.addError(line)
+        onFinishedTask: _busyDialog.finished(exitCode)
+        onNewOutputDataTask: _busyDialog.addOutput(line)
+        onNewErrorDataTask: _busyDialog.addError(line)
+
+
     }
 
     BusyDialog {

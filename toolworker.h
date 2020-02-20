@@ -15,24 +15,32 @@ class ToolWorker : public QThread
 
 public:
     explicit ToolWorker(QObject *parent = nullptr);
-    ~ToolWorker();
+    ~ToolWorker() override;
     ToolWorker(const ToolWorker &);
     ToolWorker &operator=(const ToolWorker &);
 
     ToolWorker *setTaskJson(QJsonArray);     
+    void setTaskName(QString);
+
 
 protected:
     void run() override;
 
 private:
     QJsonArray taskArray;
+    AbstractTool *currentTool;
+
+    QString taskName;
 
 
 signals:
-    void started();
-    void newOutputData(QByteArray line);
-    void newErrorData(QByteArray line);
-    void finished(int exitCode, int exitStatus);
+    void started(QString);
+    void newOutputData(QString, QByteArray line);
+    void newErrorData(QString, QByteArray line);
+    void finished(QString name, int exitCode, int exitStatus);
+
+public slots:
+    void kill();
 
 };
 Q_DECLARE_METATYPE(ToolWorker)

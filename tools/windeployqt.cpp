@@ -88,13 +88,12 @@ void Windeployqt::run()
     }
     if(libraries.length() != 0) {
         arguments.append(libraries);
-    }
-    QFile *file = prepareBatFile(true);
-    QString str = profilePath + "/bin/windeployqt " + arguments.join(" ");
-    file->write(str.toLocal8Bit());
-    file->close();
-    file->deleteLater();
-    process->start(file->fileName());
+    }   
+    QString str = profilePath + "/bin/windeployqt " + arguments.join(" ");    
+    QStringList env = QProcess::systemEnvironment();
+    env << profilePath + "/bin" <<  compilerPath + "/bin";
+    process->setEnvironment(env);
+    process->start(str);
 }
 
 void Windeployqt::successFinished() {

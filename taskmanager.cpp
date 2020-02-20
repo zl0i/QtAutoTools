@@ -7,8 +7,11 @@ TaskManager::TaskManager(QObject *parent) : QObject(parent)
 
 void TaskManager::executeTask(QJsonObject obj)
 {
-    ToolWorker *worker = new ToolWorker;
-    //listToolWorker.append(worker);
+    QString taskName = obj.value("name").toString();
+    ToolWorker *worker = new ToolWorker();
+    worker->setTaskName(taskName);
+    toolWorkerMap[taskName] = worker;
+
     QJsonArray tasks = obj.value("tasks").toArray();
     IAdapter *adapter = qobject_cast<IAdapter*>(sender());
 
@@ -17,7 +20,15 @@ void TaskManager::executeTask(QJsonObject obj)
     connect(worker, &ToolWorker::newErrorData, adapter, &IAdapter::newErrorData);
     connect(worker, &ToolWorker::finished, adapter, &IAdapter::finished);
     connect(worker, &ToolWorker::finished, worker, &ToolWorker::deleteLater);
+
     worker->setTaskJson(tasks)->start();
+}
+
+void TaskManager::killTask(QString name)
+{
+    ToolWorker *worker = toolWorkerMap.value(name);
+    if(worker)
+        worker->kill();
 }
 
 

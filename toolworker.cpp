@@ -5,7 +5,7 @@ ToolWorker::ToolWorker(QObject *parent) : QThread(parent)
 
 }
 
-ToolWorker::ToolWorker(const ToolWorker &worker) : QThread(), taskArray(worker.taskArray)
+ToolWorker::ToolWorker(const ToolWorker &worker) : QThread(worker.parent()), taskArray(worker.taskArray), taskName(worker.taskName)
 {
 
 }
@@ -22,6 +22,11 @@ ToolWorker *ToolWorker::setTaskJson(QJsonArray arr)
     return this;
 }
 
+void ToolWorker::setTaskName(QString name)
+{
+    taskName = name;
+}
+
 ToolWorker::~ToolWorker()
 {
 
@@ -29,16 +34,27 @@ ToolWorker::~ToolWorker()
 
 void ToolWorker::run()
 {
-    emit started();
+    emit started(taskName);
     for(int i = 0; i < taskArray.size(); ++i) {
         QJsonObject task = taskArray.at(i).toObject();
-        AbstractTool *tool = ToolsFabric::createTool(task.value("tool").toString(), task.value("settings").toObject());
-        connect(tool, &AbstractTool::newOutputData, this, &ToolWorker::newOutputData);
-        connect(tool, &AbstractTool::newErrorData, this, &ToolWorker::newErrorData);
-        tool->configFromJson(task);
-        tool->run();
-        tool->waitFinished();
-        tool->deleteLater();
+        currentTool = ToolsFabric::createTool(task.value("tool").toString(), task.value("settings").toObject());
+        connect(currentTool, &AbstractTool::newOutputData, [=] (QByteArray line) {
+            emit newOutputData(taskName, line);
+        });
+        connect(currentTool, &AbstractTool::newErrorData,  [=] (QByteArray line) {
+            emit newErrorData(taskName, line);
+        });
+        currentTool->configFromJson(task);
+        currentTool->run();
+        currentTool->waitFinished();
+        currentTool->deleteLater();
     }
-    emit finished(0, 0);
+    emit finished(taskName, 0, 0);
+}
+
+void ToolWorker::kill()
+{
+    currentTool->kill();
+    currentTool->deleteLater();
+    exit(1);
 }

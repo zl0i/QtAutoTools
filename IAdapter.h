@@ -8,14 +8,13 @@ class IAdapter : public QObject
     Q_OBJECT
 
 public:
+    IAdapter() {}
 
-
-signals:
-    void kill(QString);
-    void started();
-    void newOutputData(QByteArray line);
-    void newErrorData(QByteArray line);
-    void finished(int exitCode, int exitStatus);
+public slots:
+    virtual void started(QString name) = 0;
+    virtual void newOutputData(QString name, QByteArray line) = 0;
+    virtual void newErrorData(QString name, QByteArray line) = 0;
+    virtual void finished(QString name, int exitCode, int exitStatus) = 0;
 };
 
 #endif // IADAPTER_H

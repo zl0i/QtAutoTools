@@ -3,6 +3,8 @@
 #include <QObject>
 #include "taskmanager.h"
 #include "GUIAdapter/guiadapter.h"
+#include "ConsoleAdapter/consoleadapter.h"
+#include "WebAdapter/webadapter.h"
 #include "Storage/qsettingsstorage.h"
 
 
@@ -12,7 +14,7 @@ int main(int argc, char *argv[])
 
     QCoreApplication::setOrganizationName("zloi");
     QCoreApplication::setApplicationName("QtAutoTools");
-    //qRegisterMetaType<ToolWorker>();
+    qRegisterMetaType<ToolWorker>();
 
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/icon/icon.png"));
@@ -20,11 +22,19 @@ int main(int argc, char *argv[])
     TaskManager manager;
 
     QSettingsStorage *storage = new QSettingsStorage();
-    GUIAdapter adapter(storage);
-    adapter.start();
 
-    QObject::connect(&adapter, &GUIAdapter::signalExecuteTask, &manager, &TaskManager::executeTask);
+    GUIAdapter guiAdapter(storage);
+    guiAdapter.start();
+    QObject::connect(&guiAdapter, &GUIAdapter::signalExecuteTask, &manager, &TaskManager::executeTask);
+    QObject::connect(&guiAdapter, &GUIAdapter::killTask, &manager, &TaskManager::killTask);
 
+    /*ConsoleAdapter consoleAdapter(storage);
+    consoleAdapter.start();
+    QObject::connect(&consoleAdapter, &ConsoleAdapter::signalExecuteTask, &manager, &TaskManager::executeTask);
+
+    WebAdapter webAdapter(storage);
+    webAdapter.start();
+    QObject::connect(&webAdapter, &WebAdapter::signalExecuteTask, &manager, &TaskManager::executeTask);*/
 
     return app.exec();
 }

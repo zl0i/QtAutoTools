@@ -14,15 +14,34 @@ class GUIAdapter : public BaseAdapter
 public:
     explicit GUIAdapter(SettingsStorage *storage, QObject *parent = nullptr);
 
-    void start();
+    void start() override;
+
+protected:
+    bool isRunningTask(QObject *sender = nullptr) override;
 
 private:
     QQmlApplicationEngine engine;
     GUITranslator translator;
 
+
+
+    QString taskName;
+
 signals:
+    void startedTask();
+    void newErrorDataTask(QByteArray line);
+    void newOutputDataTask( QByteArray line);
+    void finishedTask(int exitCode, int exitStatus);
 
 public slots:
+
+    void started(QString name) override;
+    void newErrorData(QString name, QByteArray line) override;
+    void newOutputData(QString name, QByteArray line) override;
+    void finished(QString name, int exitCode, int exitStatus) override;
+
+    void kill() override;
+
     void setLanguage(QString);
 
 };

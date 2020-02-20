@@ -13,7 +13,41 @@ void GUIAdapter::start()
 {
     QString lg = storage()->getCustomValue("language").toString();
     translator.setLanguage(lg);
-    engine.load("qrc:/GUIAdapter/main.qml");    
+    engine.load("qrc:/GUIAdapter/main.qml");
+}
+
+bool GUIAdapter::isRunningTask(QObject*)
+{
+    if(taskName.isEmpty())
+        return false;
+    return  true;
+}
+
+void GUIAdapter::started(QString name)
+{
+    taskName = name;
+    emit startedTask();
+}
+
+void GUIAdapter::newErrorData(QString, QByteArray line)
+{
+    emit newErrorDataTask(line);
+}
+
+void GUIAdapter::newOutputData(QString, QByteArray line)
+{
+    emit newOutputDataTask(line);
+}
+
+void GUIAdapter::finished(QString, int exitCode, int exitStatus)
+{
+    taskName = "";
+    emit finishedTask(exitCode, exitStatus);
+}
+
+void GUIAdapter::kill()
+{
+    emit killTask(taskName);
 }
 
 void GUIAdapter::setLanguage(QString lg)

@@ -6,7 +6,7 @@ AbstractTool::AbstractTool(QJsonObject settings, QObject *parent) : QObject(pare
     compilerPath(settings.value("compilerPath").toString())
 {
     process = new QProcess();
-
+    process->setProcessChannelMode(QProcess::MergedChannels);
     connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, QOverload<int>::of(&AbstractTool::slotFinished));
     connect(process, &QProcess::readyRead, this, &AbstractTool::slotReadChanel);
@@ -29,8 +29,8 @@ void AbstractTool::failFinished()
 
 
 void AbstractTool::kill()
-{
-    process->kill();
+{      
+   process->kill();
 }
 
 void AbstractTool::slotFinished(int code)
@@ -73,5 +73,5 @@ QFile* AbstractTool::prepareBatFile(bool addQtPath) const {
 
 void AbstractTool::removeBatFile()
 {
-    QFile::remove("temp.bat");
+   QFile::remove("temp.bat");
 }

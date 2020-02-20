@@ -14,9 +14,8 @@ public:
 
 
 
-private:
-    //ToolWorker *worker;
-    //QList<ToolWorker*> listToolWorker;
+private:    
+    QHash<QString, ToolWorker*> toolWorkerMap;
 
 signals:
     void taskStarted();
@@ -26,6 +25,7 @@ signals:
 
 public slots:
     void executeTask(QJsonObject);
+    void killTask(QString);
 
 
 

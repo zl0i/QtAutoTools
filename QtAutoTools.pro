@@ -1,4 +1,4 @@
-QT += quick svg
+QT += quick svg websockets
 
 CONFIG += c++11
 
@@ -17,11 +17,13 @@ SOURCES += \
         BaseAdapter/baseadapter.cpp \
         BaseAdapter/scriptstorage.cpp \
         BaseAdapter/settingsstorage.cpp \
+        ConsoleAdapter/consoleadapter.cpp \
         GUIAdapter/guiadapter.cpp \
         GUIAdapter/guitranslator.cpp \
         Storage/filestorage.cpp \
         Storage/qsettingsstorage.cpp \
         Storage/sqlstorage.cpp \
+        WebAdapter/webadapter.cpp \
         abstracttool.cpp \
         taskmanager.cpp \
         tools/builder.cpp \
@@ -61,12 +63,14 @@ HEADERS += \
     BaseAdapter/baseadapter.h \
     BaseAdapter/scriptstorage.h \
     BaseAdapter/settingsstorage.h \
+    ConsoleAdapter/consoleadapter.h \
     GUIAdapter/guiadapter.h \
     GUIAdapter/guitranslator.h \
     IAdapter.h \
     Storage/filestorage.h \
     Storage/qsettingsstorage.h \
     Storage/sqlstorage.h \
+    WebAdapter/webadapter.h \
     abstracttool.h \
     taskmanager.h \
     tools/builder.h \
