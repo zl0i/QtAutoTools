@@ -14,20 +14,8 @@ BasicPage {
 
     task: {
         "tool": "qmldir",
-        "files": [
-                    {
-                        "type": "",
-                        "path": "G:\Projects\Qt\QtAutoTools\TestQmlDir\CustomButton.qml",
-                        "version": "1.0",
-                        "name": "CustomButton"
-                    },
-                    {
-                        "type": "singleton",
-                        "path": "G:\Projects\Qt\QtAutoTools\TestQmlDir\CustomButton.qml",
-                        "version": "1.0",
-                        "name": "CustomButton"
-                    }
-                ],
+        "path": "",
+        "files": [],
         "qmltypes": false,
         "supportDesigner": false
     }
@@ -35,9 +23,36 @@ BasicPage {
     contentItem: Column {
         spacing: 20
         LabelFieldDialog {
-            label: qsTr("Папка с компонентами")
+            label: qsTr("Файлы")
+            mode: LabelFieldDialog.Mode.Files
             onAccess:  {
-                //_qmldir.setPath(text)
+
+                task.files = []
+                var array = text.split(" ")
+
+                for(var i = 0; i < array.length; i++) {
+                    var fileName = array[i].split("/")[array[i].split("/").length-1];
+
+
+                    var name = fileName.split(".")[0]
+                    var extension = fileName.split(".")[1]
+
+                    task.files.push({
+                                       "type": "",
+                                       "version": "1.0",
+                                       "name": name,
+                                       "extension": extension
+                                   })
+                }
+
+                taskChanged()
+
+                var dirName = array[0].split("/")
+
+                dirName.pop()
+                this.text = dirName.join("/")
+                task.path = dirName.join("/")
+
             }
         }
         ListView {
@@ -45,7 +60,7 @@ BasicPage {
             width: parent.width
             height: count * 40 + (count-1) * spacing
             spacing: 15
-            //model: _qmldir.files
+            model: task.files
             delegate: Row {
                 id: _delegate
                 width: parent.width; height: 40
@@ -54,55 +69,56 @@ BasicPage {
                 ComboBox {
                     id: _typesBox
                     width: 120
-                    model: types
+                    model: ["", "internal", "singleton"]
                     onActivated: {
                         if(currentText == "internal" )
                             _versionLabel.text = ""
                         else
                             _versionLabel.text = _versionLabel.lastVersion
 
-                        //_qmldir.setTypeByIndex(parent.row, currentText)
+                        task.files[row].type = currentText
                     }
                 }
                 TextField {
                     id: _nameLabel
                     width: 120; height: 40
-                    text: name
-                    onTextChanged: _qmldir.setNameByIndex(parent.row, text)
+                    text: modelData.name
+                    onTextChanged: task.files[row].name = text
                 }
                 TextField {
                     id: _versionLabel
                     width: 40; height: 40
-                    text: version
+                    text: modelData.version
                     validator: RegExpValidator { regExp: /[0-9]{1,2}[.]{1}[0-9]{1,2}/}
-                    enabled: !(_typesBox.currentText == "internal" || extension == "dll" || extension == "so")
+                    enabled: !(_typesBox.currentText == "internal" || modelData.extension === "dll" || modelData.extension === "so")
                     property string lastVersion: text !== "" ? text : lastVersion
                     onTextChanged:  {
-                        _qmldir.setVersionByIndex(parent.row, text)
+                        task.files[row].version = text
                     }
                 }
                 TextField {
                     width: 150; height: 40
                     readOnly: true
-                    text: file
+                    enabled: _typesBox.currentText !== "internal"
+                    text: modelData.name
                 }
             }
         }
         LabelCheckBox {
             label: qsTr("Создать запись о типах qmldir")
             onCheckedChanged: {
-                _qmldir.setCreateTypes(checked)
+                task.qmltypes = checked
             }
         }
         LabelCheckBox {
             label: qsTr("Поддержка Qt Quick Designer")
             onCheckedChanged: {
-                _qmldir.setSupportDesigner(checked)
+                task.supportDesigner = checked
             }
         }
     }
 
-    onRun: _qmldir.createModule()
-    //onKill: _qmldir.kill()
+    onRun: console.log(JSON.stringify(task))
+
 
 }

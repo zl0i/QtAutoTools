@@ -60,21 +60,12 @@ BasicPage {
         })
     }
 
-
-    FInstaller {
-        id: _finstaller
-        onStarted: busiDialog.open()
-        onFinished: busiDialog.finished(exitCode)
-        onNewOutputData: busiDialog.addOutput(line)
-        onNewErrorData: busiDialog.addError(line)
-    }
-
     contentItem: Column {
         spacing: 20
         LabelFieldDialog {
             label: qsTr("Папка установки")
             mode: LabelFieldDialog.Mode.Folder
-            onTextChanged: _finstaller.setPath(text)
+            //onTextChanged: _finstaller.setPath(text)
         }
         CustomButton {
             text: qsTr("Настройка config файла")
@@ -328,19 +319,19 @@ BasicPage {
             label: qsTr("Создать оффлайн установщик")
             checked: !onlineInstaller
             enabledCheckBox: onlineInstaller
-            onCheckedChanged: _finstaller.setCreateOfflineInstaller(checked)
+            //onCheckedChanged: _finstaller.setCreateOfflineInstaller(checked)
         }
         LabelCheckBox {
             visible: onlineInstaller
             label: qsTr("Создать онлайн установщик")
             checked: onlineInstaller
-            onCheckedChanged: _finstaller.setCreateOnlineInstaller(checked)
+            //onCheckedChanged: _finstaller.setCreateOnlineInstaller(checked)
         }
         LabelCheckBox {
             visible: onlineInstaller
             label: qsTr("Создать репозиторий")
             checked: onlineInstaller
-            onCheckedChanged: _finstaller.setCreateRepo(checked)
+            //onCheckedChanged: _finstaller.setCreateRepo(checked)
         }
     }
 
@@ -348,11 +339,5 @@ BasicPage {
         id: _configDialog
         onApply: close()
     }
-
-    onRun: _finstaller.createInstallers()
-    onKill: _finstaller.kill()
-
-
-
 
 }
