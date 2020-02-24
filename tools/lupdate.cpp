@@ -5,23 +5,6 @@ Lupdate::Lupdate(QJsonObject settings, QObject *parent) : AbstractTool(settings,
     QHash<int, QByteArray> hash;
     hash.insert(Qt::UserRole+1, "file");
     filesModel->setItemRoleNames(hash);
-    filesModel->insertColumn(0);
-    filesModel->insertRow(0);
-    filesModel->setData(filesModel->index(0, 0), "", Qt::UserRole+1);
-}
-
-
-void Lupdate::removeFile(int row)
-{
-    if(filesModel->rowCount() > 1)
-        filesModel->removeRow(row);
-}
-
-
-void Lupdate::addFile() {
-    filesModel->insertRow(filesModel->rowCount());
-    QModelIndex index = filesModel->index(filesModel->rowCount()-1, 0);
-    filesModel->setData(index, "", Qt::UserRole+1);
 }
 
 void Lupdate::setFiles(int row, QString url) {
@@ -65,23 +48,43 @@ void Lupdate::runLinguist() {
     }
 }
 
-void Lupdate::configFromJson(QJsonObject)
+void Lupdate::configFromJson(QJsonObject obj)
 {
+    filesModel->clear();
+    QJsonArray jfiles = obj.value("files").toArray();
+    filesModel->insertColumn(0);
+    filesModel->insertRows(0, jfiles.size());
+    for(int i = 0; i < jfiles.size(); ++i) {
+        QString file = jfiles.at(i).toString();
+        filesModel->setData(filesModel->index(i, 0), file, Qt::UserRole+1);
+    }
 
+    langList = obj.value("language").toString().split(" ", QString::SkipEmptyParts);
+    tsFile = obj.value("translatorName").toString();
+    updateFile = obj.value("updateFiles").toString();
+    runQtLinguist = obj.value("runQtLinguist").toBool();
 }
 
 void Lupdate::run()
 {
-    if(filesModel->rowCount()-1 == 0)
-        return;
+    if(filesModel->rowCount() == 0) {
+        if(runQtLinguist)
+            runLinguist();
+        else
+            return;
+    }
 
-    if(langList.length() == 0 && updateFile.isEmpty())
-        return;
+    if(langList.length() == 0 && updateFile.isEmpty()) {
+        if(runQtLinguist)
+            runLinguist();
+        else
+            return;
+    }
 
     translatorList.clear();
 
     QStringList arguments;
-    for(int i = 0; i < filesModel->rowCount()-1; i++) {
+    for(int i = 0; i < filesModel->rowCount(); i++) {
         QModelIndex index = filesModel->index(i ,0);
         arguments.append(filesModel->data(index, Qt::UserRole+1).toString());
     }
@@ -110,13 +113,20 @@ void Lupdate::run()
     }
 
     QString program = profilePath + "/bin/lupdate " + arguments.join(" ");
-
     QFile *file = prepareBatFile(true);
     if(file) {
         file->write(program.toLocal8Bit());
         file->close();
         file->deleteLater();
-        process->start("temp.bat");
+        process->start(file->fileName());
+    }
+}
+
+void Lupdate::successFinished()
+{
+    if(runQtLinguist) {
+        emit newOutputData("Run QtLinguist...\r\n");
+        runLinguist();
     }
 }
 

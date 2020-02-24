@@ -65,15 +65,17 @@ ApplicationWindow {
         InstallerPage {
             width: ListView.view.width
             height: ListView.view.height
+
         }
         QmldirPage {
             width: ListView.view.width
             height: ListView.view.height
+            onRun: _guiAdapter.executeTask(task)
         }
         LUpdatePage {
             width: ListView.view.width
             height: ListView.view.height
-            onRun: console.log(JSON.stringify(task))
+            onRun: _guiAdapter.executeTask(task)
         }
         SettingsPage {
             width: ListView.view.width

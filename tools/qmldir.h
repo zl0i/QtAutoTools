@@ -9,6 +9,7 @@
 #include <QStandardItemModel>
 #include <QHash>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QProcess>
 #include <QJsonObject>
 #include "abstracttool.h"
@@ -19,35 +20,24 @@ class QmlDir : public AbstractTool
     Q_PROPERTY(QStandardItemModel *files READ files NOTIFY filesChanged)
 
 public:
-    explicit QmlDir(QJsonObject settings, QObject *parent = nullptr);
-    ~QmlDir();
+    explicit QmlDir(QJsonObject settings, QObject *parent = nullptr);  
 
     Q_INVOKABLE void setPath(QString);
     Q_INVOKABLE void setCreateTypes(bool);
     Q_INVOKABLE void setSupportDesigner(bool);
 
-    Q_INVOKABLE void setTypeByIndex(int, QString);
-    Q_INVOKABLE void setNameByIndex(int, QString);
-    Q_INVOKABLE void setVersionByIndex(int, QString);
-
     QStandardItemModel *files() { return filesModel; }
-
-    Q_INVOKABLE void createModule();
 
     void configFromJson(QJsonObject) override;
     void run() override;
 
 private:    
     typedef enum {
-        Extension = Qt::UserRole+1,
-        Types,
-        Type,
+        Type = Qt::UserRole + 1,
         Name,
         Version,
         File
-    }TypeRoles;
-
-    const QStringList qmlTypes = {"", "singleton", "internal"};
+    }TypeRoles;    
 
     QString getFileName(QString);
     QString getExtension(QString);
@@ -57,8 +47,6 @@ private:
     QString path;
 
     QStandardItemModel *filesModel = new QStandardItemModel(this);
-
-    QProcess *process = new QProcess(this);
 
     bool createTypes = false;
     bool supportDesigner = false;

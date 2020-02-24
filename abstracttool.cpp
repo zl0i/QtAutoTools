@@ -10,6 +10,7 @@ AbstractTool::AbstractTool(QJsonObject settings, QObject *parent) : QObject(pare
     connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, QOverload<int>::of(&AbstractTool::slotFinished));
     connect(process, &QProcess::readyRead, this, &AbstractTool::slotReadChanel);
+    connect(process, &QProcess::errorOccurred, this, &AbstractTool::errorOcured);
 }
 
 void AbstractTool::waitFinished()
@@ -19,6 +20,9 @@ void AbstractTool::waitFinished()
 
 void AbstractTool::successFinished()
 {
+      QFile *file = prepareBatFile(false);
+      file->readAll();
+      file = prepareBatFile(true);
 
 }
 
@@ -35,6 +39,7 @@ void AbstractTool::kill()
 
 void AbstractTool::slotFinished(int code)
 {
+    qDebug() << process->readAllStandardOutput() << process->readAllStandardError();
     if(code == 0) {
         successFinished();
         emit newOutputData("Done!\r\n");
@@ -44,6 +49,11 @@ void AbstractTool::slotFinished(int code)
     }
     removeBatFile();
     emit finished(process->exitCode(), process->exitStatus());
+}
+
+void AbstractTool::errorOcured(QProcess::ProcessError error)
+{
+    qDebug() << error;
 }
 
 void AbstractTool::slotReadChanel()
@@ -59,8 +69,9 @@ void AbstractTool::slotReadChanel()
         emit newOutputData(output);
 }
 
-QFile* AbstractTool::prepareBatFile(bool addQtPath) const {
-    QFile *file = new QFile("temp.bat");
+QFile *AbstractTool::prepareBatFile(bool addQtPath)  {
+    currentFileName = QString::number(QDateTime::currentMSecsSinceEpoch()) + QString::number(QRandomGenerator::global()->generate());
+    QFile *const file = new QFile(currentFileName + ".bat");
     if(file->open(QIODevice::ReadWrite)) {
         if(addQtPath) {
             QString str = "set PATH="+ profilePath + "/bin;" + compilerPath + "/bin;%PATH%\n";
@@ -68,10 +79,10 @@ QFile* AbstractTool::prepareBatFile(bool addQtPath) const {
         }
         return file;
     }
-    return  nullptr;
+    return nullptr;
 }
 
 void AbstractTool::removeBatFile()
 {
-   QFile::remove("temp.bat");
+   QFile::remove(currentFileName + ".bat");
 }

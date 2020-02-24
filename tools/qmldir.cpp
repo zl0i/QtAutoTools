@@ -4,18 +4,13 @@ QmlDir::QmlDir(QJsonObject settings, QObject *parent) : AbstractTool(settings, p
 {
 
     QHash<int, QByteArray> hash;
-    hash.insert(QmlDir::Extension, "extension");
-    hash.insert(QmlDir::Types, "types");
+    //hash.insert(QmlDir::Extension, "extension");
+    //hash.insert(QmlDir::Types, "types");
     hash.insert(QmlDir::Type, "type");
     hash.insert(QmlDir::Name, "name");
     hash.insert(QmlDir::Version, "version");
     hash.insert(QmlDir::File, "file");
     filesModel->setItemRoleNames(hash);
-}
-
-QmlDir::~QmlDir()
-{
-
 }
 
 
@@ -34,19 +29,16 @@ void QmlDir::setPath(QString path)
         QString ext = getExtension(filesDir.at(i));
         QModelIndex index = filesModel->index(i, 0);
         if(ext == "qml") {
-            filesModel->setData(index, qmlTypes, QmlDir::Types);
             filesModel->setData(index, "", QmlDir::Type);
             filesModel->setData(index, getFileName(filesDir.at(i)), QmlDir::Name);
             filesModel->setData(index, "1.0", QmlDir::Version);
             filesModel->setData(index, filesDir.at(i), QmlDir::File);
         } else if (ext == "js") {
-            filesModel->setData(index, QStringList {}, QmlDir::Types);
             filesModel->setData(index, "", QmlDir::Type);
             filesModel->setData(index, getFileName(filesDir.at(i)), QmlDir::Name);
             filesModel->setData(index, "1.0", QmlDir::Version);
             filesModel->setData(index, filesDir.at(i), QmlDir::File);
         } else if (ext == "dll" || ext == "so") {
-            filesModel->setData(index, QStringList {"plugin"}, QmlDir::Types);
             filesModel->setData(index, "plugin", QmlDir::Type);
             filesModel->setData(index, getFileName(filesDir.at(i)), QmlDir::Name);
             filesModel->setData(index, "", QmlDir::Version);
@@ -67,33 +59,43 @@ void QmlDir::setSupportDesigner(bool b)
     this->supportDesigner = b;
 }
 
-void QmlDir::setTypeByIndex(int row, QString type)
+void QmlDir::configFromJson(QJsonObject obj)
 {
-    QModelIndex index = filesModel->index(row, 0);
-    filesModel->setData(index, type, QmlDir::Type);
+    filesModel->clear();
+    QJsonArray files = obj.value("files").toArray();
+    filesModel->insertColumn(0);
+    filesModel->insertRows(0, files.size());
+    for(int i = 0; i < files.size(); i++) {
+        QJsonObject file = files.at(i).toObject();
+
+        QModelIndex index = filesModel->index(i, 0);
+
+        filesModel->setData(index, file.value("type"), QmlDir::Type);
+        filesModel->setData(index, file.value("name"), QmlDir::Name);
+        filesModel->setData(index, file.value("version"), QmlDir::Version);
+        filesModel->setData(index, file.value("path"), QmlDir::File);
+
+    }
+    path = obj.value("path").toString();
+    createTypes = obj.value("qmltypes").toBool();
+    supportDesigner = obj.value("supportDesigner").toBool();
 }
 
-void QmlDir::setNameByIndex(int row, QString name)
+void QmlDir::run()
 {
-    QModelIndex index = filesModel->index(row, 0);
-    filesModel->setData(index, name, QmlDir::Name);
-}
+    if(path.isEmpty()) {
+        emit finished(1, QProcess::CrashExit);
+        return;
+    }
 
-void QmlDir::setVersionByIndex(int row, QString version)
-{
-    QModelIndex index = filesModel->index(row, 0);
-    filesModel->setData(index, version, QmlDir::Version);
-}
-
-
-void QmlDir::createModule()
-{
     emit started();
-
     emit newOutputData("Create qmldir file \r\n");
+
     QFile file(path + "/qmldir");
+
     if(file.exists())
         file.remove();
+
     if(file.open(QIODevice::ReadWrite)) {
         emit newOutputData("Write to qmldir file \r\n");
         QTextStream stream(&file);
@@ -121,11 +123,11 @@ void QmlDir::createModule()
             QString program =profilePath + "/bin/qmlplugindump " + arguments.join(" ");
             emit newOutputData("Starting " + program.toLocal8Bit()+ "\r\n");
             QFile *batFile = prepareBatFile(true);
-
+            qDebug() << program;
             batFile->write(program.toLocal8Bit());
             batFile->close();
             batFile->deleteLater();
-            process->start("temp.bat");
+            process->start(batFile->fileName());
 
         } else {
             emit newOutputData("Ready!\r\n");
@@ -135,16 +137,6 @@ void QmlDir::createModule()
     } else {
         emit newErrorData("File not open\r\n");
     }
-}
-
-void QmlDir::configFromJson(QJsonObject)
-{
-
-}
-
-void QmlDir::run()
-{
-
 }
 
 
@@ -183,11 +175,12 @@ QString QmlDir::buildString(QModelIndex index)
         line += filesModel->data(index, QmlDir::Version).toString() + " ";
     }
     if(!filesModel->data(index, QmlDir::File).toString().isEmpty()) {
-        line += filesModel->data(index, QmlDir::File).toString() + "\r\n";
+        line += filesModel->data(index, QmlDir::File).toString().split("/").last();
     } else {
        emit newErrorData("Empty file name\r\n");
     }
-    return line;
+    qDebug() << line;
+    return line + "\r\n";
 }
 
 QString QmlDir::getMinimumVersion()
@@ -219,7 +212,7 @@ void QmlDir::slotFinished(int exitCode)
                 file.write(str.toLocal8Bit());
                 file.close();
             }
-        }        
+        }
         emit newOutputData("Ready!\r\n");
     }
     emit finished(process->exitCode(), process->exitStatus());

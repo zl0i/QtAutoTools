@@ -13,8 +13,12 @@ Builder::Builder(QJsonObject settings, QObject *parent) : AbstractTool(settings,
     }*/
 }
 
-void Builder::configFromJson(QJsonObject) {
-
+void Builder::configFromJson(QJsonObject obj) {
+    proFile = obj.value("proFile").toString();
+    systemBuild = obj.value("systemBuild").toString();
+    mkspec = obj.value("mkspec").toString();
+    buildDir = obj.value("buildDir").toString();
+    addConfigure = obj.value("configure").toString();
 }
 
 void Builder::run() {

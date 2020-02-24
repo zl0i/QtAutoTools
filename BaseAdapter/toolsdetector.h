@@ -37,6 +37,9 @@ public:
     QJsonObject getDetectTools() { return detectTools; }
 
 private:
+
+    const QStringList qmlTypes = {"", "singleton", "internal"};
+
     QString qtPath;
 
     QStringList versionsDirs;

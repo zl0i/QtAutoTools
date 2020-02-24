@@ -41,7 +41,8 @@ BasicPage {
                                        "type": "",
                                        "version": "1.0",
                                        "name": name,
-                                       "extension": extension
+                                       "extension": extension,
+                                       "path": array[i]
                                    })
                 }
 

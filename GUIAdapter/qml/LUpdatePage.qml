@@ -11,14 +11,15 @@ import Components.Data 1.0
 BasicPage {
 
     title: "lupdate"
-    buttonText: qsTr("Запустить Qt Linguist")
+    buttonText: qsTr("Создать")
 
     task: {
         "tool": "lupdate",
         "files": [""],
         "language": "",
         "translatorName": "",
-        "updateFiles": ""
+        "updateFiles": "",
+        "runQtLinguist": false
     }
 
 
@@ -82,12 +83,13 @@ BasicPage {
                 task.language = text
             }
         }
-        CustomButton {
-            text: qsTr("Создать")
-            onClicked: {
-
+        LabelCheckBox {
+            label: qsTr("Запустить Qt Linguist")
+            onCheckedChanged: {
+                task.runQtLinguist = checked
             }
         }
+
     }
     onRun: task.files.pop()
 

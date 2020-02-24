@@ -59,13 +59,11 @@
         },
         {
             "tool": "lupdate",
-            "files": [
-                    "G:\Projects\Qt\QtAutoTools\TestQmlDir\BuilderPage.qml",
-                    "G:\Projects\Qt\QtAutoTools\TestQmlDir\BuilderPage.qml"
-                    ],
-            "language": "ru eu ua",
-            "translatorName": "main",
-            "updateFiles": "G:/Projects/Qt/QtAutoTools/QtAutoTools/GUIAdapter/translation/ts_files/QtAutoTools_en.ts"
+            "files": [],
+            "language": "",
+            "translatorName": "",
+            "updateFiles": "",
+            "runQtLinguist" : false
         }
     ],
     "globalSettings": {

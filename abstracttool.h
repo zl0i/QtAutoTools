@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QFile>
 #include <QJsonObject>
+#include <QDateTime>
+#include <QRandomGenerator>
 
 class AbstractTool : public QObject
 {
@@ -30,8 +32,11 @@ protected:
     virtual void successFinished();
     virtual void failFinished();
 
-    QFile* prepareBatFile(bool) const;
+    QFile *prepareBatFile(bool env = true);
     void removeBatFile();
+
+private:
+    QString currentFileName;
 
 signals:
     void started();
@@ -41,6 +46,7 @@ signals:
 
 public slots:
     virtual void slotFinished(int);
+    void errorOcured(QProcess::ProcessError error);
     void slotReadChanel();
     void kill();
 };

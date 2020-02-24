@@ -8,6 +8,7 @@
 #include <QProcess>
 #include <QStandardItemModel>
 #include <QJsonObject>
+#include <QJsonArray>
 #include "abstracttool.h"
 
 
@@ -19,8 +20,6 @@ class Lupdate : public AbstractTool
 public:
     explicit Lupdate(QJsonObject settings, QObject *parent = nullptr);
 
-    Q_INVOKABLE void addFile();
-    Q_INVOKABLE void removeFile(int);
 
     Q_INVOKABLE void setFiles(int, QString);
     Q_INVOKABLE void setLanguage(QString);
@@ -33,6 +32,8 @@ public:
     void run() override;
 
     QStandardItemModel *files() { return filesModel; }
+protected:
+    void successFinished() override;
 
 private:
     QString getStringFileTs(QString file);
@@ -42,6 +43,8 @@ private:
     QString updateFile;
     QStringList langList;
     QString translatorList;
+    bool runQtLinguist = false;
+
 
 
     QStandardItemModel *filesModel = new QStandardItemModel(this);
