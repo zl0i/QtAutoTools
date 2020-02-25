@@ -11,6 +11,16 @@ BasicPage {
 
     title: "Qt Installer Framework"
     buttonText: qsTr("Выполнить")
+    task: {
+        "tool": "finstaller",
+        "path": "",
+        "config": {},
+        "packages": [],
+        "isCreateMixedInstaller": false,
+        "isCreateOfflineInstaller": true,
+        "isCreateOnlineInstaller": false,
+        "isCreateRepository": false
+    }
 
     property bool onlineInstaller: false
 
@@ -65,7 +75,8 @@ BasicPage {
         LabelFieldDialog {
             label: qsTr("Папка установки")
             mode: LabelFieldDialog.Mode.Folder
-            //onTextChanged: _finstaller.setPath(text)
+            onTextChanged: task.path = text
+
         }
         CustomButton {
             text: qsTr("Настройка config файла")
@@ -313,31 +324,38 @@ BasicPage {
             label: qsTr("Создать смешанный установщик")
             checked: onlineInstaller
             visible: onlineInstaller
-            onCheckedChanged: _finstaller.setCreateMixedInstaller(checked)
+            onCheckedChanged: task.isCreateMixedInstaller = checked
         }
         LabelCheckBox {
             label: qsTr("Создать оффлайн установщик")
             checked: !onlineInstaller
             enabledCheckBox: onlineInstaller
-            //onCheckedChanged: _finstaller.setCreateOfflineInstaller(checked)
+            onCheckedChanged: task.isCreateOfflineInstaller = checked
         }
         LabelCheckBox {
             visible: onlineInstaller
             label: qsTr("Создать онлайн установщик")
             checked: onlineInstaller
-            //onCheckedChanged: _finstaller.setCreateOnlineInstaller(checked)
+            onCheckedChanged: task.isCreateOnlineInstaller = checked
         }
         LabelCheckBox {
             visible: onlineInstaller
             label: qsTr("Создать репозиторий")
             checked: onlineInstaller
-            //onCheckedChanged: _finstaller.setCreateRepo(checked)
+            onCheckedChanged: task.isCreateRepository = checked
         }
     }
 
     ConfigDialog {
         id: _configDialog
-        onApply: close()
+        onApply: {
+            task.config = config
+            close()
+        }
+    }
+
+    onRun: {
+        task.packages = packagesModel
     }
 
 }

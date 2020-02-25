@@ -7,8 +7,6 @@
 #include <QProcess>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QDebug>
-#include <QThread>
 #include "abstracttool.h"
 #include "installerhelper.h"
 
@@ -20,8 +18,6 @@ public:
 
     Q_INVOKABLE void setPath(QString);
 
-    Q_INVOKABLE void create(QJsonObject config, QJsonArray packages);
-
     Q_INVOKABLE void setCreateMixedInstaller(bool);
     Q_INVOKABLE void setCreateOfflineInstaller(bool);
     Q_INVOKABLE void setCreateOnlineInstaller(bool);
@@ -31,12 +27,11 @@ public:
     void run() override;
 
 private:   
-    QProcess *process;
-
     QString path;
     QString installerName;
+    QJsonObject config;
+    QJsonArray packages;
 
-    QThread *thread;
     InstallerHelper *installerHelper;
 
     bool isCreateMixedInstaller = false;

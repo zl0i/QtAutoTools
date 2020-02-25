@@ -34,7 +34,14 @@
             }
         },
         {
-            "tool": "finstaller"
+            "tool": "finstaller",
+            "path": "",
+            "config": {},
+            "packages": [],
+            "isCreateMixedInstaller": false,
+            "isCreateOfflineInstaller": false,
+            "isCreateOnlineInstaller": false,
+            "isCreateRepository": false
         },
         {
             "label": "step_four",

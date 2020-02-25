@@ -120,10 +120,10 @@ void QmlDir::run()
             arguments.append(">");
             arguments.append(path + "/" + path.split("/").last().toLower() + ".qmltypes");
 
-            QString program =profilePath + "/bin/qmlplugindump " + arguments.join(" ");
+            QString program = profilePath + "/bin/qmlplugindump " + arguments.join(" ");
             emit newOutputData("Starting " + program.toLocal8Bit()+ "\r\n");
             QFile *batFile = prepareBatFile(true);
-            qDebug() << program;
+
             batFile->write(program.toLocal8Bit());
             batFile->close();
             batFile->deleteLater();
@@ -179,7 +179,6 @@ QString QmlDir::buildString(QModelIndex index)
     } else {
        emit newErrorData("Empty file name\r\n");
     }
-    qDebug() << line;
     return line + "\r\n";
 }
 

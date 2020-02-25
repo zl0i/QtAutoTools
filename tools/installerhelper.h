@@ -15,10 +15,12 @@ class InstallerHelper : public QObject
 public:
     explicit InstallerHelper(QObject *parent = nullptr);
 
-
     void setPath(QString);
-    void setConfig(QJsonObject);
-    void setPackages(QJsonArray);
+
+    void createConfigAndPackages(QJsonObject, QJsonArray);
+
+    //void setConfig(QJsonObject);
+    //void setPackages(QJsonArray);
 
 private:
 
@@ -39,11 +41,10 @@ private:
     void writeXmlTextElement(QXmlStreamWriter *stream, QString key, QString value);
 
 public slots:
-    void run();
+
 
 signals:
 
-    void finished();
 };
 
 #endif // INSTALLERHELPER_H

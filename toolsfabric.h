@@ -20,7 +20,7 @@ public:
     enum Tools {
         BUILDER = 0,
         WINDEPLOYQT,
-        INSTALLER,
+        FINSTALLER,
         QMLDIR,
         LUPDATE
     };

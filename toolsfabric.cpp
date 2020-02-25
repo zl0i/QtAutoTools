@@ -13,7 +13,7 @@ AbstractTool *ToolsFabric::createTool(QString type, QJsonObject settings)
     case WINDEPLOYQT: {
         return new class Windeployqt(settings);
     }
-    case INSTALLER: {
+    case FINSTALLER: {
         return new class FInstaller(settings);
     }
     case QMLDIR: {
