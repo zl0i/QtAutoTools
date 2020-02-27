@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
     QObject::connect(&guiAdapter, &GUIAdapter::killTask, &manager, &TaskManager::killTask);
 
 
-
     /*ConsoleAdapter consoleAdapter(storage);
     consoleAdapter.start();
     QObject::connect(&consoleAdapter, &ConsoleAdapter::signalExecuteTask, &manager, &TaskManager::executeTask);

@@ -23,9 +23,10 @@ ApplicationWindow {
 
     readonly property var toolsList: ["Builder", "Windeployqt", "Installer", "qmldir", "lupdate", "Settings"]
 
-    /*SettingsDialog {
+    SettingsDialog {
+        id: _settingsDialog
         visible: true
-    }*/
+    }
 
     Connections {
         target: _guiAdapter
@@ -36,7 +37,10 @@ ApplicationWindow {
         onFinishedTask: _busyDialog.finished(exitCode)
         onNewOutputDataTask: _busyDialog.addOutput(line)
         onNewErrorDataTask: _busyDialog.addError(line)
-
+        onSettingsNotExist: {
+            _settingsDialog.open()
+            console.log("settings not exist")
+        }
 
     }
 

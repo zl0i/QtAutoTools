@@ -6,6 +6,7 @@ GUIAdapter::GUIAdapter(SettingsStorage *storage, QObject *parent) : BaseAdapter(
     engine.rootContext()->setContextProperty("_guiAdapter", this);
 
     connect(&translator, &GUITranslator::retranslate, &engine, &QQmlEngine::retranslate);
+    //connect(this, &GUIAdapter::showGettingQtPath, this, &GUIAdapter::showSetQtPath);
     //qDebug() << QLocale::system().name();
 }
 
@@ -49,6 +50,11 @@ void GUIAdapter::kill()
 {
     emit killTask(taskName);
 }
+
+/*void GUIAdapter::showSetQtPath(QString)
+{
+
+}*/
 
 void GUIAdapter::setLanguage(QString lg)
 {

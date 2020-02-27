@@ -33,6 +33,7 @@ signals:
     void newOutputDataTask( QByteArray line);
     void finishedTask(int exitCode, int exitStatus);
 
+    void showGettingQtPath();
 public slots:
 
     void started(QString name) override;
@@ -41,6 +42,7 @@ public slots:
     void finished(QString name, int exitCode, int exitStatus) override;
 
     void kill() override;
+    //void showSetQtPath(QString) override;
 
     void setLanguage(QString);
 

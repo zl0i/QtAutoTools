@@ -52,10 +52,10 @@ Dialog {
                 CustomButton {
                     x: parent.width-width; y: parent.height-height
                     width: 70; height: 40
-                    //enabled: _qtPathField.text.length > 0
+                    enabled: _qtPathField.text.length > 0
                     text: qsTr("Далее")
                     onClicked: {
-                        //_detector.detect(_qtPathField.text)
+                        _guiAdapter.setSettingsQtPath(_qtPathField.text)
                         _swipeView.incrementCurrentIndex()
                     }
                 }
@@ -68,8 +68,8 @@ Dialog {
                     spacing: 15
                     LabelComboBox {
                         label: qsTr("Версия Qt")
-                        //model: _detector.qtVersion
-                        onActivated: _detector.detectProfile(currentText)
+                        model: _guiAdapter.detectTool.qtVersion
+                        //onActivated: _detector.detectProfile(currentText)
                     }
                     LabelComboBox {
                         label: qsTr("Профиль Qt")

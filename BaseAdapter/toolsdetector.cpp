@@ -21,13 +21,17 @@ void ToolsDetector::detect(QString qtpath)
     }
 }
 
+bool ToolsDetector::checkTools()
+{
+    return true;
+}
+
 
 void ToolsDetector::detectQtVersion()
 {
     QDir qtDir(qtPath);
     versionsDirs = qtDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     versionsDirs = versionsDirs.filter(QRegExp("[\\d]{1}[\\.]{1}[\\d]{1,2}[\\.]{1}[\\d]{1,2}"));
-    emit qtVersionChanged();
     if(versionsDirs.size() > 0)
         detectProfile(versionsDirs.at(0));
 
@@ -38,22 +42,21 @@ void ToolsDetector::detectProfile(QString versionDir)
     QDir qtVersionDir(qtPath + "/" + versionDir);
     qtProfile = qtVersionDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     qtProfile.removeOne("Src");
-    emit qtProfileChanged();
 }
 
-void ToolsDetector::setProfile(QString path)
+void ToolsDetector::setProfile(QString)
 {
-    //ToolsSaver::getInstance()->setProfilePath(path);
+
 }
 
-void ToolsDetector::setCompiler(QString path)
+void ToolsDetector::setCompiler(QString)
 {
-    //ToolsSaver::getInstance()->setCompilerPath(path);
+
 }
 
-void ToolsDetector::setInstallerFramework(QString path)
+void ToolsDetector::setInstallerFramework(QString)
 {
-   // ToolsSaver::getInstance()->setInstallerFramework(path);
+
 }
 
 void ToolsDetector::detectCompiler()
@@ -61,7 +64,6 @@ void ToolsDetector::detectCompiler()
     QDir qtDir(qtPath + "/Tools");
     if(qtDir.exists()) {
         compilerList = qtDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).filter(QRegExp("(mingw)(\\d+)(_)(\\d+)"));
-        emit compilerListChanged();
     }
 }
 
@@ -70,7 +72,6 @@ void ToolsDetector::detectIntallerFramework()
      QDir qtDir(qtPath + "/Tools/QtInstallerFramework");
      if(qtDir.exists()) {
          installerList = qtDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).filter(QRegExp("\\d[.]\\d"));
-         emit installerVerisonChanged();
      }
 }
 
