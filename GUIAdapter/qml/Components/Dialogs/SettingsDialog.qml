@@ -55,7 +55,7 @@ Dialog {
                     enabled: _qtPathField.text.length > 0
                     text: qsTr("Далее")
                     onClicked: {
-                        _guiAdapter.setSettingsQtPath(_qtPathField.text)
+                        _guiAdapter.detectToolsByQtPath(_qtPathField.text)
                         _swipeView.incrementCurrentIndex()
                     }
                 }

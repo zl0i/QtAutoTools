@@ -7,6 +7,7 @@
 #include <QDir>
 #include <QProcess>
 #include <QJsonObject>
+#include <QJsonArray>
 
 
 class ToolsDetector : public QObject
@@ -17,40 +18,25 @@ class ToolsDetector : public QObject
 public:
     explicit ToolsDetector(QObject *parent = nullptr);
 
-    Q_INVOKABLE void detect(QString qtpath);
+    void detect(QString qtpath);
     bool checkTools();
-
-    Q_INVOKABLE void detectProfile(QString versionDir);
-    Q_INVOKABLE void setProfile(QString);
-    Q_INVOKABLE void setCompiler(QString);
-    Q_INVOKABLE void setInstallerFramework(QString);
-    //Q_INVOKABLE void detectOtherTools();
-    Q_INVOKABLE void checkAllTools();
-
 
     QJsonObject getDetectTools() { return detectTools; }
 
 private:
-
-    const QStringList qmlTypes = {"", "singleton", "internal"};
-
     QString qtPath;
-
-    QStringList versionsDirs;
-    QStringList qtProfile;
-    QStringList compilerList;
-    QStringList installerList;
 
     QJsonObject detectTools;
 
-    void detectQtVersion();
-    void detectCompiler();
-    void detectIntallerFramework();
+    QStringList detectQtVersion();
+    QStringList detectProfile(QString path);
+    QStringList detectMkspecs(QString path);
+    QStringList detectCompilers();
+    QStringList detectIntallerFramework();
+
     void detectOtherTools();
 
-signals:
-
-    void detectToolsChanged();
+    QJsonArray convertToJArray(QStringList);
 };
 
 #endif // TOOLSDETECTOR_H

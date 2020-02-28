@@ -2,22 +2,40 @@
 
 ToolsDetector::ToolsDetector(QObject *parent) : QObject(parent)
 {
-    detectTools.insert("windeployqt", true);
+    /*detectTools.insert("windeployqt", true);
     detectTools.insert("androiddeployqt", false);
     detectTools.insert("qtInstallerFramework", true);
     detectTools.insert("lupdate", true);
     detectTools.insert("git", false);
-    detectTools.insert("docker", false);
+    detectTools.insert("docker", false);*/
 }
 
 void ToolsDetector::detect(QString qtpath)
 {
     if(QDir(qtpath).exists()) {
         qtPath = qtpath;
-        detectQtVersion();
-        detectIntallerFramework();
-        detectCompiler();
-        detectOtherTools();
+        detectTools.insert("qtPath", qtpath);
+        QStringList qtVersions = detectQtVersion();
+        detectTools.insert("qtVersions", convertToJArray(qtVersions));
+        QJsonObject profiles;
+        QJsonObject mkSpecs;
+        for(int i = 0; i < qtVersions.size(); ++i) {
+            QStringList profileList = detectProfile(qtPath + QDir::separator() + qtVersions.at(i));
+            profiles.insert(qtVersions.at(i), convertToJArray(profileList));
+
+            for(int j = 0; j < profileList.size(); ++j) {
+                QStringList mkspecsList = detectMkspecs(qtPath + QDir::separator() + qtVersions.at(i) + QDir::separator() + profileList.at(j));
+                mkSpecs.insert(qtVersions.at(i)+"_"+profileList.at(j), convertToJArray(mkspecsList));
+            }
+        }
+        detectTools.insert("profiles", profiles);
+        detectTools.insert("mkspecs", mkSpecs);
+
+        detectTools.insert("finstallerVersion", convertToJArray(detectIntallerFramework()));
+        detectTools.insert("compilers", convertToJArray(detectCompilers()));
+
+        //detectOtherTools();
+        qDebug() << detectTools;
     }
 }
 
@@ -27,52 +45,51 @@ bool ToolsDetector::checkTools()
 }
 
 
-void ToolsDetector::detectQtVersion()
+QStringList ToolsDetector::detectQtVersion()
 {
     QDir qtDir(qtPath);
-    versionsDirs = qtDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    QStringList versionsDirs = qtDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     versionsDirs = versionsDirs.filter(QRegExp("[\\d]{1}[\\.]{1}[\\d]{1,2}[\\.]{1}[\\d]{1,2}"));
-    if(versionsDirs.size() > 0)
-        detectProfile(versionsDirs.at(0));
-
+    return  versionsDirs;
 }
 
-void ToolsDetector::detectProfile(QString versionDir)
+QStringList ToolsDetector::detectProfile(QString dir)
 {
-    QDir qtVersionDir(qtPath + "/" + versionDir);
-    qtProfile = qtVersionDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    QDir qtVersionDir(dir);
+    QStringList qtProfile = qtVersionDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     qtProfile.removeOne("Src");
+    return qtProfile;
 }
 
-void ToolsDetector::setProfile(QString)
+QStringList ToolsDetector::detectMkspecs(QString path)
 {
-
+    QDir dir(path + QDir::separator() + "mkspecs");
+    if(dir.exists()) {
+        QStringList specList = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+        return specList;
+    }
+    return QStringList {};
 }
 
-void ToolsDetector::setCompiler(QString)
-{
-
-}
-
-void ToolsDetector::setInstallerFramework(QString)
-{
-
-}
-
-void ToolsDetector::detectCompiler()
+QStringList ToolsDetector::detectCompilers()
 {
     QDir qtDir(qtPath + "/Tools");
     if(qtDir.exists()) {
-        compilerList = qtDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).filter(QRegExp("(mingw)(\\d+)(_)(\\d+)"));
+        QStringList compilerList = qtDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).filter(QRegExp("(mingw)(\\d+)(_)(\\d+)"));
+        return  compilerList;
     }
+    return QStringList {};
+
 }
 
-void ToolsDetector::detectIntallerFramework()
+QStringList ToolsDetector::detectIntallerFramework()
 {
-     QDir qtDir(qtPath + "/Tools/QtInstallerFramework");
-     if(qtDir.exists()) {
-         installerList = qtDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).filter(QRegExp("\\d[.]\\d"));
-     }
+    QDir qtDir(qtPath + "/Tools/QtInstallerFramework");
+    if(qtDir.exists()) {
+        QStringList installerList = qtDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).filter(QRegExp("\\d[.]\\d"));
+        return  installerList;
+    }
+    return  QStringList {};
 }
 
 void ToolsDetector::detectOtherTools()
@@ -89,7 +106,11 @@ void ToolsDetector::detectOtherTools()
     qDebug() << "docker:" << output.contains("docker version");
 }
 
-void ToolsDetector::checkAllTools()
+QJsonArray ToolsDetector::convertToJArray(QStringList list)
 {
-    //QFile file(ToolsSaver::getInstance().)
+    QJsonArray array;
+    for(int i = 0; i < list.size(); ++i) {
+        array.append(list.at(i));
+    }
+    return array;
 }

@@ -4,19 +4,19 @@ BaseAdapter::BaseAdapter(SettingsStorage *storage, QObject *parent)
 {
     this->setParent(parent);
     settingsStorage = storage;
-    toolDetector = new ToolsDetector(this);
+    //toolDetector = new ToolsDetector(this);
     if(!settingsExist()) {
         existSettings = false;
         //toolDetector->detect();
     } else {
-        existSettings = toolDetector->checkTools();
+        existSettings = toolDetector.checkTools();
     }
     //toolDetector->detect()
 }
 
-QJsonObject BaseAdapter::detectTool()
+QJsonObject BaseAdapter::detectTools()
 {
-    return toolDetector->getDetectTools();
+    return toolDetector.getDetectTools();
 }
 
 bool BaseAdapter::settingsExist()
@@ -34,8 +34,10 @@ SettingsStorage *BaseAdapter::storage() const
 
 void BaseAdapter::executeTask(QJsonObject obj)
 {
-    if(!existSettings)
+    if(!existSettings) {
+        emit settingsNotExist();
         return;
+    }
 
     if(isRunningTask(sender()))
         return;
@@ -66,8 +68,8 @@ void BaseAdapter::executeScript(QString name)
     emit signalExecuteTask(main);
 }
 
-void BaseAdapter::setSettingsQtPath(QString path)
+void BaseAdapter::detectToolsByQtPath(QString path)
 {
-    toolDetector->detect(path);
+    toolDetector.detect(path);
 }
 

@@ -4,13 +4,6 @@ Builder::Builder(QJsonObject settings, QObject *parent) : AbstractTool(settings,
 {
     m_systemBuildList.append("qmake");
     systemBuild  = "qmake";
-
-    /*QDir dir(Worker::getInstance()->compilerPath() + "/mkspecs");
-    m_specList = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    if(!m_specList.isEmpty()) {
-        mkspec = m_specList.at(0);
-        emit specListChanged();
-    }*/
 }
 
 void Builder::configFromJson(QJsonObject obj) {

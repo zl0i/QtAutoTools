@@ -35,6 +35,7 @@ SOURCES += \
         BaseAdapter/toolsdetector.cpp \
         tools/lupdate.cpp \
         toolsfabric.cpp \
+        toolspathfabric.cpp \
         toolworker.cpp
 
 TRANSLATIONS = GUIAdapter/translation/ts_files/QtAutoTools_en.ts
@@ -81,6 +82,7 @@ HEADERS += \
     BaseAdapter/toolsdetector.h \
     tools/lupdate.h \
     toolsfabric.h \
+    toolspathfabric.h \
     toolworker.h
 
 DISTFILES += \

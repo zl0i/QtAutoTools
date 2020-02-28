@@ -14,13 +14,13 @@ class BaseAdapter : public IAdapter
 {
     Q_OBJECT
     Q_PROPERTY(SettingsStorage *storage READ storage NOTIFY storageChanged)
-    Q_PROPERTY(QJsonObject detectTool READ detectTool NOTIFY detectToolChanged)
+    Q_PROPERTY(QJsonObject detectTool READ detectTools NOTIFY detectToolChanged)
 
 public:
     explicit BaseAdapter(SettingsStorage *storage, QObject *parent = nullptr);
 
     virtual void start() = 0;
-    QJsonObject detectTool();
+    QJsonObject detectTools() override;
 protected:
 
     virtual bool isRunningTask(QObject* sender = nullptr) = 0;
@@ -29,7 +29,7 @@ protected:
     SettingsStorage *storage() const;
 
 private:
-    ToolsDetector *toolDetector;
+    ToolsDetector toolDetector;
     SettingsStorage *settingsStorage;
     ScriptStorage scriptStorage;
 
@@ -50,9 +50,8 @@ public slots:
     void executeScript(QString);
 
     virtual void kill() = 0;
-    //virtual void showSetQtPath(QString) = 0;
 
-    void setSettingsQtPath(QString);
+    void detectToolsByQtPath(QString);
 };
 
 #endif // BASEADAPTER_H
