@@ -1,6 +1,6 @@
 #include "filestorage.h"
 
-FileStorage::FileStorage(QObject *parent) : SettingsStorage(parent)
+FileStorage::FileStorage(QObject *)
 {
 
 }

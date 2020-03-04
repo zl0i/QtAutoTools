@@ -8,7 +8,7 @@ class FileStorage : public SettingsStorage
 {
     Q_OBJECT
 public:
-    explicit FileStorage(QObject *parent = nullptr);
+    explicit FileStorage(QObject* parent = nullptr);
 
 signals:
 

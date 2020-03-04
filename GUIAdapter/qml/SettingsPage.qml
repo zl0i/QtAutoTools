@@ -7,6 +7,8 @@ import Components.Elements 1.0
 
 Item {
 
+    property var settings: _guiAdapter.settings
+
     Label {
         x: 20; y: 20
         font.pixelSize: 18
@@ -20,32 +22,29 @@ Item {
         LabelFieldDialog {
             label: qsTr("Путь к Qt")
             mode: LabelFieldDialog.Mode.Folder
-            Component.onCompleted: {
-                text = _guiAdapter.storage.qtPath
-            }
+            text: _guiAdapter.settings.qtPath
             onTextChanged: {
-                _guiAdapter.storage.qtPath = text
+                settings.qtPath = text
+                _guiAdapter.settings = settings
             }
         }
         LabelFieldDialog {
             label: qsTr("Профиль")
             mode: LabelFieldDialog.Mode.Folder
-            Component.onCompleted: {
-                text = _guiAdapter.storage.profilePath
-            }
+            text:  _guiAdapter.settings.profilePath
             onTextChanged: {
-                _guiAdapter.storage.profilePath = text
+                settings.profilePath = text
+                _guiAdapter.settings = settings
             }
         }
 
         LabelFieldDialog {
             label: qsTr("Компилятор")
             mode: LabelFieldDialog.Mode.Folder
-            Component.onCompleted: {
-                text = _guiAdapter.storage.compilerPath
-            }
+            text: _guiAdapter.settings.compilatorPath
             onTextChanged: {
-                _guiAdapter.storage.compilerPath = text
+                settings.compilator = text
+                _guiAdapter.settings = settings
             }
         }
 
@@ -84,7 +83,7 @@ Item {
         Button {
             text: qsTr("Удалить все настройки")
             onClicked: {
-                _guiAdapter.storage.clearAllSettings()
+                _guiAdapter.clearAllSettings()
             }
         }
     }

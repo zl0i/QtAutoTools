@@ -13,6 +13,13 @@ Dialog {
     modal: true; dim: true
     closePolicy: Popup.NoAutoClose
 
+    property var detectTools: ({})
+    property var settings: ({})
+    property var settingsModel: ({})
+
+    signal setQtPath(var path)
+    signal setSettings(var settings)
+
     Behavior on height {
         NumberAnimation { duration: 200 }
     }
@@ -55,7 +62,8 @@ Dialog {
                     enabled: _qtPathField.text.length > 0
                     text: qsTr("Далее")
                     onClicked: {
-                        _guiAdapter.detectToolsByQtPath(_qtPathField.text)
+                        settings.qtPath = _qtPathField.text
+                        setQtPath(_qtPathField.text)
                         _swipeView.incrementCurrentIndex()
                     }
                 }
@@ -67,31 +75,43 @@ Dialog {
                     width: parent.width
                     spacing: 15
                     LabelComboBox {
+                        id: _qtVersion
                         label: qsTr("Версия Qt")
-                        model: _guiAdapter.detectTool.qtVersion
-                        //onActivated: _detector.detectProfile(currentText)
+                        model: settingsModel.qtVersions
+                        onCurrentTextChanged: settings.qtVersion = currentText
                     }
                     LabelComboBox {
                         label: qsTr("Профиль Qt")
-                        //model: _detector.qtProfile
-                        onCurrentTextChanged: _detector.setProfile(currentText)
+                        model: settingsModel.profiles[_qtVersion.currentText]
+                        onCurrentTextChanged: settings.profile = currentText
                     }
                     LabelComboBox {
                         label: qsTr("Комилятор")
-                        //model: _detector.compilerList
-                        onCurrentTextChanged: _detector.setCompiler(currentText)
+                        model: settingsModel.compilers
+                        onCurrentTextChanged: settings.compilator = currentText
                     }
                     LabelComboBox {
                         label: qsTr("Qt Installer Framework")
-                        //model: _detector.installerVerison
-                        onCurrentTextChanged: _detector.setInstallerFramework(currentText)
+                        model: settingsModel.finstallerVersion
+                        onCurrentTextChanged: settings.finstaller = currentText
+                    }
+                }
+                CustomButton {
+                    x: 0; y: parent.height-height
+                    width: 70; height: 40
+                    text: qsTr("Назад")
+                    onClicked: {
+                        _swipeView.decrementCurrentIndex()
                     }
                 }
                 CustomButton {
                     x: parent.width-width; y: parent.height-height
                     width: 70; height: 40
                     text: qsTr("Готово")
-                    onClicked: _dialog.close()
+                    onClicked: {
+                        setSettings(settings)
+                        _dialog.close()
+                    }
                 }
             }
         }

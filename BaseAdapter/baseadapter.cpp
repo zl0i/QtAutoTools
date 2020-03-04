@@ -4,28 +4,8 @@ BaseAdapter::BaseAdapter(SettingsStorage *storage, QObject *parent)
 {
     this->setParent(parent);
     settingsStorage = storage;
-    //toolDetector = new ToolsDetector(this);
-    if(!settingsExist()) {
-        existSettings = false;
-        //toolDetector->detect();
-    } else {
-        existSettings = toolDetector.checkTools();
-    }
-    //toolDetector->detect()
 }
 
-QJsonObject BaseAdapter::detectTools()
-{
-    return toolDetector.getDetectTools();
-}
-
-bool BaseAdapter::settingsExist()
-{
-    QJsonObject obj = settingsStorage->getCustomValue("tools").toJsonObject();
-    if(obj.isEmpty())
-        return false;
-    return true;
-}
 
 SettingsStorage *BaseAdapter::storage() const
 {
@@ -34,11 +14,6 @@ SettingsStorage *BaseAdapter::storage() const
 
 void BaseAdapter::executeTask(QJsonObject obj)
 {
-    if(!existSettings) {
-        emit settingsNotExist();
-        return;
-    }
-
     if(isRunningTask(sender()))
         return;
 
@@ -47,12 +22,9 @@ void BaseAdapter::executeTask(QJsonObject obj)
     main.insert("name", nameTask);
     main.insert("version", "1.0");
 
-    QJsonObject settings;
-    settings.insert("qtPath", storage()->getQtPath());
-    settings.insert("profilePath", storage()->getProfilePath());
-    settings.insert("compilerPath", storage()->getCompilerPath());
-    obj.insert("settings", settings);
+
     QJsonArray tasks;
+    obj.insert("environment", getUserSettings());
     tasks.append(obj);
     main.insert("tasks", tasks);
 
@@ -66,10 +38,5 @@ void BaseAdapter::executeScript(QString name)
 
     QJsonObject main = scriptStorage.getScriptByName(name);
     emit signalExecuteTask(main);
-}
-
-void BaseAdapter::detectToolsByQtPath(QString path)
-{
-    toolDetector.detect(path);
 }
 

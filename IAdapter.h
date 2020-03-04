@@ -10,8 +10,6 @@ class IAdapter : public QObject
 public:
     IAdapter() {}
 
-    virtual QJsonObject detectTools() = 0;
-
 public slots:
     virtual void started(QString name) = 0;
     virtual void newOutputData(QString name, QByteArray line) = 0;

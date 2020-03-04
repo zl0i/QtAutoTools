@@ -1,13 +1,8 @@
 #include "toolsdetector.h"
 
-ToolsDetector::ToolsDetector(QObject *parent) : QObject(parent)
+ToolsDetector::ToolsDetector() : QObject()
 {
-    /*detectTools.insert("windeployqt", true);
-    detectTools.insert("androiddeployqt", false);
-    detectTools.insert("qtInstallerFramework", true);
-    detectTools.insert("lupdate", true);
-    detectTools.insert("git", false);
-    detectTools.insert("docker", false);*/
+
 }
 
 void ToolsDetector::detect(QString qtpath)
@@ -35,7 +30,7 @@ void ToolsDetector::detect(QString qtpath)
         detectTools.insert("compilers", convertToJArray(detectCompilers()));
 
         //detectOtherTools();
-        qDebug() << detectTools;
+
     }
 }
 

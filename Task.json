@@ -27,7 +27,7 @@
             "qmlPluginsDir": "",
             "flags": "",
             "library": "",
-            "settings": {
+            "environment": {
                 "qtPath": "G:/Qt",
                 "profilePath": "G:/Qt/5.14.1/mingw73_64",
                 "compilerPth": "G:/Qt/Tools/mingw730_64"

@@ -11,7 +11,7 @@ Item {
     property Item contentItem
     property string buttonText: qsTr("Запустить")
 
-    property var task: {}
+    property var task: ({})
     signal run(var task)
 
     Label {

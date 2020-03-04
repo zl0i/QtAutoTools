@@ -1,48 +1,18 @@
 #include "qsettingsstorage.h"
 
-QSettingsStorage::QSettingsStorage(QObject *parent) : SettingsStorage(parent)
+QSettingsStorage::QSettingsStorage(QObject*)
 {
 
 }
 
-QString QSettingsStorage::getQtPath()
+QJsonObject QSettingsStorage::getUserSettings(QString user)
 {
-    return settings.value("qtpath").toString();
+    return  settings.value(user).toJsonObject();
 }
 
-void QSettingsStorage::setQtPath(QString path)
+void QSettingsStorage::saveUserSettings(QString user, QJsonObject obj)
 {
-    settings.setValue("qtpath", path);
-}
-
-QString QSettingsStorage::getProfilePath()
-{
-    return settings.value("profilepath").toString();
-}
-
-void QSettingsStorage::setProfilePath(QString path)
-{
-     settings.setValue("profilepath", path);
-}
-
-QString QSettingsStorage::getCompilerPath()
-{
-    return settings.value("compilerpath").toString();
-}
-
-void QSettingsStorage::setCompilerPath(QString path)
-{
-    settings.setValue("compilerpath", path);
-}
-
-void QSettingsStorage::setCustomValue(QString name, QVariant value)
-{
-    settings.setValue(name, value);
-}
-
-QVariant QSettingsStorage::getCustomValue(QString name)
-{
-    return settings.value(name);
+   settings.setValue(user, obj);
 }
 
 void QSettingsStorage::clearAllSettings()

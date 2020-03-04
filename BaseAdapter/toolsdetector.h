@@ -14,16 +14,27 @@ class ToolsDetector : public QObject
 {
     Q_OBJECT
 
-
 public:
-    explicit ToolsDetector(QObject *parent = nullptr);
+
+
+    static ToolsDetector* instanse() {
+        static ToolsDetector* detector;
+        if(!detector)
+            detector = new ToolsDetector;
+        return detector;
+    }
 
     void detect(QString qtpath);
     bool checkTools();
 
     QJsonObject getDetectTools() { return detectTools; }
 
-private:
+protected:
+    explicit ToolsDetector();
+    ToolsDetector(ToolsDetector&) = delete;
+    ToolsDetector &operator= (ToolsDetector&) = delete;
+private:    
+
     QString qtPath;
 
     QJsonObject detectTools;

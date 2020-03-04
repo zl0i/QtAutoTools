@@ -25,23 +25,25 @@ ApplicationWindow {
 
     SettingsDialog {
         id: _settingsDialog
-        visible: true
+        visible: !_guiAdapter.settingsExist
+        onSetQtPath: {
+            settingsModel = _guiAdapter.detectToolsByQtPath(path)
+        }
+        onSetSettings: {
+            _guiAdapter.settings = settings
+            console.log(JSON.stringify(settings))
+        }
     }
 
     Connections {
         target: _guiAdapter
         onStartedTask: {
             _busyDialog.reset()
-            _busyDialog.open()            
+            _busyDialog.open()
         }
         onFinishedTask: _busyDialog.finished(exitCode)
         onNewOutputDataTask: _busyDialog.addOutput(line)
         onNewErrorDataTask: _busyDialog.addError(line)
-        onSettingsNotExist: {
-            _settingsDialog.open()
-            console.log("settings not exist")
-        }
-
     }
 
     BusyDialog {
@@ -157,14 +159,14 @@ ApplicationWindow {
         }
     }
 
-  ListView {
-       id: _toolView
-       x: 200; y:0
-       width: parent.width-x; height: parent.height
-       snapMode: ListView.SnapOneItem
-       interactive: false
-       model: _objTool
-   }
+    ListView {
+        id: _toolView
+        x: 200; y:0
+        width: parent.width-x; height: parent.height
+        snapMode: ListView.SnapOneItem
+        interactive: false
+        model: _objTool
+    }
 
 
 }

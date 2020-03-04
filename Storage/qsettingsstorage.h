@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QSettings>
+#include <QJsonObject>
+#include <QDebug>
 #include "BaseAdapter/settingsstorage.h"
 
 class QSettingsStorage : public SettingsStorage
@@ -12,20 +14,8 @@ class QSettingsStorage : public SettingsStorage
 public:
     explicit QSettingsStorage(QObject *parent = nullptr);
 
-    void setCustomValue(QString, QVariant) override;
-    QVariant getCustomValue(QString) override;
-
-public slots:
-    QString getQtPath() override;
-    void setQtPath(QString) override;
-
-    QString getProfilePath() override;
-    void setProfilePath(QString) override;
-
-    QString getCompilerPath() override;
-    void setCompilerPath(QString) override;
-
-
+    QJsonObject getUserSettings(QString) override;
+    void saveUserSettings(QString, QJsonObject) override;
 
     void clearAllSettings() override;
 

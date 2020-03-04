@@ -16,7 +16,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         BaseAdapter/baseadapter.cpp \
         BaseAdapter/scriptstorage.cpp \
-        BaseAdapter/settingsstorage.cpp \
         ConsoleAdapter/consoleadapter.cpp \
         GUIAdapter/guiadapter.cpp \
         GUIAdapter/guitranslator.cpp \
@@ -35,7 +34,6 @@ SOURCES += \
         BaseAdapter/toolsdetector.cpp \
         tools/lupdate.cpp \
         toolsfabric.cpp \
-        toolspathfabric.cpp \
         toolworker.cpp
 
 TRANSLATIONS = GUIAdapter/translation/ts_files/QtAutoTools_en.ts
@@ -82,7 +80,6 @@ HEADERS += \
     BaseAdapter/toolsdetector.h \
     tools/lupdate.h \
     toolsfabric.h \
-    toolspathfabric.h \
     toolworker.h
 
 DISTFILES += \
