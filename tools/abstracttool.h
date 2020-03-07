@@ -8,8 +8,9 @@
 #include <QJsonObject>
 #include <QDateTime>
 #include <QRandomGenerator>
+#include "itool.h"
 
-class AbstractTool : public QObject
+class AbstractTool : public ITool
 {
     Q_OBJECT
 

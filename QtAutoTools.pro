@@ -23,9 +23,10 @@ SOURCES += \
         Storage/qsettingsstorage.cpp \
         Storage/sqlstorage.cpp \
         WebAdapter/webadapter.cpp \
-        abstracttool.cpp \
+        tools/abstracttool.cpp \
         taskmanager.cpp \
         tools/builder.cpp \
+        tools/toolspathfabric.cpp \
         tools/windeployqt.cpp \
         tools/finstaller.cpp \
         tools/installerhelper.cpp \
@@ -70,9 +71,11 @@ HEADERS += \
     Storage/qsettingsstorage.h \
     Storage/sqlstorage.h \
     WebAdapter/webadapter.h \
-    abstracttool.h \
+    tools/abstracttool.h \
+    itool.h \
     taskmanager.h \
     tools/builder.h \
+    tools/toolspathfabric.h \
     tools/windeployqt.h \
     tools/finstaller.h \
     tools/installerhelper.h \

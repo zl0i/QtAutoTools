@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <QMetaEnum>
-#include "abstracttool.h"
+#include "itool.h"
+//#include "abstracttool.h"
 #include "tools/builder.h"
 #include "tools/finstaller.h"
 #include "tools/windeployqt.h"
@@ -15,7 +16,7 @@ class ToolsFabric : public QObject
     Q_OBJECT
 public:
 
-    static AbstractTool *createTool(QString type, QJsonObject settings);
+    static ITool *createTool(QString type, QJsonObject settings);
 
     enum Tools {
         BUILDER = 0,

@@ -2,7 +2,7 @@
 
 
 
-AbstractTool *ToolsFabric::createTool(QString type, QJsonObject settings)
+ITool *ToolsFabric::createTool(QString type, QJsonObject settings)
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ToolsFabric::Tools>();
 

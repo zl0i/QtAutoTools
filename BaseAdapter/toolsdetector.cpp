@@ -5,8 +5,20 @@ ToolsDetector::ToolsDetector() : QObject()
 
 }
 
+void ToolsDetector::setSettingsStorage(SettingsStorage *st)
+{
+    storage = st;
+}
+
 void ToolsDetector::detect(QString qtpath)
 {
+    if(qtpath.isEmpty()) {
+        if(storage) {
+            QJsonObject settings = storage->getUserSettings("detector");
+            qtpath = settings.value("qtPath").toString();
+        }
+    }
+
     if(QDir(qtpath).exists()) {
         qtPath = qtpath;
         detectTools.insert("qtPath", qtpath);
@@ -30,6 +42,8 @@ void ToolsDetector::detect(QString qtpath)
         detectTools.insert("compilers", convertToJArray(detectCompilers()));
 
         //detectOtherTools();
+        if(storage)
+            storage->saveUserSettings("detector", ToolsDetector::instanse()->getDetectTools());
 
     }
 }

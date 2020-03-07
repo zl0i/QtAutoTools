@@ -28,22 +28,39 @@ Item {
                 _guiAdapter.settings = settings
             }
         }
-        LabelFieldDialog {
-            label: qsTr("Профиль")
-            mode: LabelFieldDialog.Mode.Folder
-            text:  _guiAdapter.settings.profilePath
-            onTextChanged: {
-                settings.profilePath = text
+
+        LabelComboBox {
+            label: qsTr("Версия Qt")
+            model: _toolDetector.detectTools.qtVersions
+            onCurrentTextChanged: {
+                settings.qtVersion = currentText
                 _guiAdapter.settings = settings
             }
         }
 
-        LabelFieldDialog {
+        LabelComboBox {
+            label: qsTr("Профиль")
+            model: _toolDetector.detectTools.profiles[settings.qtVersion]
+            onCurrentTextChanged: {
+                settings.profile = currentText
+                _guiAdapter.settings = settings
+            }
+        }
+
+        LabelComboBox {
             label: qsTr("Компилятор")
-            mode: LabelFieldDialog.Mode.Folder
-            text: _guiAdapter.settings.compilatorPath
-            onTextChanged: {
-                settings.compilator = text
+            model: _toolDetector.detectTools.compilers
+            onCurrentTextChanged: {
+                settings.compilator = currentText
+                _guiAdapter.settings = settings
+            }
+        }
+
+        LabelComboBox {
+            label: qsTr("Версия Qt Framework Installer")
+            model:  _toolDetector.detectTools.finstallerVersion
+            onCurrentTextChanged: {
+                settings.finstallerVersion = currentText
                 _guiAdapter.settings = settings
             }
         }

@@ -1,6 +1,7 @@
 {
     "name": "task1",
     "version": "1.0",
+    "qtPath": "",
     "tasks": [
         {
             "label": "step_one",
@@ -29,8 +30,9 @@
             "library": "",
             "environment": {
                 "qtPath": "G:/Qt",
-                "profilePath": "G:/Qt/5.14.1/mingw73_64",
-                "compilerPth": "G:/Qt/Tools/mingw730_64"
+                "qtVersion": "5.14.1",
+                "profile": "mingw73_64",
+                "compiler": "mingw730_64"
             }
         },
         {
@@ -72,9 +74,5 @@
             "updateFiles": "",
             "runQtLinguist" : false
         }
-    ],
-    "globalSettings": {
-        "FrameworkInstallerPath": "",
-        "CMakePath": ""
-    }
+    ]
 }

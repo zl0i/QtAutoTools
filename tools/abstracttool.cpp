@@ -1,6 +1,6 @@
 #include "abstracttool.h"
 
-AbstractTool::AbstractTool(QJsonObject settings, QObject *parent) : QObject(parent),
+AbstractTool::AbstractTool(QJsonObject settings, QObject *parent) : ITool(parent),
     qtPath(settings.value("qtPath").toString()),
     profilePath(settings.value("profilePath").toString()),
     compilerPath(settings.value("compilerPath").toString())

@@ -6,7 +6,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include "abstracttool.h"
+#include "itool.h"
 #include "toolsfabric.h"
 
 class ToolWorker : public QThread
@@ -28,7 +28,7 @@ protected:
 
 private:
     QJsonArray taskArray;
-    AbstractTool *currentTool;
+    ITool *currentTool;
 
     QString taskName;
 

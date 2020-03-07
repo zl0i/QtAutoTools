@@ -78,12 +78,16 @@ Dialog {
                         id: _qtVersion
                         label: qsTr("Версия Qt")
                         model: settingsModel.qtVersions
-                        onCurrentTextChanged: settings.qtVersion = currentText
+                        onActivated: {
+                            settings.qtVersion = currentText
+                            settingsChanged()
+                            console.log(currentText)
+                        }
                     }
                     LabelComboBox {
                         label: qsTr("Профиль Qt")
                         model: settingsModel.profiles[_qtVersion.currentText]
-                        onCurrentTextChanged: settings.profile = currentText
+                        onCurrentTextChanged:  settings.profile = currentText
                     }
                     LabelComboBox {
                         label: qsTr("Комилятор")

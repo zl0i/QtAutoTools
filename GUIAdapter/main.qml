@@ -31,7 +31,7 @@ ApplicationWindow {
         }
         onSetSettings: {
             _guiAdapter.settings = settings
-            console.log(JSON.stringify(settings))
+            //console.log(JSON.stringify(settings))
         }
     }
 

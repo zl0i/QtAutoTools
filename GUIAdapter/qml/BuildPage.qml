@@ -31,14 +31,16 @@ BasicPage {
         }
         LabelComboBox {
             label: qsTr("Система сборки")
-            model: []//_builder.systemBuildList
+            model: _toolDetector.buildSystems
             onActivated: {
                 task.systemBuild = currentText
             }
         }
         LabelComboBox {
-            label: qsTr("Профиль")
-            model: []//_builder.specList
+            label: qsTr("Спецификация")
+            model: _toolDetector.getDetectTools().mkspecs[
+                   _guiAdapter.settings.qtVersion + "_" + _guiAdapter.settings.profile
+                   ]
             onActivated: {
                 task.mkspec = currentText
             }

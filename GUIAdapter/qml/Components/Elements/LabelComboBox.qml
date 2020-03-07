@@ -28,6 +28,7 @@ Item {
         model: _root.model
         onActivated: {
             _root.activated(currentIndex)
+            console.log(currentIndex)
         }
 
     }

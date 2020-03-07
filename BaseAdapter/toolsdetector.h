@@ -8,11 +8,15 @@
 #include <QProcess>
 #include <QJsonObject>
 #include <QJsonArray>
-
+#include "settingsstorage.h"
 
 class ToolsDetector : public QObject
 {
     Q_OBJECT
+
+    Q_PROPERTY(QStringList buildSystems READ getBuildSystems CONSTANT)
+    Q_PROPERTY(QStringList qmlTypesFile READ getQmlTypesFile CONSTANT)
+    Q_PROPERTY(QJsonObject detectTools READ getDetectTools CONSTANT)
 
 public:
 
@@ -24,18 +28,25 @@ public:
         return detector;
     }
 
-    void detect(QString qtpath);
+
+    void setSettingsStorage(SettingsStorage*);
+
+    Q_INVOKABLE void detect(QString qtpath = "");
     bool checkTools();
 
-    QJsonObject getDetectTools() { return detectTools; }
+    Q_INVOKABLE QJsonObject getDetectTools() { return detectTools; }
+
+    QStringList getBuildSystems() { return  QStringList {"qmake"}; } //cmake, Qbs
+    QStringList getQmlTypesFile() { return  QStringList {"", "singleton", "internal"}; }
 
 protected:
     explicit ToolsDetector();
     ToolsDetector(ToolsDetector&) = delete;
     ToolsDetector &operator= (ToolsDetector&) = delete;
-private:    
 
+private:
     QString qtPath;
+    SettingsStorage *storage;
 
     QJsonObject detectTools;
 
