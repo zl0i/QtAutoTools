@@ -8,7 +8,7 @@ ScriptStorage::ScriptStorage(QObject *parent) : QObject(parent)
 
 QJsonObject ScriptStorage::getScriptByName(QString name)
 {
-    QFile script(scriptDir.path() + QDir::separator() + name + ".json");
+    QFile script(scriptDir.path() + QDir::separator() + name);
     if(!script.exists())
         return QJsonObject {};
 

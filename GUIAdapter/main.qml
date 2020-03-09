@@ -21,7 +21,7 @@ ApplicationWindow {
         family: "Roboto"
     }
 
-    readonly property var toolsList: ["Builder", "Windeployqt", "Installer", "qmldir", "lupdate", "Settings"]
+    readonly property var toolsList: ["Builder", "Windeployqt", "Installer", "qmldir", "lupdate", "Scripts","Settings"]
 
     SettingsDialog {
         id: _settingsDialog
@@ -77,6 +77,11 @@ ApplicationWindow {
             width: ListView.view.width
             height: ListView.view.height
             onRun: _guiAdapter.executeTask(task)
+        }
+        ScriptsPage {
+            width: ListView.view.width
+            height: ListView.view.height
+            onRun: _guiAdapter.executeScript(task)
         }
         SettingsPage {
             width: ListView.view.width

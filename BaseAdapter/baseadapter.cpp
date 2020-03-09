@@ -6,7 +6,6 @@ BaseAdapter::BaseAdapter(SettingsStorage *storage, QObject *parent)
     settingsStorage = storage;
 }
 
-
 SettingsStorage *BaseAdapter::storage() const
 {
     return settingsStorage;
@@ -22,12 +21,10 @@ void BaseAdapter::executeTask(QJsonObject obj)
     main.insert("name", nameTask);
     main.insert("version", "1.0");
 
-
     QJsonArray tasks;
     obj.insert("environment", getUserSettings());
     tasks.append(obj);
     main.insert("tasks", tasks);
-
     emit signalExecuteTask(main);
 }
 
@@ -39,4 +36,3 @@ void BaseAdapter::executeScript(QString name)
     QJsonObject main = scriptStorage.getScriptByName(name);
     emit signalExecuteTask(main);
 }
-

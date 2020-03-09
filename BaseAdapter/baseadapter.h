@@ -25,11 +25,12 @@ protected:
     virtual bool isRunningTask(QObject* sender = nullptr) = 0;
     virtual QJsonObject getUserSettings(QObject* sender = nullptr) = 0;
 
+    ScriptStorage scriptStorage;
     SettingsStorage *storage() const;
 
 private:
     SettingsStorage *settingsStorage;
-    ScriptStorage scriptStorage;    
+
 
 signals:
     void signalExecuteTask(QJsonObject);

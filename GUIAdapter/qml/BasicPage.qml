@@ -9,6 +9,7 @@ Item {
 
     property string title
     property Item contentItem
+    property bool visibleButton: true
     property string buttonText: qsTr("Запустить")
 
     property var task: ({})
@@ -35,6 +36,7 @@ Item {
         CustomButton {
             id: _button
             anchors { top: _content.bottom; topMargin: 20}
+            visible: visibleButton
             text: _page.buttonText
             onClicked: {                
                 _page.run(task)
