@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>translation/ts_files/QtAutoTools_en.ts</file>
-        <file>translation/qm_files/QtAutoTools_en.qm</file>
-    </qresource>
-</RCC>

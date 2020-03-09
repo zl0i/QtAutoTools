@@ -1,13 +1,11 @@
 #include <QGuiApplication>
-#include <QQmlApplicationEngine>
 #include <QIcon>
 #include <QObject>
-#include <QQmlContext>
-#include "worker.h"
-#include "windeployqt.h"
-#include "qmldir.h"
-#include "lupdate.h"
-#include "finstaller.h"
+#include "taskmanager.h"
+#include "GUIAdapter/guiadapter.h"
+#include "ConsoleAdapter/consoleadapter.h"
+#include "WebAdapter/webadapter.h"
+#include "Storage/qsettingsstorage.h"
 
 
 int main(int argc, char *argv[])
@@ -15,27 +13,30 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QCoreApplication::setOrganizationName("zloi");
-    QCoreApplication::setApplicationName("QtAutoTools");   
+    QCoreApplication::setApplicationName("QtAutoTools");
+    qRegisterMetaType<ToolWorker>();
 
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/icon/icon.png"));
 
+    TaskManager manager;
 
-    QQmlApplicationEngine engine;
-    QObject::connect(Worker::getInstance(), &Worker::retranslate, &engine, &QQmlEngine::retranslate);
+    QSettingsStorage *storage = new QSettingsStorage();
+    ToolsDetector::instanse()->setSettingsStorage(storage);
+    ToolsDetector::instanse()->detect();
 
-    engine.addImportPath(":/qml");    
+    GUIAdapter guiAdapter(storage);
+    guiAdapter.start();
+    QObject::connect(&guiAdapter, &GUIAdapter::signalExecuteTask, &manager, &TaskManager::executeTask);
+    QObject::connect(&guiAdapter, &GUIAdapter::killTask, &manager, &TaskManager::killTask);
 
-    engine.rootContext()->setContextProperty("_worker", Worker::getInstance());
+    /*ConsoleAdapter consoleAdapter(storage);
+    consoleAdapter.start();
+    QObject::connect(&consoleAdapter, &ConsoleAdapter::signalExecuteTask, &manager, &TaskManager::executeTask);
 
-    qmlRegisterType<Worker>("AutoTools", 1, 0, "Worker");
-    qmlRegisterType<Windeployqt>("AutoTools", 1, 0, "Windeployqt");
-    qmlRegisterType<QmlDir>("AutoTools", 1, 0, "QmlDir");   
-    qmlRegisterType<Lupdate>("AutoTools", 1, 0, "Lupdate");
-    qmlRegisterType<FInstaller>("AutoTools", 1, 0, "FInstaller");
-
-    engine.load("qrc:/main.qml");       
-    Worker::getInstance()->setLanguage();
+    WebAdapter webAdapter(storage);
+    webAdapter.start();
+    QObject::connect(&webAdapter, &WebAdapter::signalExecuteTask, &manager, &TaskManager::executeTask);*/
 
     return app.exec();
 }

@@ -1,4 +1,4 @@
-QT += quick svg
+QT += quick svg websockets
 
 CONFIG += c++11
 
@@ -14,24 +14,39 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        finstaller.cpp \
-        installerhelper.cpp \
-        lupdate.cpp \
+        BaseAdapter/baseadapter.cpp \
+        BaseAdapter/scriptstorage.cpp \
+        ConsoleAdapter/consoleadapter.cpp \
+        GUIAdapter/guiadapter.cpp \
+        GUIAdapter/guitranslator.cpp \
+        Storage/filestorage.cpp \
+        Storage/qsettingsstorage.cpp \
+        Storage/sqlstorage.cpp \
+        WebAdapter/webadapter.cpp \
+        tools/abstracttool.cpp \
+        taskmanager.cpp \
+        tools/builder.cpp \
+        tools/toolspathfabric.cpp \
+        tools/windeployqt.cpp \
+        tools/finstaller.cpp \
+        tools/installerhelper.cpp \
         main.cpp \
-        qmldir.cpp \
-        windeployqt.cpp \
-        worker.cpp
+        tools/qmldir.cpp \
+        BaseAdapter/toolsdetector.cpp \
+        tools/lupdate.cpp \
+        toolsfabric.cpp \
+        toolworker.cpp
 
-TRANSLATIONS = translation/ts_files/QtAutoTools_en.ts
+TRANSLATIONS = GUIAdapter/translation/ts_files/QtAutoTools_en_US.ts
 
 
-RESOURCES += qml.qrc \
-    icon.qrc \
-    translation.qrc
+RESOURCES += GUIAdapter/qml.qrc \
+    GUIAdapter/icon.qrc \
+    GUIAdapter/translation.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH = $$PWD/qml
-QML2_IMPORT_PATH = $$PWD/qml
+QML_IMPORT_PATH = $$PWD/GUIAdapter/qml
+QML2_IMPORT_PATH = $$PWD/GUIAdapter/qml
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
@@ -42,11 +57,30 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    finstaller.h \
-    installerhelper.h \
-    lupdate.h \
-    qmldir.h \
-    windeployqt.h \
-    worker.h
+    BaseAdapter/baseadapter.h \
+    BaseAdapter/scriptstorage.h \
+    BaseAdapter/settingsstorage.h \
+    ConsoleAdapter/consoleadapter.h \
+    GUIAdapter/guiadapter.h \
+    GUIAdapter/guitranslator.h \
+    IAdapter.h \
+    Storage/filestorage.h \
+    Storage/qsettingsstorage.h \
+    Storage/sqlstorage.h \
+    WebAdapter/webadapter.h \
+    tools/abstracttool.h \
+    itool.h \
+    taskmanager.h \
+    tools/builder.h \
+    tools/toolspathfabric.h \
+    tools/windeployqt.h \
+    tools/finstaller.h \
+    tools/installerhelper.h \
+    tools/qmldir.h \
+    BaseAdapter/toolsdetector.h \
+    tools/lupdate.h \
+    toolsfabric.h \
+    toolworker.h
 
-DISTFILES +=
+DISTFILES += \
+    Task.json

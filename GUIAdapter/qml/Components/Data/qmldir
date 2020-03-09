@@ -1,0 +1,2 @@
+module Data
+singleton Data 1.0 Data.qml
