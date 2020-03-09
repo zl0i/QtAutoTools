@@ -120,7 +120,7 @@ void QmlDir::run()
             arguments.append(">");
             arguments.append(path + "/" + path.split("/").last().toLower() + ".qmltypes");
 
-            QString program = profilePath + "/bin/qmlplugindump " + arguments.join(" ");
+            QString program = pathFabric.qmlplugindumpPath() + " " + arguments.join(" ");
             emit newOutputData("Starting " + program.toLocal8Bit()+ "\r\n");
             QFile *batFile = prepareBatFile(true);
 

@@ -1,9 +1,6 @@
 #include "abstracttool.h"
 
-AbstractTool::AbstractTool(QJsonObject settings, QObject *parent) : ITool(parent),
-    qtPath(settings.value("qtPath").toString()),
-    profilePath(settings.value("profilePath").toString()),
-    compilerPath(settings.value("compilerPath").toString())
+AbstractTool::AbstractTool(QJsonObject task, QObject *parent) : ITool(parent), pathFabric(task.value("environment").toObject())
 {
     process = new QProcess();
     process->setProcessChannelMode(QProcess::MergedChannels);
@@ -74,7 +71,8 @@ QFile *AbstractTool::prepareBatFile(bool addQtPath)  {
     QFile *const file = new QFile(currentFileName + ".bat");
     if(file->open(QIODevice::ReadWrite)) {
         if(addQtPath) {
-            QString str = "set PATH="+ profilePath + "/bin;" + compilerPath + "/bin;%PATH%\n";
+            QString str = "set PATH="+ pathFabric.profileBinPath() + ";" + pathFabric.compilatorBinPath() + ";%PATH%\n";
+            qDebug() << str;
             file->write(str.toLocal8Bit());
         }
         return file;

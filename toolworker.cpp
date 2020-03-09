@@ -37,7 +37,7 @@ void ToolWorker::run()
     emit started(taskName);
     for(int i = 0; i < taskArray.size(); ++i) {
         QJsonObject task = taskArray.at(i).toObject();
-        currentTool = ToolsFabric::createTool(task.value("tool").toString(), task.value("settings").toObject());
+        currentTool = ToolsFabric::createTool(task.value("tool").toString(), task);
         connect(currentTool, &ITool::newOutputData, [=] (QByteArray line) {
             emit newOutputData(taskName, line);
         });

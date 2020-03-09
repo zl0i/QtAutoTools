@@ -3,7 +3,7 @@
         "mingw730_32",
         "mingw730_64"
     ],
-    "finstallerVersion": [
+    "finstallerVersions": [
         "3.2"
     ],
     "mkspecs": {

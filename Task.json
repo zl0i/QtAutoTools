@@ -10,10 +10,10 @@
         {
             "label": "step_two",
             "tool": "builder",
-            "proFile": "G:\Projects\QtAutoTools\testBuild",
+            "proFile": "G:\\Projects\\QtAutoTools\\testBuild",
             "systemBuild": "qmake",
             "mkspec": "win32",
-            "buildDir": "G:\Projects\QtAutoTools\testBuild",
+            "buildDir": "G:\\Projects\\QtAutoTools\\testBuild",
             "configure": "",
             "dependence": "step_one"
         },
@@ -51,13 +51,13 @@
             "files": [
                         {
                             "type": "",
-                            "path": "G:\Projects\Qt\QtAutoTools\TestQmlDir\CustomButton.qml",
+                            "path": "G:\\Projects\\Qt\\QtAutoTools\\TestQmlDir\\CustomButton.qml",
                             "version": "1.0",
                             "name": "CustomButton"
                         },
                         {
                             "type": "singleton",
-                            "path": "G:\Projects\Qt\QtAutoTools\TestQmlDir\CustomButton.qml",
+                            "path": "G:\\Projects\\Qt\\QtAutoTools\\TestQmlDir\\CustomButton.qml",
                             "version": "1.0",
                             "name": "CustomButton"
                         }

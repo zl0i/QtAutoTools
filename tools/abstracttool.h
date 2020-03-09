@@ -9,6 +9,7 @@
 #include <QDateTime>
 #include <QRandomGenerator>
 #include "itool.h"
+#include "toolspathfabric.h"
 
 class AbstractTool : public ITool
 {
@@ -26,15 +27,13 @@ public:
 protected:
     QProcess *process;
 
-    const QString qtPath;
-    const QString profilePath;
-    const QString compilerPath;
-
     virtual void successFinished();
     virtual void failFinished();
 
     QFile *prepareBatFile(bool env = true);
     void removeBatFile();
+
+    ToolsPathFabric pathFabric;
 
 private:
     QString currentFileName;

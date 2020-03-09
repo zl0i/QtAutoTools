@@ -23,7 +23,10 @@ public:
     void start() override;
 
     QJsonObject getSettings() { return settings; }
-    void setSettings(QJsonObject obj) { settings = obj; storage()->saveUserSettings("guiAdapter", settings); }
+    void setSettings(QJsonObject obj) {
+        settings = obj;
+        qDebug() << obj;
+        storage()->saveUserSettings("guiAdapter", settings); }
 
     bool getSettingsExist() { return !settings.isEmpty(); }
 

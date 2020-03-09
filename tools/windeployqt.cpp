@@ -90,7 +90,7 @@ void Windeployqt::run()
         arguments.append(libraries);
     }
     QFile *file = prepareBatFile(true);
-    QString str = profilePath + "/bin/windeployqt " + arguments.join(" ");
+    QString str = pathFabric.windeployqtPath() + " " + arguments.join(" ");
     file->write(str.toLocal8Bit());
     file->close();
     file->deleteLater();

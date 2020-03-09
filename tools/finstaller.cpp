@@ -64,7 +64,7 @@ void FInstaller::run()
         arguments.append(path + "/packages");
         arguments.append(path +"/" + installerName + "Mixed");
 
-        QString str = qtPath + "/Tools/QtInstallerFramework/3.2/bin/binarycreator " + arguments.join(" ") + "\r\n";
+        QString str = pathFabric.binaryCreatorPath() + " " + arguments.join(" ") + "\r\n";
         batFile->write(str.toLocal8Bit());
     }
 
@@ -77,7 +77,7 @@ void FInstaller::run()
         arguments.append(path + "/packages");
         arguments.append(path +"/" + installerName + "Online");
 
-        QString str = qtPath + "/Tools/QtInstallerFramework/3.2/bin/binarycreator " + arguments.join(" ") + "\r\n";
+        QString str = pathFabric.binaryCreatorPath() + " " + arguments.join(" ") + "\r\n";
         batFile->write(str.toLocal8Bit());
     }
 
@@ -90,7 +90,7 @@ void FInstaller::run()
         arguments.append(path + "/packages");
         arguments.append(path +"/" + installerName + "Offline");
 
-        QString str = qtPath + "/Tools/QtInstallerFramework/3.2/bin/binarycreator " + arguments.join(" ") + "\r\n";
+        QString str = pathFabric.binaryCreatorPath() + " " + arguments.join(" ") + "\r\n";
         batFile->write(str.toLocal8Bit());
     }
 
@@ -100,7 +100,7 @@ void FInstaller::run()
         arguments.append(path + "/packages");
         arguments.append(path +"/repository");
 
-        QString str = qtPath + "/Tools/QtInstallerFramework/3.2/bin/repogen " + arguments.join(" ") + "\r\n";
+        QString str = pathFabric.repogenPath() + " " + arguments.join(" ") + "\r\n";
         batFile->write(str.toLocal8Bit());
     }
 

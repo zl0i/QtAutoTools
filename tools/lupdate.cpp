@@ -42,9 +42,9 @@ QString Lupdate::getStringFileTs(QString url) {
 
 void Lupdate::runLinguist() {
     if(!translatorList.isEmpty()) {
-        process->startDetached(profilePath + "/bin/linguist " + translatorList);
+        process->startDetached(pathFabric.linguistPath() + " " + translatorList);
     } else  {
-        process->startDetached(profilePath + "/bin/linguist");
+        process->startDetached(pathFabric.linguistPath());
     }
 }
 
@@ -112,7 +112,7 @@ void Lupdate::run()
         }
     }
 
-    QString program = profilePath + "/bin/lupdate " + arguments.join(" ");
+    QString program = pathFabric.lupdatePath() + " " + arguments.join(" ");
     QFile *file = prepareBatFile(true);
     if(file) {
         file->write(program.toLocal8Bit());

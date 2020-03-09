@@ -96,8 +96,8 @@ Dialog {
                     }
                     LabelComboBox {
                         label: qsTr("Qt Installer Framework")
-                        model: settingsModel.finstallerVersion
-                        onCurrentTextChanged: settings.finstaller = currentText
+                        model: settingsModel.finstallerVersions
+                        onCurrentTextChanged: settings.finstallerVersion = currentText
                     }
                 }
                 CustomButton {

@@ -37,10 +37,10 @@ void Builder::run() {
         QStringList command;
 
         command.append("cd " + buildDir);
-        command.append(profilePath + "/bin/qmake.exe " + arguments.join(" "));
-        command.append(compilerPath + "/bin/mingw32-make.exe -f " + buildDir + "/Makefile "  + "qmake_all");
-        command.append(compilerPath + "/bin/mingw32-make.exe");
-        command.append(compilerPath + "/bin/mingw32-make.exe install");
+        command.append(pathFabric.qmakePath() + " " + arguments.join(" "));
+        command.append(pathFabric.makeCompilerPath() + " -f " + buildDir + "/Makefile "  + "qmake_all");
+        command.append(pathFabric.makeCompilerPath());
+        command.append(pathFabric.makeCompilerPath() + " install");
 
         bat->write(command.join("\r\n").toLocal8Bit());
         bat->close();

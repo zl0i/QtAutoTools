@@ -38,7 +38,7 @@ void ToolsDetector::detect(QString qtpath)
         detectTools.insert("profiles", profiles);
         detectTools.insert("mkspecs", mkSpecs);
 
-        detectTools.insert("finstallerVersion", convertToJArray(detectIntallerFramework()));
+        detectTools.insert("finstallerVersions", convertToJArray(detectIntallerFramework()));
         detectTools.insert("compilers", convertToJArray(detectCompilers()));
 
         //detectOtherTools();
