@@ -21,6 +21,7 @@ ApplicationWindow {
         family: "Roboto"
     }
 
+    readonly property var toolsList: ["Builder", "Windeployqt", "Installer", "qmldir", "lupdate", "Settings"]
 
     SettingsDialog {
         id: _settingsDialog
