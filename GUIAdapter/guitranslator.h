@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QGuiApplication>
 #include <QTranslator>
+#include <QDebug>
 
 class GUITranslator : public QObject
 {

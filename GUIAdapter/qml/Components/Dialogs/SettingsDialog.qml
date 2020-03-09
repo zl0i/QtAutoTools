@@ -81,7 +81,6 @@ Dialog {
                         onActivated: {
                             settings.qtVersion = currentText
                             settingsChanged()
-                            console.log(currentText)
                         }
                     }
                     LabelComboBox {

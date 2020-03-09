@@ -505,27 +505,27 @@
         <translation>Qt Version</translation>
     </message>
     <message>
-        <location filename="../../qml/Components/Dialogs/SettingsDialog.qml" line="88"/>
+        <location filename="../../qml/Components/Dialogs/SettingsDialog.qml" line="87"/>
         <source>Профиль Qt</source>
         <translation>Qt profile</translation>
     </message>
     <message>
-        <location filename="../../qml/Components/Dialogs/SettingsDialog.qml" line="93"/>
+        <location filename="../../qml/Components/Dialogs/SettingsDialog.qml" line="92"/>
         <source>Комилятор</source>
         <translation>Compiler</translation>
     </message>
     <message>
-        <location filename="../../qml/Components/Dialogs/SettingsDialog.qml" line="98"/>
+        <location filename="../../qml/Components/Dialogs/SettingsDialog.qml" line="97"/>
         <source>Qt Installer Framework</source>
         <translation>Qt Installer Framework</translation>
     </message>
     <message>
-        <location filename="../../qml/Components/Dialogs/SettingsDialog.qml" line="106"/>
+        <location filename="../../qml/Components/Dialogs/SettingsDialog.qml" line="105"/>
         <source>Назад</source>
         <translation>Previos</translation>
     </message>
     <message>
-        <location filename="../../qml/Components/Dialogs/SettingsDialog.qml" line="114"/>
+        <location filename="../../qml/Components/Dialogs/SettingsDialog.qml" line="113"/>
         <source>Готово</source>
         <translation>Done</translation>
     </message>
@@ -533,47 +533,51 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="18"/>
+        <location filename="../../qml/SettingsPage.qml" line="13"/>
         <source>Настройки</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="25"/>
+        <location filename="../../qml/SettingsPage.qml" line="19"/>
         <source>Путь к Qt</source>
         <translation>Path to Qt</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="35"/>
+        <location filename="../../qml/SettingsPage.qml" line="26"/>
         <source>Версия Qt</source>
         <translation>Qt Version</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="49"/>
+        <location filename="../../qml/SettingsPage.qml" line="39"/>
         <source>Профиль</source>
         <translation>Profile</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="62"/>
+        <location filename="../../qml/SettingsPage.qml" line="51"/>
         <source>Компилятор</source>
         <translation>Compiler</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="75"/>
-        <source>Версия Qt Framework Installer</source>
-        <translation type="unfinished">Qt </translation>
+        <location filename="../../qml/SettingsPage.qml" line="63"/>
+        <source>Версия Qt Installer Framework</source>
+        <translation>Qt Installer Framework Version</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="92"/>
+        <source>Версия Qt Framework Installer</source>
+        <translation type="obsolete">Qt </translation>
+    </message>
+    <message>
+        <location filename="../../qml/SettingsPage.qml" line="79"/>
         <source>Язык</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="120"/>
+        <location filename="../../qml/SettingsPage.qml" line="107"/>
         <source>Применить</source>
         <translation>Apply</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="127"/>
+        <location filename="../../qml/SettingsPage.qml" line="14"/>
         <source>Удалить все настройки</source>
         <translation>Delete all settings</translation>
     </message>
@@ -639,8 +643,9 @@
         <translation>QtAutoTools</translation>
     </message>
     <message>
+        <location filename="../../main.qml" line="24"/>
         <source>Настройки</source>
-        <translation type="vanished">Settings</translation>
+        <translation>Settings</translation>
     </message>
 </context>
 </TS>

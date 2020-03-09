@@ -37,7 +37,7 @@ SOURCES += \
         toolsfabric.cpp \
         toolworker.cpp
 
-TRANSLATIONS = GUIAdapter/translation/ts_files/QtAutoTools_en.ts
+TRANSLATIONS = GUIAdapter/translation/ts_files/QtAutoTools_en_US.ts
 
 
 RESOURCES += GUIAdapter/qml.qrc \

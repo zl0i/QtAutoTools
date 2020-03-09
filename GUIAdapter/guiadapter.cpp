@@ -8,14 +8,15 @@ GUIAdapter::GUIAdapter(SettingsStorage *storage, QObject *parent) : BaseAdapter(
 
     connect(&translator, &GUITranslator::retranslate, &engine, &QQmlEngine::retranslate);   
     settings = storage->getUserSettings("guiAdapter");
-    //qDebug() << settings;
-    //qDebug() << QLocale::system().name();
 }
 
 void GUIAdapter::start()
 {    
-    QString lg = settings.value("lg").toString();
-    translator.setLanguage(lg);
+    if(!settings.value("lang").toString().isEmpty()) {
+        setLanguage(settings.value("lang").toString());
+    } else {
+        setLanguage(QLocale::system().name());
+    }
     engine.load("qrc:/GUIAdapter/main.qml");
 }
 

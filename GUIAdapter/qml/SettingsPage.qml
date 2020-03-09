@@ -6,29 +6,20 @@ import Qt.labs.platform 1.1
 import Components.Elements 1.0
 import Components.Controls 1.0
 
-Item {
+BasicPage {
 
     property var settings: _guiAdapter.settings
 
+    title: qsTr("Настройки")
+    buttonText: qsTr("Удалить все настройки")
 
-    Label {
-        x: 20; y: 20
-        font.pixelSize: 18
-        font.weight: Font.Bold
-        text: qsTr("Настройки")
-    }
-
-    Column {
-        x: 20; y: 50
+    contentItem: Column {
         spacing: 20
         LabelFieldDialog {
             label: qsTr("Путь к Qt")
             mode: LabelFieldDialog.Mode.Folder
             text: _guiAdapter.settings.qtPath
-            onTextChanged: {
-                settings.qtPath = text
-                //_guiAdapter.settings = settings
-            }
+            onTextChanged: settings.qtPath = text
         }
 
         LabelComboBox {
@@ -41,7 +32,6 @@ Item {
             onCurrentTextChanged: {
                 settings.qtVersion = currentText
                 settingsChanged()
-                //_guiAdapter.settings = settings
             }
         }
 
@@ -54,7 +44,6 @@ Item {
 
             onCurrentTextChanged: {
                 settings.profile = currentText
-                //_guiAdapter.settings = settings
             }
         }
 
@@ -67,12 +56,11 @@ Item {
 
             onCurrentTextChanged: {
                 settings.compilator = currentText
-                //_guiAdapter.settings = settings
             }
         }
 
         LabelComboBox {
-            label: qsTr("Версия Qt Framework Installer")
+            label: qsTr("Версия Qt Installer Framework")
             model:  _toolDetector.detectTools.finstallerVersions
             currentIndex: {
                 return _toolDetector.detectTools.finstallerVersions.indexOf(_guiAdapter.settings.finstallerVersion)
@@ -80,7 +68,6 @@ Item {
 
             onCurrentTextChanged: {
                 settings.finstallerVersion = currentText
-                //_guiAdapter.settings = settings
             }
         }
 
@@ -96,24 +83,24 @@ Item {
                     id: _languageList
                     ListElement {
                         title: "Русский"
-                        code: "ru"
+                        code: "ru_Ru"
                     }
                     ListElement {
                         title: "English"
-                        code: "en"
+                        code: "en_US"
                     }
                 }
                 textRole: "title"
 
                 onActivated: _guiAdapter.setLanguage(_languageList.get(currentIndex).code)
-                /*Component.onCompleted: {
+                Component.onCompleted: {
                     for(var i = 0; i < _languageList.count; i++) {
-                        if(_languageList.get(i).code === _worker.language) {
+                        if(_languageList.get(i).code === _guiAdapter.settings.lang) {
                             currentIndex = i
                             break
                         }
                     }
-                }*/
+                }
             }
         }
         CustomButton {
@@ -122,12 +109,6 @@ Item {
                 _guiAdapter.settings = settings
             }
         }
-
-        Button {
-            text: qsTr("Удалить все настройки")
-            onClicked: {
-                _guiAdapter.clearAllSettings()
-            }
-        }
     }
+    onRun: _guiAdapter.clearAllSettings()
 }

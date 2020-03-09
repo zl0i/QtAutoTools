@@ -25,7 +25,7 @@ public:
     QJsonObject getSettings() { return settings; }
     void setSettings(QJsonObject obj) {  settings = obj; storage()->saveUserSettings("guiAdapter", settings); }
 
-    bool getSettingsExist() { return !settings.isEmpty(); }
+    bool getSettingsExist() { return !settings.value("qtPath").toString().isEmpty(); }
 
     QJsonObject getDetectTools() { return  ToolsDetector::instanse()->getDetectTools(); }
 

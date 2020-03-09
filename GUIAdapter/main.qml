@@ -21,18 +21,12 @@ ApplicationWindow {
         family: "Roboto"
     }
 
-    readonly property var toolsList: ["Builder", "Windeployqt", "Installer", "qmldir", "lupdate", "Settings"]
 
     SettingsDialog {
         id: _settingsDialog
         visible: !_guiAdapter.settingsExist
-        onSetQtPath: {
-            settingsModel = _guiAdapter.detectToolsByQtPath(path)
-        }
-        onSetSettings: {
-            _guiAdapter.settings = settings
-            //console.log(JSON.stringify(settings))
-        }
+        onSetQtPath: settingsModel = _guiAdapter.detectToolsByQtPath(path)
+        onSetSettings:  _guiAdapter.settings = settings
     }
 
     Connections {

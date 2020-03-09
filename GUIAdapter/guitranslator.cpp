@@ -2,7 +2,7 @@
 
 GUITranslator::GUITranslator(QObject *parent) : QObject(parent)
 {
-    m_language = "ru";
+    m_language = "ru_RU";
 }
 
 QString GUITranslator::language()
@@ -13,12 +13,10 @@ QString GUITranslator::language()
 void GUITranslator::setLanguage(QString ln)
 {
     m_language = ln;
-    //settings->setValue("global/language", m_language);
-
-    if(ln == "ru") {
+    if(ln == "ru_RU") {
         QCoreApplication::removeTranslator(&translator);
     } else {
-        translator.load(":translation/qm_files/QtAutoTools_" + ln);
+        translator.load(":translation/qm_files/QtAutoTools_" + m_language);
         QCoreApplication::installTranslator(&translator);
     }
     emit retranslate();
@@ -26,11 +24,12 @@ void GUITranslator::setLanguage(QString ln)
 
 void GUITranslator::setLanguage()
 {
-    if(m_language == "ru") {
+    if(m_language == "ru_RU") {
         QCoreApplication::removeTranslator(&translator);
     } else {
-        translator.load(":translation/qm_files/QtAutoTools_" + m_language);
-        QCoreApplication::installTranslator(&translator);
+        bool loading = translator.load(":translation/qm_files/QtAutoTools_" + m_language);
+        if(loading)
+            QCoreApplication::installTranslator(&translator);
     }
     emit retranslate();
 }
