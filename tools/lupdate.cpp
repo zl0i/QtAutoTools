@@ -68,15 +68,23 @@ void Lupdate::configFromJson(QJsonObject obj)
 void Lupdate::run()
 {
     if(filesModel->rowCount() == 0) {
-        if(runQtLinguist)
+        if(runQtLinguist) {
+            emit newOutputData("Run QtLinguist...\r\n");
             runLinguist();
+            emit finished(0, 0);
+            return;
+        }
         else
             return;
     }
 
     if(langList.length() == 0 && updateFile.isEmpty()) {
-        if(runQtLinguist)
+        if(runQtLinguist) {
+            emit newOutputData("Run QtLinguist...\r\n");
             runLinguist();
+            emit finished(0, 0);
+            return;
+        }
         else
             return;
     }

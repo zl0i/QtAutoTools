@@ -8,13 +8,7 @@ GUIAdapter::GUIAdapter(SettingsStorage *storage, QObject *parent) : BaseAdapter(
 
     connect(&translator, &GUITranslator::retranslate, &engine, &QQmlEngine::retranslate);   
     settings = storage->getUserSettings("guiAdapter");
-    qDebug() << settings;
-    if(settings.isEmpty()) {
-
-    }
-    /*settings.insert("qtPath", "asd");
-    settings.insert("compilatorPath", "123");
-    settings.insert("profilePath", 556);*/
+    //qDebug() << settings;
     //qDebug() << QLocale::system().name();
 }
 

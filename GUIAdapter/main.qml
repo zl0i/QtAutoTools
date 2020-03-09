@@ -71,10 +71,7 @@ ApplicationWindow {
         InstallerPage {
             width: ListView.view.width
             height: ListView.view.height
-            onRun: {
-                console.log(JSON.stringify(task))
-                _guiAdapter.executeTask(task)
-            }
+            onRun: _guiAdapter.executeTask(task)
         }
         QmldirPage {
             width: ListView.view.width

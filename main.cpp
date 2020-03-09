@@ -22,10 +22,8 @@ int main(int argc, char *argv[])
     TaskManager manager;
 
     QSettingsStorage *storage = new QSettingsStorage();
-    //storage->clearAllSettings();
     ToolsDetector::instanse()->setSettingsStorage(storage);
     ToolsDetector::instanse()->detect();
-    //qDebug() << ToolsDetector::instanse()->getDetectTools();
 
     GUIAdapter guiAdapter(storage);
     guiAdapter.start();

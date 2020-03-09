@@ -14,6 +14,7 @@ public:
     virtual void configFromJson(QJsonObject) = 0;
     virtual void waitFinished() = 0;
     virtual void run() = 0;
+
 signals:
     void started();
     void newOutputData(QByteArray line);

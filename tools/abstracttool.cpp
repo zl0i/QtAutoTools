@@ -36,7 +36,7 @@ void AbstractTool::kill()
 
 void AbstractTool::slotFinished(int code)
 {
-    qDebug() << process->readAllStandardOutput() << process->readAllStandardError();
+    //qDebug() << process->readAllStandardOutput() << process->readAllStandardError();
     if(code == 0) {
         successFinished();
         emit newOutputData("Done!\r\n");
@@ -72,7 +72,6 @@ QFile *AbstractTool::prepareBatFile(bool addQtPath)  {
     if(file->open(QIODevice::ReadWrite)) {
         if(addQtPath) {
             QString str = "set PATH="+ pathFabric.profileBinPath() + ";" + pathFabric.compilatorBinPath() + ";%PATH%\n";
-            qDebug() << str;
             file->write(str.toLocal8Bit());
         }
         return file;
