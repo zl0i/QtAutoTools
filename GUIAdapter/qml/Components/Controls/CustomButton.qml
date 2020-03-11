@@ -23,7 +23,7 @@ MouseArea {
 
     Rectangle {
         width: _button.width; height: _button.height; radius: _button.radius
-        color: _button.enabled ? (_button.down ? pressedColor : releasedColor) : disableColor
+        color: _button.enabled ? (_button.pressed ? pressedColor : releasedColor) : disableColor
     }
 
     Label {
@@ -31,7 +31,7 @@ MouseArea {
         width: _button.width; height: _button.height
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        color: _button.enabled ? (_button.down ? pressedTextColor : releaseTextColor) : disableTextColor
+        color: _button.enabled ? (_button.pressed ? pressedTextColor : releaseTextColor) : disableTextColor
         text: _button.text
     }
 }

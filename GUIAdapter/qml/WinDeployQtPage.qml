@@ -33,6 +33,7 @@ BasicPage {
             label: qsTr("Исполняемый файл")
             filterFile: qsTr("Испольняемый файл (*.exe)")
             mode: LabelFieldDialog.Mode.File
+            text: task.exeFile
             onTextChanged: {
                 task.exeFile = text
             }

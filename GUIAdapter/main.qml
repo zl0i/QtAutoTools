@@ -51,34 +51,50 @@ ApplicationWindow {
         }
     }
 
+    function saveScript(add, script) {
+        _toolView.positionViewAtIndex(5, ListView.Center)
+        _list.currentIndex = 5
+        if(add) {
+            _scriptPage.addToScript(script)
+        } else {
+            _scriptPage.newScript(script)
+        }
+    }
+
     ObjectModel {
         id: _objTool
         BuildPage {
             width: ListView.view.width
             height: ListView.view.height
             onRun: _guiAdapter.executeTask(task)
+            onSaveScript: _window.saveScript(add, script)
         }
         WinDeployQtPage {
             width: ListView.view.width
             height: ListView.view.height
             onRun: _guiAdapter.executeTask(task)
+            onSaveScript: _window.saveScript(add, script)
         }
         InstallerPage {
             width: ListView.view.width
             height: ListView.view.height
             onRun: _guiAdapter.executeTask(task)
+            onSaveScript: _window.saveScript(add, script)
         }
         QmldirPage {
             width: ListView.view.width
             height: ListView.view.height
             onRun: _guiAdapter.executeTask(task)
+            onSaveScript: _window.saveScript(add, script)
         }
         LUpdatePage {
             width: ListView.view.width
             height: ListView.view.height
             onRun: _guiAdapter.executeTask(task)
+            onSaveScript: _window.saveScript(add, script)
         }
         ScriptsPage {
+            id: _scriptPage
             width: ListView.view.width
             height: ListView.view.height
             onRun: _guiAdapter.executeScript(task)

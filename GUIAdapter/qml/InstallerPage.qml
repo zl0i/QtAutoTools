@@ -70,8 +70,10 @@ BasicPage {
         })
     }
 
+
     contentItem: Column {
         spacing: 20
+        //onHeightChanged: console.log(height)
         LabelFieldDialog {
             label: qsTr("Папка установки")
             mode: LabelFieldDialog.Mode.Folder
@@ -224,7 +226,7 @@ BasicPage {
             }
         }
         ListView {
-            width: parent.width; height: contentHeight
+            width: parent.width; height: contentHeight            
             interactive: false
             spacing: -1
             model: packagesModel

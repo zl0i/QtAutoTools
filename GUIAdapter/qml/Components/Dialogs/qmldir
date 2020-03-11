@@ -5,3 +5,5 @@ LibrariesDialog 1.0 LibrariesDialog.qml
 PackageDialog 1.0 PackageDialog.qml
 RepositoryDialog 1.0 RepositoryDialog.qml
 SettingsDialog 1.0 SettingsDialog.qml
+ScriptDialog 1.0 ScriptDialog.qml
+TaskDialog 1.0 TaskDialog.qml

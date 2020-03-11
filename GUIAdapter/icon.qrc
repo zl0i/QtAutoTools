@@ -8,5 +8,6 @@
         <file>icon/file.svg</file>
         <file>icon/folder.svg</file>
         <file>icon/gear-black.svg</file>
+        <file>icon/arrow-right.svg</file>
     </qresource>
 </RCC>
