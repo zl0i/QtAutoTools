@@ -25,6 +25,7 @@ BasicPage {
         LabelFieldDialog {
             label: qsTr("Файлы")
             mode: LabelFieldDialog.Mode.Files
+            text: task.path
             onAccess:  {
 
                 task.files = []
@@ -107,12 +108,14 @@ BasicPage {
         }
         LabelCheckBox {
             label: qsTr("Создать запись о типах qmldir")
+            checked: task.qmltypes
             onCheckedChanged: {
                 task.qmltypes = checked
             }
         }
         LabelCheckBox {
             label: qsTr("Поддержка Qt Quick Designer")
+            checked: task.supportDesigner
             onCheckedChanged: {
                 task.supportDesigner = checked
             }

@@ -15,11 +15,15 @@ BasicPage {
     property var addScript
 
     function newScript(script) {
+        script.environment = _guiAdapter.settings
+        script.label = script.tool
         _scriptDialog.script = { name: "ScriptName", version: "1.0", tasks: [script] }
         _scriptDialog.open()
     }
 
     function addToScript(script) {
+        script.environment = _guiAdapter.settings
+        script.label = script.tool
         addScript = script
         addScript.label = addScript.tool
         addToScriptMode = true
@@ -33,6 +37,7 @@ BasicPage {
     contentItem: Column {
         spacing: 10
         ListView {
+            id: _listScript
             width: _scriptPage.width-40; height: count*40
             model: _guiAdapter.scripts.getNameScripts()
             interactive: count*40 > _scriptPage.height-100
@@ -58,7 +63,6 @@ BasicPage {
                     width: parent.width; height: parent.height
                     onClicked: {
                         var script = _guiAdapter.scripts.getScriptByName(modelData)
-                        //console.log(JSON.stringify(_scriptDialog.script))
                         if(addToScriptMode) {
                             script.tasks.push(addScript)
                             resetAddToScriptMode()
@@ -67,6 +71,24 @@ BasicPage {
                         _scriptDialog.open()
                     }
                 }
+                MouseArea {
+                    x: parent.width-width-60; y: 15
+                    width: 17; height: 17
+                    onClicked: {
+                        _guiAdapter.scripts.removeScript(modelData)
+                        _listScript.model =  _guiAdapter.scripts.getNameScripts()
+                    }
+                    Image {
+                        width: 13; height: 13
+                        source: "qrc:/icon/delete-black.svg"
+                        layer.enabled: parent.pressed
+                        layer.effect: ColorOverlay {
+                            color: "#39A0FF"
+                        }
+
+                    }
+                }
+
                 Image {
                     x: parent.width-width-30; y: 10.5
                     width: 14; height: 19
@@ -97,6 +119,7 @@ BasicPage {
         id: _scriptDialog
         onSaveScript: {
             _guiAdapter.scripts.saveScript(script, script.name)
+            _listScript.model =  _guiAdapter.scripts.getNameScripts()
         }
 
     }

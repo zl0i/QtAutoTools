@@ -34,7 +34,7 @@ QString ToolsPathFabric::makeCompilerPath()
     return settings.value("qtPath").toString() + QDir::separator() +
             "Tools" + QDir::separator() +
             settings.value("compilator").toString() + QDir::separator() +
-            "bin" + QDir::separator() + "binarycreator.exe";
+            "bin" + QDir::separator() + "mingw32-make.exe";
 }
 
 QString ToolsPathFabric::windeployqtPath()

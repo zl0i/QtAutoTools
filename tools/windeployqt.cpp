@@ -98,10 +98,10 @@ void Windeployqt::run()
 }
 
 void Windeployqt::successFinished() {
-    if(!dir.isEmpty()) {
+    /*if(!dir.isEmpty()) {
         QString nameExeFile = exeFile.split("/").last();
         QFile::copy(exeFile, dir+"/" + nameExeFile);
-    }
+    }*/
 }
 
 

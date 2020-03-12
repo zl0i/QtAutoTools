@@ -25,8 +25,8 @@ Dialog {
         "Logo": "",
         "StartMenuDir": "",
         "TargetDir": "",
-        "Arguments": []
-       /* "RemoteRepositories": {
+        "Arguments": [],
+        "RemoteRepositories": {
             "Repository": [
                 {
                     "Url": "",
@@ -36,7 +36,7 @@ Dialog {
                     "DisplayName": ""
                 }
             ]
-        }*/
+        }
     }
 
     signal apply(var config)

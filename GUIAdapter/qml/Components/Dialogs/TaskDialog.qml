@@ -10,11 +10,16 @@ Dialog {
     width: 2*parent.width/3; height: parent.height - 40
     modal: true; dim: true
 
-    property string tool
+    property var task
 
-    onToolChanged: {
-        var component = createToolByName(tool)
+    signal apply(var task)
+
+    onTaskChanged:  {
+        var component = createToolByName(task.tool)
         var item = component.createObject(_toolView)
+        item.task = task
+        _settingPage.settings = task.environment
+        item.height = item.contentItem.height+70
         item.contentItem.heightChanged.connect(function () {
             item.height = item.contentItem.height+70
             _toolView.height = item.height
@@ -28,6 +33,8 @@ Dialog {
 
     function createToolByName(tool) {
         switch (tool) {
+        case "builder":
+            return Qt.createComponent("../../BuildPage.qml")
         case "windeployqt":
             return Qt.createComponent("../../WinDeployQtPage.qml")
         case "finstaller":
@@ -55,13 +62,14 @@ Dialog {
             Item {
                 id: _toolView
                 width: parent.width; height: 100
-
             }
             SettingsPage {
                 id: _settingPage
                 width: parent.width; height: contentItem.height+80
                 visibleRunButton: false
+                visibleLang: false
                 interactive: false
+                onSaveSettings: apply(_taskDialog.task)
             }
         }
 

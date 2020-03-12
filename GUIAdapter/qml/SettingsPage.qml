@@ -6,12 +6,14 @@ import Qt.labs.platform 1.1
 import Components.Elements 1.0
 import Components.Controls 1.0
 
-BasicPage {
-
-    property var settings: _guiAdapter.settings
-
+BasicPage {   
     title: qsTr("Настройки")
     buttonText: qsTr("Удалить все настройки")
+
+    property var settings: _guiAdapter.settings
+    property bool visibleLang: true
+
+    signal saveSettings(var settings)
 
     contentItem: Column {
         spacing: 20
@@ -39,7 +41,7 @@ BasicPage {
             label: qsTr("Профиль")
             model: _toolDetector.detectTools.profiles[settings.qtVersion]
             currentIndex: {
-                return _toolDetector.detectTools.profiles[settings.qtVersion].indexOf(_guiAdapter.settings.profile)
+                return _toolDetector.detectTools.profiles[settings.qtVersion].indexOf(settings.profile)
             }
 
             onCurrentTextChanged: {
@@ -51,7 +53,7 @@ BasicPage {
             label: qsTr("Компилятор")
             model: _toolDetector.detectTools.compilers
             currentIndex: {
-                return _toolDetector.detectTools.compilers.indexOf(_guiAdapter.settings.compilator)
+                return _toolDetector.detectTools.compilers.indexOf(settings.compilator)
             }
 
             onCurrentTextChanged: {
@@ -63,7 +65,7 @@ BasicPage {
             label: qsTr("Версия Qt Installer Framework")
             model:  _toolDetector.detectTools.finstallerVersions
             currentIndex: {
-                return _toolDetector.detectTools.finstallerVersions.indexOf(_guiAdapter.settings.finstallerVersion)
+                return _toolDetector.detectTools.finstallerVersions.indexOf(settings.finstallerVersion)
             }
 
             onCurrentTextChanged: {
@@ -73,6 +75,7 @@ BasicPage {
 
         Row {
             spacing: 10
+            visible: visibleLang
             Label {
                 width: 75; height: 40
                 verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignLeft
@@ -105,10 +108,8 @@ BasicPage {
         }
         CustomButton {
             text: qsTr("Применить")
-            onClicked: {
-                _guiAdapter.settings = settings
-            }
+            onClicked: saveSettings(settings)
         }
     }
-    onRun: _guiAdapter.clearAllSettings()
+
 }

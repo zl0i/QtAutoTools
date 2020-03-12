@@ -102,9 +102,10 @@ ApplicationWindow {
         SettingsPage {
             width: ListView.view.width
             height: ListView.view.height
+            onSaveSettings: _guiAdapter.settings = settings
+            onRun: _guiAdapter.clearAllSettings()
         }
     }
-
 
     Rectangle {
         width: 200; height: parent.height

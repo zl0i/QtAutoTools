@@ -40,7 +40,7 @@ QStringList ScriptStorage::getNameScripts()
 
 void ScriptStorage::removeScript(QString name)
 {
-    QFile::remove(scriptDir.path() + QDir::separator() + name + ".json");
+    QFile::remove(scriptDir.path() + QDir::separator() + name);
 }
 
 void ScriptStorage::removeAllScripts()

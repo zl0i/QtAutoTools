@@ -12,10 +12,10 @@ BasicPage {
 
     task: {
         "tool": "builder",
-        "proFile": "G:\Projects\QtAutoTools\testBuild",
+        "proFile": "",
         "systemBuild": "qmake",
-        "mkspec": "win32",
-        "buildDir": "G:\Projects\QtAutoTools\testBuild",
+        "mkspec": "",
+        "buildDir": "",
         "configure": ""
     }
 
@@ -25,6 +25,7 @@ BasicPage {
             label: qsTr("Файл проекта")
             filterFile: qsTr("Файл проекта (*.pro)")
             mode: LabelFieldDialog.Mode.File
+            text: task.proFile
             onTextChanged: {
                 task.proFile = text
             }
@@ -32,6 +33,7 @@ BasicPage {
         LabelComboBox {
             label: qsTr("Система сборки")
             model: _toolDetector.buildSystems
+            currentIndex:  _toolDetector.buildSystems.indexOf(task.systemBuild)
             onActivated: {
                 task.systemBuild = currentText
             }
@@ -41,6 +43,9 @@ BasicPage {
             model: _toolDetector.getDetectTools().mkspecs[
                    _guiAdapter.settings.qtVersion + "_" + _guiAdapter.settings.profile
                    ]
+            currentIndex: _toolDetector.getDetectTools().mkspecs[
+                              _guiAdapter.settings.qtVersion + "_" + _guiAdapter.settings.profile
+                              ].indexOf(task.mkspec)
             onActivated: {
                 task.mkspec = currentText
             }
@@ -48,6 +53,7 @@ BasicPage {
 
         LabelFieldDialog {
             label: qsTr("Папка сборки")
+            text: task.buildDir
             onTextChanged: {
                 task.buildDir = text
             }
@@ -55,6 +61,7 @@ BasicPage {
         LabelFieldDialog {
             label: qsTr("CONFIG +=")
             isPopupButton: false
+            text: task.configure
             onTextChanged: {
                 task.configure = text
             }

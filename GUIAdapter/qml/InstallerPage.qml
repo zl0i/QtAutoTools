@@ -14,15 +14,38 @@ BasicPage {
     task: {
         "tool": "finstaller",
         "path": "",
-        "config": {},
-        "packages": [],
+        "config": {
+            "Name": "",
+            "Version": "1.0",
+            "Publisher": "",
+            "ProductUrl": "",
+            "Title": "",
+            "MaintenanceToolName": "",
+            "InstallerWindowIcon": "",
+            "Logo": "",
+            "StartMenuDir": "",
+            "TargetDir": "",
+            "Arguments": [],
+            "RemoteRepositories": {
+                "Repository": [
+                    {
+                        "Enabled": true,
+                        "DisplayName": "Example repository",
+                        "Url": "http://www.example.com/packages",
+                        "Username": "",
+                        "Password": ""
+                    }
+                ]
+            }
+        },
+        "packages": packagesModel,
         "isCreateMixedInstaller": false,
         "isCreateOfflineInstaller": true,
         "isCreateOnlineInstaller": false,
         "isCreateRepository": false
     }
 
-    property bool onlineInstaller: false
+    property bool visibleOnlineInstaller: task.isCreateOnlineInstaller || task.isCreateMixedInstaller || task.isCreateRepository
 
     property var remoteRepository: [
         {
@@ -73,10 +96,10 @@ BasicPage {
 
     contentItem: Column {
         spacing: 20
-        //onHeightChanged: console.log(height)
         LabelFieldDialog {
             label: qsTr("Папка установки")
             mode: LabelFieldDialog.Mode.Folder
+            text: task.path
             onTextChanged: task.path = text
 
         }
@@ -86,10 +109,14 @@ BasicPage {
         }
         LabelCheckBox {
             label: qsTr("Онлайн установщик")
-            onCheckedChanged: onlineInstaller = checked
+            checked: task.isCreateOnlineInstaller
+            onCheckedChanged: {
+                visibleOnlineInstaller = checked
+                task.isCreateOnlineInstaller = checked
+            }
         }
         Row {
-            visible: onlineInstaller
+            visible: visibleOnlineInstaller
             spacing: 20
             Label {
                 height: 30
@@ -107,8 +134,8 @@ BasicPage {
                         "Username": "",
                         "Password": ""
                     }
-                    remoteRepository.push(obj)
-                    remoteRepositoryChanged()
+                    task.config.RemoteRepositories.Repository.push(obj)
+                    taskChanged()
                 }
             }
         }
@@ -116,8 +143,8 @@ BasicPage {
             width: parent.width; height: contentHeight
             interactive: false
             spacing: -1
-            visible: onlineInstaller
-            model: remoteRepository
+            visible: visibleOnlineInstaller
+            model: task.config.RemoteRepositories.Repository
             delegate: Item {
                 width: parent.width; height: 40
                 Row {
@@ -157,11 +184,11 @@ BasicPage {
                 }
                 RepositoryDialog {
                     id: _repositoryDialog
-                    repository: remoteRepository[index]
+                    repository: task.config.RemoteRepositories.Repository[index]
                     onApply: {
                         close()
-                        remoteRepository[index] = repository
-                        remoteRepositoryChanged()
+                        task.config.RemoteRepositories.Repository[index] = repository
+                        taskChanged()
                     }
                 }
                 MouseArea {
@@ -174,8 +201,8 @@ BasicPage {
                         source: "qrc:/icon/exit-black.svg"
                     }
                     onClicked: {
-                        remoteRepository.splice(index, 1)
-                        remoteRepositoryChanged()
+                        task.config.RemoteRepositories.Repository.splice(index, 1)
+                        taskChanged()
                     }
                 }
 
@@ -200,7 +227,7 @@ BasicPage {
             }
             CustomButton {
                 width: 30; height: 30; radius: 15
-                text: qsTr("+")
+                text: "+"
                 onClicked: {
                     var component = {
                         "DisplayName": "component ",
@@ -220,16 +247,16 @@ BasicPage {
                         "Replaces": "",
                         "packageFolder": ""
                     }
-                    packagesModel.push(component)
-                    packagesModelChanged()
+                    task.packages.push(component)
+                    taskChanged()
                 }
             }
         }
         ListView {
-            width: parent.width; height: contentHeight            
+            width: parent.width; height: contentHeight
             interactive: false
             spacing: -1
-            model: packagesModel
+            model: task.packages
             delegate: Item {
                 id: _delegate
                 width: parent.width; height: 40
@@ -284,15 +311,15 @@ BasicPage {
                 MouseArea {
                     x: parent.width - width - 10; y: 0
                     width: 21; height: 40
-                    visible: packagesModel.length > 1
+                    visible: task.packages.length > 1
                     Image {
                         x: 0; y: 12
                         width: 21; height: 21
                         source: "qrc:/icon/exit-black.svg"
                     }
                     onClicked: {
-                        packagesModel.splice(index, 1)
-                        packagesModelChanged()
+                        task.packages.splice(index, 1)
+                        taskChanged()
                     }
                 }
 
@@ -307,11 +334,11 @@ BasicPage {
                 }
                 PackageDialog {
                     id: _packageDialog
-                    packag: packagesModel[index]
+                    packag: task.packages[index]
                     onApply: {
                         close()
-                        packagesModel[index] = packag
-                        packagesModelChanged()
+                        task.packages[index] = packag
+                        taskChanged()
                     }
                 }
                 FolderDialog {
@@ -324,32 +351,33 @@ BasicPage {
         }
         LabelCheckBox {
             label: qsTr("Создать смешанный установщик")
-            checked: onlineInstaller
-            visible: onlineInstaller
+            checked: task.isCreateMixedInstaller
+            visible: visibleOnlineInstaller
             onCheckedChanged: task.isCreateMixedInstaller = checked
         }
         LabelCheckBox {
             label: qsTr("Создать оффлайн установщик")
-            checked: !onlineInstaller
-            enabledCheckBox: onlineInstaller
+            checked: task.isCreateOfflineInstaller
+            enabledCheckBox: visibleOnlineInstaller
             onCheckedChanged: task.isCreateOfflineInstaller = checked
         }
         LabelCheckBox {
-            visible: onlineInstaller
+            visible: visibleOnlineInstaller
             label: qsTr("Создать онлайн установщик")
-            checked: onlineInstaller
+            checked: task.isCreateOnlineInstaller
             onCheckedChanged: task.isCreateOnlineInstaller = checked
         }
         LabelCheckBox {
-            visible: onlineInstaller
+            visible: visibleOnlineInstaller
             label: qsTr("Создать репозиторий")
-            checked: onlineInstaller
+            checked: task.isCreateRepository
             onCheckedChanged: task.isCreateRepository = checked
         }
     }
 
     ConfigDialog {
         id: _configDialog
+        config: task.config
         onApply: {
             task.config = config
             close()
@@ -357,7 +385,7 @@ BasicPage {
     }
 
     onRun: {
-        task.packages = packagesModel
+        //task.packages = packagesModel
     }
 
 }

@@ -22,11 +22,10 @@ BasicPage {
         "runQtLinguist": false
     }
 
-
     contentItem: Column {
         id: _content
-
         spacing: 20
+
         ListView {
             width: parent.width; height: count * 40 + (count-1) * spacing
             spacing: 20
@@ -59,6 +58,7 @@ BasicPage {
             id: _tsFileName
             label: qsTr("Имя файла перевода")
             isPopupButton: false
+            text: task.translatorName
             onTextChanged: {
                task.translatorName = text
             }
@@ -69,6 +69,7 @@ BasicPage {
             mode: LabelFieldDialog.Mode.Files
             enabled: _tsFileName.text.length == 0
             filterFile: qsTr("Файлы перевода (*.ts)")
+            text: task.updateFiles
             onTextChanged: {
                 task.updateFiles = text
             }
@@ -79,12 +80,14 @@ BasicPage {
             mode: LabelFieldDialog.Mode.Flags
             flagsModel: Data.modelLanguages
             enabled: _updateFiles.text.length == 0
+            text: task.language
             onTextChanged: {
                 task.language = text
             }
         }
         LabelCheckBox {
             label: qsTr("Запустить Qt Linguist")
+            checked: task.runQtLinguist
             onCheckedChanged: {
                 task.runQtLinguist = checked
             }

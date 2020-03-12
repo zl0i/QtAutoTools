@@ -13,6 +13,7 @@ Dialog {
 
     property var script
 
+    property int currentTask: -1
     signal saveScript(var script)
 
     background: Rectangle {
@@ -50,7 +51,8 @@ Dialog {
             delegate: MouseArea {
                 width: parent.width; height: 40
                 onClicked: {
-                    _taskDialog.tool =  modelData.tool
+                    currentTask = index
+                    _taskDialog.task =  modelData
                     _taskDialog.open()
                 }
                 Rectangle {
@@ -114,6 +116,10 @@ Dialog {
     }
     TaskDialog {
         id: _taskDialog
-
+        onApply: {
+            script.tasks[currentTask] = task
+            currentTask = -1
+            _taskDialog.close()
+        }
     }
 }

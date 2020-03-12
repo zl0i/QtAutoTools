@@ -40,30 +40,35 @@ BasicPage {
         }
         LabelFieldDialog {
             label: qsTr("Папка развертывания")
+            text: task.deployDir
             onTextChanged: {
                 task.deployDir = text
             }
         }
         LabelFieldDialog {
             label: qsTr("Папка подключаемых библиотек")
+            text: task.libraryDir
             onTextChanged: {
                 task.libraryDir = text
             }
         }
         LabelFieldDialog {
             label: qsTr("Папка подключаемых плагинов")
+            text: task.pluginDir
             onTextChanged: {
                task.pluginDir = text
             }
         }
         LabelFieldDialog {
             label: qsTr("Папка используемых qml файлов")
+            text: task.qmlFilesDir
             onTextChanged: {
                 task.qmlFilesDir = text
             }
         }
         LabelFieldDialog {
             label: qsTr("Папка подключаемых qml модулей")
+            text:  task.qmlPluginsDir
             onTextChanged: {
                 task.qmlPluginsDir = text
             }
@@ -72,6 +77,7 @@ BasicPage {
             label: qsTr("Флаги")
             mode: LabelFieldDialog.Mode.Flags
             flagsModel: Data.modelFlagsWinDeployQt
+            text: task.flags
             onTextChanged: {
                 task.flags = text
             }
@@ -81,6 +87,7 @@ BasicPage {
             label: qsTr("Библиотеки")
             mode: LabelFieldDialog.Mode.Libraries
             librariesModel: Data.modelLibraryWindDeployQt
+            text: task.libraries
             onTextChanged: {
                 task.libraries = text
             }

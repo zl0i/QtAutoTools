@@ -13,21 +13,8 @@ AbstractTool::AbstractTool(QJsonObject task, QObject *parent) : ITool(parent), p
 void AbstractTool::waitFinished()
 {
     process->waitForFinished(-1);
+    while(!taskFinished) {}
 }
-
-void AbstractTool::successFinished()
-{
-      QFile *file = prepareBatFile(false);
-      file->readAll();
-      file = prepareBatFile(true);
-
-}
-
-void AbstractTool::failFinished()
-{
-
-}
-
 
 void AbstractTool::kill()
 {      
@@ -46,6 +33,7 @@ void AbstractTool::slotFinished(int code)
     }
     removeBatFile();
     emit finished(process->exitCode(), process->exitStatus());
+    taskFinished = true;
 }
 
 void AbstractTool::errorOcured(QProcess::ProcessError error)

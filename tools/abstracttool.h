@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include <QDateTime>
 #include <QRandomGenerator>
+#include <QEventLoop>
 #include "itool.h"
 #include "toolspathfabric.h"
 
@@ -24,8 +25,8 @@ public:
 protected:
     QProcess *process;
 
-    virtual void successFinished();
-    virtual void failFinished();
+    virtual void successFinished() {};
+    virtual void failFinished() {};
 
     QFile *prepareBatFile(bool env = true);
     void removeBatFile();
@@ -35,6 +36,7 @@ protected:
 private:
     QString currentFileName;
 
+    bool taskFinished = false;
 signals:
 
 public slots:
