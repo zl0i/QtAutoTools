@@ -87,6 +87,7 @@ Dialog {
             }
             footer: MouseArea {
                 width: parent.width; height: 40
+                onClicked: _addTaskPopup.open()
                 Rectangle {
                     width: parent.width; height: 1
                     color: "#C4C4C4"
@@ -102,6 +103,23 @@ Dialog {
                     horizontalAlignment: Text.AlignHCenter
                     font.pixelSize: 24
                     text: "+"
+                }
+                AddTaskPopup {
+                    x: parent.width/2; y: parent.height/2
+                    id: _addTaskPopup
+                    onAddTask: {
+                        var task = {
+                            "tool": tool,
+                            "label": tool,
+                            "environment": _guiAdapter.settings
+                        }
+                        script.tasks.push(task)
+                        scriptChanged()
+                         _taskDialog.task =  task
+                        _taskDialog.open()
+                        close()
+                    }
+
                 }
             }
         }
