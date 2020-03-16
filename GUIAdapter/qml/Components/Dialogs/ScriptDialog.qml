@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Window 2.3
+import QtGraphicalEffects 1.0
 
 import Components.Controls 1.0
 
@@ -67,20 +68,38 @@ Dialog {
                 Row {
                     x: 20;
                     height: parent.height
-                    Label {
-                        height: parent.height
+                    TextInput {
+                        width: contentWidth + 10; height: parent.height
                         verticalAlignment: Text.AlignVCenter
                         font { pixelSize: 14; bold: true }
                         text: modelData.label
+                        onTextChanged: script.tasks[index].label = text
                     }
                     Label {
-                        y: 5
-                        height: parent.height-5
+                        height: parent.height
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: 12
                         text: "(" + modelData.tool + ")"
                     }
                 }
+                MouseArea {
+                    x: parent.width-width-60; y: 15
+                    width: 17; height: 17
+                    onClicked: {
+                        script.tasks.splice(index, 1)
+                        scriptChanged()
+                    }
+                    Image {
+                        width: 13; height: 13
+                        source: "qrc:/icon/delete-black.svg"
+                        layer.enabled: parent.pressed
+                        layer.effect: ColorOverlay {
+                            color: "#39A0FF"
+                        }
+
+                    }
+                }
+
                 MenuButton {
                     x: parent.width - width - 20; y: 13
                 }
