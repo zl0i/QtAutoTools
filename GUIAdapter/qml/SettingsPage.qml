@@ -6,7 +6,8 @@ import Qt.labs.platform 1.1
 import Components.Elements 1.0
 import Components.Controls 1.0
 
-BasicPage {   
+BasicPage {
+    id: _settingsPage
     title: qsTr("Настройки")
     buttonText: qsTr("Удалить все настройки")
 
@@ -68,7 +69,7 @@ BasicPage {
                 return _toolDetector.detectTools.finstallerVersions.indexOf(settings.finstallerVersion)
             }
 
-            onCurrentTextChanged: {
+            onCurrentTextChanged: {               
                 settings.finstallerVersion = currentText
             }
         }

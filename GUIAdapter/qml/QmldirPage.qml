@@ -121,8 +121,4 @@ BasicPage {
             }
         }
     }
-
-    onRun: console.log(JSON.stringify(task))
-
-
 }

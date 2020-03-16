@@ -28,13 +28,13 @@ Dialog {
             x: 10
             width: contentWidth+10; height: contentHeight+10
             font { pixelSize: 18; bold: true }
-            text: script.name
+            text: script ? script.name : ""
             onTextChanged: script.name = text
         }
         Label {
             x: 10; y: 20
             font.pixelSize: 12
-            text: qsTr("Версия: %1").arg(script.version)
+            text: script ? qsTr("Версия: %1").arg(script.version) : ""
         }
 
         Label {
@@ -46,7 +46,7 @@ Dialog {
         ListView {
             y: 75
             width: parent.width; height: count*40+41
-            model: script.tasks
+            model: script ? script.tasks : 0
             interactive: count*40 > _scriptPage.height-100
             clip: true
             delegate: MouseArea {
@@ -134,7 +134,7 @@ Dialog {
                         }
                         script.tasks.push(task)
                         scriptChanged()
-                         _taskDialog.task =  task
+                        _taskDialog.task =  task
                         _taskDialog.open()
                         close()
                     }

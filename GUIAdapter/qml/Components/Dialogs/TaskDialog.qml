@@ -6,28 +6,35 @@ import "../../"
 Dialog {
     id: _taskDialog
     parent: Overlay.overlay
-    x:parent.width/2-width/2; y: 20
+    x: parent.width/2-width/2; y: 20
     width: 2*parent.width/3; height: parent.height - 40
     modal: true; dim: true
 
     property var task
+    property var page
 
     signal apply(var task)
 
-    onTaskChanged:  {
+    onTaskChanged:  {        
         var component = createToolByName(task.tool)
-        var item = component.createObject(_toolView)
-        item.task = task
-        _settingPage.settings = task.environment
-        item.height = item.contentItem.height+70
-        item.contentItem.heightChanged.connect(function () {
-            item.height = item.contentItem.height+70
-            _toolView.height = item.height
+        page = component.createObject(_toolView)
+        if(Object.keys(task).length > 3)
+            page.task = task
+        else
+            page.task.label = task.label
+
+        if(task.environment)
+            _settingPage.settings = task.environment
+
+        page.height = page.contentItem.height+70
+        page.contentItem.heightChanged.connect(function () {
+            page.height = page.contentItem.height+70
+            _toolView.height = page.height
         })
-        item.width = _taskDialog.width
-        item.interactive = false
-        _toolView.height = item.height
-        _toolView.data = item
+        page.width = _taskDialog.width
+        page.interactive = false
+        _toolView.height = page.height
+        _toolView.data = page
     }
 
 
@@ -69,7 +76,11 @@ Dialog {
                 visibleRunButton: false
                 visibleLang: false
                 interactive: false
-                onSaveSettings: apply(_taskDialog.task)
+                onSaveSettings: {
+                    var saveTask = page.task
+                    saveTask.environment = settings
+                    apply(saveTask)
+                }
             }
         }
 

@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import QtQml 2.14
 import QtGraphicalEffects 1.0
 
 
@@ -31,6 +32,7 @@ Dialog {
         info = ""
         isReady = false
         errorProcess = false
+        _flickable.wasFlip = false
     }
 
     function finished(code) {
@@ -103,6 +105,16 @@ Dialog {
                 flickableDirection: Flickable.AutoFlickIfNeeded
                 ScrollBar.vertical: ScrollBar {}
                 ScrollBar.horizontal: ScrollBar {}
+
+                property bool wasFlip: false
+
+                onFlickEnded: {
+                    if(visibleArea.yPosition >= 0.8) {
+                        wasFlip = false
+                    } else
+                        wasFlip = true
+                }
+
                 TextArea.flickable: TextArea {
                     id: _infoArea
                     font.pixelSize: 12
@@ -111,12 +123,19 @@ Dialog {
                     readOnly: true
                     text: info
                     textFormat: TextEdit.RichText
+                    Binding {
+                        restoreMode: Binding.RestoreBindingOrValue
+                        when: !_flickable.wasFlip
+                        target: _infoArea
+                        property: "cursorPosition"
+                        value: _infoArea.length
+                    }
                 }
             }
         }
 
         Image {
-            x:parent.width/2-width/2; //y: parent.height-20
+            x:parent.width/2-width/2;
             width: 20; height: 10
             source: "qrc:/icon/arrow-black.svg"
             rotation: showInfo ? 180 : 0

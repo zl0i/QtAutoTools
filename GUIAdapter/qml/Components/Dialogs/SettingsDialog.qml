@@ -85,7 +85,7 @@ Dialog {
                     }
                     LabelComboBox {
                         label: qsTr("Профиль Qt")
-                        model: settingsModel.profiles[_qtVersion.currentText]
+                        model: _qtVersion.currentText ? settingsModel.profiles[_qtVersion.currentText] : 0
                         onCurrentTextChanged:  settings.profile = currentText
                     }
                     LabelComboBox {
