@@ -4,7 +4,7 @@
 <context>
     <name>BasicPage</name>
     <message>
-        <location filename="../../qml/BasicPage.qml" line="12"/>
+        <location filename="../../qml/BasicPage.qml" line="14"/>
         <source>Запустить</source>
         <translation>Run</translation>
     </message>
@@ -27,22 +27,22 @@
         <translation>Project file (*.pro)</translation>
     </message>
     <message>
-        <location filename="../../qml/BuildPage.qml" line="33"/>
+        <location filename="../../qml/BuildPage.qml" line="34"/>
         <source>Система сборки</source>
         <translation>System build</translation>
     </message>
     <message>
-        <location filename="../../qml/BuildPage.qml" line="40"/>
+        <location filename="../../qml/BuildPage.qml" line="42"/>
         <source>Спецификация</source>
         <translation>Specification</translation>
     </message>
     <message>
-        <location filename="../../qml/BuildPage.qml" line="50"/>
+        <location filename="../../qml/BuildPage.qml" line="55"/>
         <source>Папка сборки</source>
         <translation>Build dir</translation>
     </message>
     <message>
-        <location filename="../../qml/BuildPage.qml" line="56"/>
+        <location filename="../../qml/BuildPage.qml" line="62"/>
         <source>CONFIG +=</source>
         <translation>CONFIG +=</translation>
     </message>
@@ -65,17 +65,17 @@
 <context>
     <name>BusyDialog</name>
     <message>
-        <location filename="../../qml/Components/Dialogs/BusyDialog.qml" line="94"/>
+        <location filename="../../qml/Components/Dialogs/BusyDialog.qml" line="95"/>
         <source>Ошибка!</source>
         <translation>Error!</translation>
     </message>
     <message>
-        <location filename="../../qml/Components/Dialogs/BusyDialog.qml" line="94"/>
+        <location filename="../../qml/Components/Dialogs/BusyDialog.qml" line="95"/>
         <source>Готово</source>
         <translation>Done</translation>
     </message>
     <message>
-        <location filename="../../qml/Components/Dialogs/BusyDialog.qml" line="94"/>
+        <location filename="../../qml/Components/Dialogs/BusyDialog.qml" line="95"/>
         <source>Ждите. Операция выполняется</source>
         <translation>Wait. Operation in progress</translation>
     </message>
@@ -169,43 +169,42 @@
 <context>
     <name>InstallerPage</name>
     <message>
-        <location filename="../../qml/InstallerPage.qml" line="76"/>
+        <location filename="../../qml/InstallerPage.qml" line="100"/>
         <source>Папка установки</source>
         <translation>Installation folder</translation>
     </message>
     <message>
-        <location filename="../../qml/InstallerPage.qml" line="82"/>
+        <location filename="../../qml/InstallerPage.qml" line="107"/>
         <source>Настройка config файла</source>
         <translation>Configuring a config file</translation>
     </message>
     <message>
-        <location filename="../../qml/InstallerPage.qml" line="86"/>
+        <location filename="../../qml/InstallerPage.qml" line="111"/>
         <source>Онлайн установщик</source>
         <translation>Online installer</translation>
     </message>
     <message>
-        <location filename="../../qml/InstallerPage.qml" line="95"/>
+        <location filename="../../qml/InstallerPage.qml" line="124"/>
         <source>Список репозиториев</source>
         <translation>Repository list</translation>
     </message>
     <message>
-        <location filename="../../qml/InstallerPage.qml" line="99"/>
-        <location filename="../../qml/InstallerPage.qml" line="201"/>
+        <location filename="../../qml/InstallerPage.qml" line="128"/>
         <source>+</source>
         <translation>+</translation>
     </message>
     <message>
-        <location filename="../../qml/InstallerPage.qml" line="197"/>
+        <location filename="../../qml/InstallerPage.qml" line="226"/>
         <source>Список компонентов</source>
         <translation>Packages list</translation>
     </message>
     <message>
-        <location filename="../../qml/InstallerPage.qml" line="324"/>
+        <location filename="../../qml/InstallerPage.qml" line="353"/>
         <source>Создать смешанный установщик</source>
         <translation>Create Mixed Installer</translation>
     </message>
     <message>
-        <location filename="../../qml/InstallerPage.qml" line="330"/>
+        <location filename="../../qml/InstallerPage.qml" line="359"/>
         <source>Создать оффлайн установщик</source>
         <translation>Create offline installer</translation>
     </message>
@@ -214,12 +213,12 @@
         <translation type="vanished">Create offline installer</translation>
     </message>
     <message>
-        <location filename="../../qml/InstallerPage.qml" line="337"/>
+        <location filename="../../qml/InstallerPage.qml" line="366"/>
         <source>Создать онлайн установщик</source>
         <translation>Create online installer</translation>
     </message>
     <message>
-        <location filename="../../qml/InstallerPage.qml" line="343"/>
+        <location filename="../../qml/InstallerPage.qml" line="372"/>
         <source>Создать репозиторий</source>
         <translation>Create repository</translation>
     </message>
@@ -232,17 +231,17 @@
 <context>
     <name>LUpdatePage</name>
     <message>
-        <location filename="../../qml/LUpdatePage.qml" line="36"/>
+        <location filename="../../qml/LUpdatePage.qml" line="35"/>
         <source>Переводимые файлы</source>
         <translation>Translatable files</translation>
     </message>
     <message>
-        <location filename="../../qml/LUpdatePage.qml" line="39"/>
+        <location filename="../../qml/LUpdatePage.qml" line="38"/>
         <source>Все файлы (*)</source>
         <translation>All files (*)</translation>
     </message>
     <message>
-        <location filename="../../qml/LUpdatePage.qml" line="60"/>
+        <location filename="../../qml/LUpdatePage.qml" line="59"/>
         <source>Имя файла перевода</source>
         <translation>Translation File Name</translation>
     </message>
@@ -261,7 +260,7 @@
         <translation type="vanished">Update file (optional)</translation>
     </message>
     <message>
-        <location filename="../../qml/LUpdatePage.qml" line="78"/>
+        <location filename="../../qml/LUpdatePage.qml" line="79"/>
         <source>Языки</source>
         <translation>Languages</translation>
     </message>
@@ -271,7 +270,7 @@
         <translation>Create</translation>
     </message>
     <message>
-        <location filename="../../qml/LUpdatePage.qml" line="87"/>
+        <location filename="../../qml/LUpdatePage.qml" line="89"/>
         <source>Запустить Qt Linguist</source>
         <translation>Run Qt Linguist</translation>
     </message>
@@ -397,12 +396,12 @@
         <translation>Files</translation>
     </message>
     <message>
-        <location filename="../../qml/QmldirPage.qml" line="109"/>
+        <location filename="../../qml/QmldirPage.qml" line="110"/>
         <source>Создать запись о типах qmldir</source>
         <translation>Create qmldir type record</translation>
     </message>
     <message>
-        <location filename="../../qml/QmldirPage.qml" line="115"/>
+        <location filename="../../qml/QmldirPage.qml" line="117"/>
         <source>Поддержка Qt Quick Designer</source>
         <translation>Qt Quick Designer Support</translation>
     </message>
@@ -453,6 +452,50 @@
         <location filename="../../qml/Components/Dialogs/RepositoryDialog.qml" line="91"/>
         <source>Отмена</source>
         <translation>Cancel</translation>
+    </message>
+</context>
+<context>
+    <name>ScriptDialog</name>
+    <message>
+        <location filename="../../qml/Components/Dialogs/ScriptDialog.qml" line="46"/>
+        <source>Версия: %1</source>
+        <translation>Version: %1</translation>
+    </message>
+    <message>
+        <location filename="../../qml/Components/Dialogs/ScriptDialog.qml" line="52"/>
+        <source>Задачи:</source>
+        <translation>Tasks:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/Components/Dialogs/ScriptDialog.qml" line="161"/>
+        <source>Сохранить</source>
+        <translation>Save</translation>
+    </message>
+</context>
+<context>
+    <name>ScriptPopup</name>
+    <message>
+        <location filename="../../qml/Components/Dialogs/ScriptPopup.qml" line="38"/>
+        <source>Добавить к ...</source>
+        <translation>Add to...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/Components/Dialogs/ScriptPopup.qml" line="60"/>
+        <source>Создать новый</source>
+        <translation>Create new</translation>
+    </message>
+</context>
+<context>
+    <name>ScriptsPage</name>
+    <message>
+        <location filename="../../qml/ScriptsPage.qml" line="12"/>
+        <source>Скрипты</source>
+        <translation>Scripts</translation>
+    </message>
+    <message>
+        <location filename="../../qml/ScriptsPage.qml" line="120"/>
+        <source>Добавить</source>
+        <translation>Add</translation>
     </message>
 </context>
 <context>
@@ -533,32 +576,32 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="13"/>
+        <location filename="../../qml/SettingsPage.qml" line="11"/>
         <source>Настройки</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="19"/>
+        <location filename="../../qml/SettingsPage.qml" line="22"/>
         <source>Путь к Qt</source>
         <translation>Path to Qt</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="26"/>
+        <location filename="../../qml/SettingsPage.qml" line="29"/>
         <source>Версия Qt</source>
         <translation>Qt Version</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="39"/>
+        <location filename="../../qml/SettingsPage.qml" line="42"/>
         <source>Профиль</source>
         <translation>Profile</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="51"/>
+        <location filename="../../qml/SettingsPage.qml" line="54"/>
         <source>Компилятор</source>
         <translation>Compiler</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="63"/>
+        <location filename="../../qml/SettingsPage.qml" line="66"/>
         <source>Версия Qt Installer Framework</source>
         <translation>Qt Installer Framework Version</translation>
     </message>
@@ -567,17 +610,17 @@
         <translation type="obsolete">Qt </translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="79"/>
+        <location filename="../../qml/SettingsPage.qml" line="83"/>
         <source>Язык</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="107"/>
+        <location filename="../../qml/SettingsPage.qml" line="111"/>
         <source>Применить</source>
         <translation>Apply</translation>
     </message>
     <message>
-        <location filename="../../qml/SettingsPage.qml" line="14"/>
+        <location filename="../../qml/SettingsPage.qml" line="12"/>
         <source>Удалить все настройки</source>
         <translation>Delete all settings</translation>
     </message>
@@ -595,37 +638,37 @@
         <translation>Executable file (*.exe)</translation>
     </message>
     <message>
-        <location filename="../../qml/WinDeployQtPage.qml" line="41"/>
+        <location filename="../../qml/WinDeployQtPage.qml" line="42"/>
         <source>Папка развертывания</source>
         <translation>Deployment Folder</translation>
     </message>
     <message>
-        <location filename="../../qml/WinDeployQtPage.qml" line="47"/>
+        <location filename="../../qml/WinDeployQtPage.qml" line="49"/>
         <source>Папка подключаемых библиотек</source>
         <translation>Libraries folder</translation>
     </message>
     <message>
-        <location filename="../../qml/WinDeployQtPage.qml" line="53"/>
+        <location filename="../../qml/WinDeployQtPage.qml" line="56"/>
         <source>Папка подключаемых плагинов</source>
         <translation>Plugin folder</translation>
     </message>
     <message>
-        <location filename="../../qml/WinDeployQtPage.qml" line="59"/>
+        <location filename="../../qml/WinDeployQtPage.qml" line="63"/>
         <source>Папка используемых qml файлов</source>
         <translation>Folder qml files</translation>
     </message>
     <message>
-        <location filename="../../qml/WinDeployQtPage.qml" line="65"/>
+        <location filename="../../qml/WinDeployQtPage.qml" line="70"/>
         <source>Папка подключаемых qml модулей</source>
         <translation>Folder qml modules</translation>
     </message>
     <message>
-        <location filename="../../qml/WinDeployQtPage.qml" line="71"/>
+        <location filename="../../qml/WinDeployQtPage.qml" line="77"/>
         <source>Флаги</source>
         <translation>Flags</translation>
     </message>
     <message>
-        <location filename="../../qml/WinDeployQtPage.qml" line="80"/>
+        <location filename="../../qml/WinDeployQtPage.qml" line="87"/>
         <source>Библиотеки</source>
         <translation>Libraries</translation>
     </message>
@@ -643,9 +686,8 @@
         <translation>QtAutoTools</translation>
     </message>
     <message>
-        <location filename="../../main.qml" line="24"/>
         <source>Настройки</source>
-        <translation>Settings</translation>
+        <translation type="vanished">Settings</translation>
     </message>
 </context>
 </TS>
