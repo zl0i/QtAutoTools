@@ -10,5 +10,6 @@
         <file>icon/gear-black.svg</file>
         <file>icon/arrow-right.svg</file>
         <file>icon/delete-black.svg</file>
+        <file>icon/script-white.svg</file>
     </qresource>
 </RCC>

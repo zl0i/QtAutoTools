@@ -11,6 +11,7 @@ Dialog {
     x:parent.width/2-width/2; y: 20
     width: parent.width/2; height: parent.height - 40
     modal: true; dim: true
+    closePolicy: Popup.NoAutoClose
 
     property var script
 
@@ -20,8 +21,16 @@ Dialog {
     background: Rectangle {
         width: parent.width; height: parent.height; radius: 10
         color: "#FFFFFF"
+        MouseArea {
+            x: parent.width-width-10; y: 15
+            width: 17; height: 17
+            onClicked: _scriptDialog.close()
+            Image {
+                width: 13; height: 13
+                source: "qrc:/icon/delete-black.svg"
+            }
+        }
     }
-
 
     contentItem: Item {
         TextInput {
@@ -45,10 +54,11 @@ Dialog {
 
         ListView {
             y: 75
-            width: parent.width; height: count*40+41
+            width: parent.width; height: _scriptDialog.height-145
             model: script ? script.tasks : 0
-            interactive: count*40 > _scriptPage.height-100
+            interactive: (count+1)*40 > height
             clip: true
+
             delegate: MouseArea {
                 width: parent.width; height: 40
                 onClicked: {
@@ -83,7 +93,7 @@ Dialog {
                     }
                 }
                 MouseArea {
-                    x: parent.width-width-60; y: 15
+                    x: parent.width-width-20; y: 15
                     width: 17; height: 17
                     onClicked: {
                         script.tasks.splice(index, 1)
@@ -99,20 +109,24 @@ Dialog {
 
                     }
                 }
-
-                MenuButton {
-                    x: parent.width - width - 20; y: 13
-                }
             }
             footer: MouseArea {
                 width: parent.width; height: 40
-                onClicked: _addTaskPopup.open()
+                onClicked: {
+                    var point = mapToItem(Overlay.overlay, mouseX, mouseY)
+                    if(point.y + _addTaskPopup.height + 20 > Overlay.overlay.height) {
+                        _addTaskPopup.y = -_addTaskPopup.height+20
+                    } else {
+                        _addTaskPopup.y = 20
+                    }
+                    _addTaskPopup.open()
+                }
                 Rectangle {
                     width: parent.width; height: 1
                     color: "#C4C4C4"
                 }
                 Rectangle {
-                    y: 40
+                    y: 39
                     width: parent.width; height: 1
                     color: "#C4C4C4"
                 }

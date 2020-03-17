@@ -15,7 +15,6 @@ Item {
     property bool visibleScriptButton: true
     property alias interactive: _flickable.interactive
 
-
     property var task: ({})
     signal run(var task)
     signal saveScript(var add, var script)
@@ -52,63 +51,25 @@ Item {
             CustomButton {
                 width: 40; height: 40
                 visible: visibleScriptButton
-                onClicked:  _popup.open() //_page.saveScript()
-                Popup {
+                Image {
+                    anchors.centerIn: parent
+                    width: 16; height: 20
+                    source: "qrc:/icon/script-white.svg"
+                }
+                onClicked:  {
+                    var point = mapToItem(Overlay.overlay, mouseX, mouseY)
+                    if(point.y + _popup.height + 20 > Overlay.overlay.height) {
+                        _popup.y = -_popup.height+20
+                    } else {
+                        _popup.y = 20
+                    }
+                    _popup.open()
+                }
+                ScriptPopup {
                     id: _popup
-                    x: 20; y: 20
-                    width: 120; height: 50
-                    padding: 0
-                    background: Rectangle {
-                        width: 120; height: 50; radius: 10
-                        layer.enabled: true
-                        layer.effect: DropShadow {
-                            radius: 8
-                            samples: 16
-                        }
-                    }
-                    contentItem: Column {
-                        width: 120; height: 50
-                        MouseArea {
-                            width: 120; height: 24
-                            hoverEnabled: true
-                            property bool hovered: false
-                            onEntered: hovered = true
-                            onExited: hovered = false
-                            onClicked: {
-                                _page.saveScript(true, task)
-                                _popup.close()
-                            }
-                            Label {
-                                width: 120; height: 19
-                                leftPadding: 10
-                                verticalAlignment: Text.AlignVCenter
-                                color: parent.hovered ? (parent.pressed ? "#3E5FB8" : "#39A0FF") : "#000000"
-                                text: qsTr("Добавить к ...")
-                            }
-                        }
-                        Rectangle {
-                            width: 120; height: 1
-                            color: "#C4C4C4"
-                        }
-                        MouseArea {
-                            width: 120; height: 24
-                            hoverEnabled: true
-                            property bool hovered: false
-                            onEntered: hovered = true
-                            onExited: hovered = false
-                            onClicked: {
-                                _page.saveScript(false, task)
-                                _popup.close()
-                            }
-                            Label {
-                                width: 120; height: 19
-                                leftPadding: 10
-                                verticalAlignment: Text.AlignVCenter
-                                color: parent.hovered ? (parent.pressed ? "#3E5FB8" : "#39A0FF") : "#000000"
-                                text: qsTr("Создать новый")
-                            }
-                        }
-                    }
+                    x: 20; y: -height/2
+                    onAddScript: _page.saveScript(true, task)
+                    onNewScript: _page.saveScript(false, task)
                 }
             }
         }

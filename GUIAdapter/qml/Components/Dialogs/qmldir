@@ -7,3 +7,4 @@ RepositoryDialog 1.0 RepositoryDialog.qml
 SettingsDialog 1.0 SettingsDialog.qml
 ScriptDialog 1.0 ScriptDialog.qml
 TaskDialog 1.0 TaskDialog.qml
+ScriptPopup 1.0 ScriptPopup.qml

@@ -7,17 +7,19 @@ Dialog {
     id: _taskDialog
     parent: Overlay.overlay
     x: parent.width/2-width/2; y: 20
-    width: 2*parent.width/3; height: parent.height - 40
+    width: parent.width-200; height: parent.height - 40
     modal: true; dim: true
+    closePolicy: Popup.NoAutoClose
 
     property var task
     property var page
 
     signal apply(var task)
 
-    onTaskChanged:  {        
+    onTaskChanged:  {
         var component = createToolByName(task.tool)
         page = component.createObject(_toolView)
+        _flickable.contentY = 0
         if(Object.keys(task).length > 3)
             page.task = task
         else
@@ -37,7 +39,6 @@ Dialog {
         _toolView.data = page
     }
 
-
     function createToolByName(tool) {
         switch (tool) {
         case "builder":
@@ -51,38 +52,49 @@ Dialog {
         case "lupdate":
             return Qt.createComponent("../../LUpdatePage.qml")
         }
-
-
     }
+
 
     background: Rectangle {
         width: parent.width; height: parent.height; radius: 10
         color: "#FFFFFF"
+        MouseArea {
+            x: parent.width-width-15; y: 15
+            width: 17; height: 17
+            onClicked: _taskDialog.close()
+            Image {
+                width: 13; height: 13
+                source: "qrc:/icon/delete-black.svg"
+            }
+        }
     }
 
-    contentItem: Flickable {
+    contentItem: Item {
         width: parent.width; height: parent.height
-        contentHeight: _settingPage.contentItem.height+_toolView.height+80
-        clip: true
-        Column {
-            width: parent.width
-            Item {
-                id: _toolView
-                width: parent.width; height: 100
-            }
-            SettingsPage {
-                id: _settingPage
-                width: parent.width; height: contentItem.height+80
-                visibleRunButton: false
-                visibleLang: false
-                interactive: false
-                onSaveSettings: {
-                    var saveTask = page.task
-                    saveTask.environment = settings
-                    apply(saveTask)
+        Flickable {
+            id: _flickable
+            anchors { fill: parent; topMargin: 20}
+            contentHeight: _settingPage.contentItem.height+_toolView.height+80
+            clip: true
+            Column {
+                width: parent.width
+                Item {
+                    id: _toolView
+                    width: parent.width; height: 100
+                }
+                SettingsPage {
+                    id: _settingPage
+                    width: parent.width; height: contentItem.height+80
+                    visibleRunButton: false
+                    visibleLang: false
+                    interactive: false
+                    onSaveSettings: {
+                        var saveTask = page.task
+                        saveTask.environment = settings
+                        apply(saveTask)
+                    }
                 }
             }
         }
-
     }
 }

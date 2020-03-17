@@ -98,6 +98,7 @@ ApplicationWindow {
             width: ListView.view.width
             height: ListView.view.height
             onRun: _guiAdapter.executeScript(task)
+
         }
         SettingsPage {
             width: ListView.view.width
@@ -163,6 +164,7 @@ ApplicationWindow {
                     hoverEnabled: true
                     property bool hovered: false
                     onClicked:  {
+                        _toolView.currentIndex = index
                         _toolView.positionViewAtIndex(index, ListView.Center)
                         _list.currentIndex = index
                     }

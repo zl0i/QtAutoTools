@@ -3,7 +3,6 @@ import QtQuick.Controls 2.5
 import QtQml 2.14
 import QtGraphicalEffects 1.0
 
-
 import Components.Controls 1.0
 
 Dialog {

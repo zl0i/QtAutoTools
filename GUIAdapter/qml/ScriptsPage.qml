@@ -1,6 +1,8 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.5
+import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
+//import QtQml.Models 2.12
+import QtQml 2.14
 
 import Components.Dialogs 1.0
 import Components.Controls 1.0
@@ -11,8 +13,16 @@ BasicPage {
     visibleRunButton: false
     visibleScriptButton: false
 
-    property bool addToScriptMode: false
+    property bool addToScriptMode
     property var addScript
+
+    Binding {
+        target: _scriptPage
+        property: "addToScriptMode"
+        value: false
+        when: !_scriptPage.ListView.isCurrentItem
+        restoreMode: Binding.RestoreValue
+    }
 
     function newScript(script) {
         script.environment = _guiAdapter.settings
