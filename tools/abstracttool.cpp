@@ -4,41 +4,43 @@ AbstractTool::AbstractTool(QJsonObject task, QObject *parent) : ITool(parent), p
 {
     process = new QProcess();
     process->setProcessChannelMode(QProcess::MergedChannels);
-    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            this, QOverload<int>::of(&AbstractTool::slotFinished));
     connect(process, &QProcess::readyRead, this, &AbstractTool::slotReadChanel);
-    connect(process, &QProcess::errorOccurred, this, &AbstractTool::errorOcured);
 }
 
-void AbstractTool::waitFinished()
-{
-    process->waitForFinished(-1);
-    while(!taskFinished) {}
+bool AbstractTool::execCommand(QString command, bool detach) {
+
+
+
+    if(!detach) {
+        QFile *bat = prepareBatFile(true);
+
+        bat->write(command.toLocal8Bit());
+        bat->close();
+        bat->deleteLater();
+
+        process->start(bat->fileName());
+        process->start(bat->fileName());
+        QEventLoop loop;
+        connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), &loop, SLOT(quit()));
+        connect(process, SIGNAL(errorOccurred(QProcess::ProcessError)), &loop, SLOT(quit()));
+        loop.exec();
+        removeBatFile();
+
+        if(process->exitCode() == 0)
+            return true;
+        else
+            return false;
+    } else {
+        if(QProcess::startDetached(command))
+            return true;
+        else
+            return false;
+    }
 }
 
 void AbstractTool::kill()
 {      
-   process->kill();
-}
-
-void AbstractTool::slotFinished(int code)
-{
-    //qDebug() << process->readAllStandardOutput() << process->readAllStandardError();
-    if(code == 0) {
-        successFinished();
-        emit newOutputData("Done!\r\n");
-    } else {
-        failFinished();
-        emit newErrorData(process->readAllStandardError());
-    }
-    removeBatFile();
-    emit finished(process->exitCode(), process->exitStatus());
-    taskFinished = true;
-}
-
-void AbstractTool::errorOcured(QProcess::ProcessError error)
-{
-    qDebug() << error;
+    process->kill();
 }
 
 void AbstractTool::slotReadChanel()
@@ -69,5 +71,5 @@ QFile *AbstractTool::prepareBatFile(bool addQtPath)  {
 
 void AbstractTool::removeBatFile()
 {
-   QFile::remove(currentFileName + ".bat");
+    QFile::remove(currentFileName + ".bat");
 }

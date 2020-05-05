@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QThreadPool>
 #include "abstracttool.h"
 
 class Builder : public AbstractTool
@@ -20,14 +21,9 @@ public:
     QStringList specList() { return  m_specList; }
     QStringList systemBuildList() { return  m_systemBuildList; }
 
-    Q_INVOKABLE void setProFile(QString);
-    Q_INVOKABLE void setSystemBuild(QString);
-    Q_INVOKABLE void setBuildDir(QString);
-    Q_INVOKABLE void setMkSpec(QString);
-    Q_INVOKABLE void setConfigure(QString);
-
     void configFromJson(QJsonObject) override;
-    void run() override;
+    bool exec() override;
+    void cancelExec() override;
 
 private:
     QStringList m_specList;

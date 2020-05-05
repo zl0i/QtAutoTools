@@ -11,9 +11,39 @@ WebAdapter::WebAdapter(SettingsStorage *storage, QObject *parent) : BaseAdapter(
 
 }
 
-void WebAdapter::start()
+bool WebAdapter::start()
 {
     server->listen(QHostAddress::Any, 3434);
+}
+
+QJsonObject WebAdapter::getUserSettings(QObject *sender)
+{
+
+}
+
+bool WebAdapter::isRunningTask(QObject *sender)
+{
+
+}
+
+void WebAdapter::started(QString name)
+{
+
+}
+
+void WebAdapter::newErrorData(QString name, QByteArray line)
+{
+
+}
+
+void WebAdapter::newOutputData(QString name, QByteArray line)
+{
+
+}
+
+void WebAdapter::finished(QString name, int exitCode, int exitStatus)
+{
+
 }
 
 void WebAdapter::newConnection()
@@ -42,5 +72,10 @@ void WebAdapter::processBinaryMessage(QByteArray arr)
 
 void WebAdapter::socketDisconnected()
 {
-     qDebug() << "Client disconnected";
+    qDebug() << "Client disconnected";
+}
+
+void WebAdapter::kill()
+{
+
 }

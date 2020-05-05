@@ -22,7 +22,7 @@ class GUIAdapter : public BaseAdapter
 public:
     explicit GUIAdapter(SettingsStorage *storage, QObject *parent = nullptr);
 
-    void start() override;
+    bool start() override;
 
     QJsonObject getSettings() { return settings; }
     void setSettings(QJsonObject obj) {  settings = obj; storage()->saveUserSettings("guiAdapter", settings); }

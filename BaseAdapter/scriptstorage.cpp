@@ -6,7 +6,7 @@ ScriptStorage::ScriptStorage(QObject *parent) : QObject(parent)
     scriptDir.setPath("./scripts");
 }
 
-QJsonObject ScriptStorage::getScriptByName(QString name)
+QJsonObject ScriptStorage::getScriptByName(QString name) const
 {
     QFile script(scriptDir.path() + QDir::separator() + name);
     if(!script.exists())
@@ -21,7 +21,7 @@ QJsonObject ScriptStorage::getScriptByName(QString name)
     return  QJsonObject {};
 }
 
-void ScriptStorage::saveScript(QJsonObject object, QString name)
+void ScriptStorage::saveScript(QJsonObject object, QString name) const
 {
     QFile script(scriptDir.path() + QDir::separator() + name + ".json");
     if(script.open(QIODevice::ReadWrite)) {
@@ -32,18 +32,18 @@ void ScriptStorage::saveScript(QJsonObject object, QString name)
     }
 }
 
-QStringList ScriptStorage::getNameScripts()
+QStringList ScriptStorage::getNameScripts() const
 {
     QStringList scripts = scriptDir.entryList(QStringList {"*.json"}, QDir::Files);
     return scripts;
 }
 
-void ScriptStorage::removeScript(QString name)
+void ScriptStorage::removeScript(QString name) const
 {
     QFile::remove(scriptDir.path() + QDir::separator() + name);
 }
 
-void ScriptStorage::removeAllScripts()
+void ScriptStorage::removeAllScripts() const
 {
     QStringList scripts = scriptDir.entryList(QStringList {"*.json"}, QDir::Files);
     for(int i = 0; i < scripts.length(); ++i)

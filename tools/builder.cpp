@@ -14,12 +14,20 @@ void Builder::configFromJson(QJsonObject obj) {
     addConfigure = obj.value("configure").toString();
 }
 
-void Builder::run() {
+bool Builder::exec() {
     QStringList arguments;
-    if(proFile.isEmpty() || buildDir.isEmpty())
-        return;
 
-    emit started();
+    if(proFile.isEmpty()) {
+        emit newErrorData("Profile field is empty.");
+        return false;
+    }
+
+    if(buildDir.isEmpty()) {
+        emit newErrorData("Build dir field is empty.");
+        return false;
+    }
+
+    QDir(buildDir).mkpath(buildDir);
 
     if(systemBuild == "qmake") {
         arguments.append(proFile);
@@ -32,45 +40,26 @@ void Builder::run() {
             arguments.append("\"CONFIG+=" + config.at(i) + "\"");
         }
 
-        QFile *bat = prepareBatFile(true);
-
         QStringList command;
 
         command.append("cd " + buildDir);
         command.append(pathFabric.qmakePath() + " " + arguments.join(" "));
         command.append(pathFabric.makeCompilerPath() + " -f " + buildDir + "/Makefile "  + "qmake_all");
-        command.append(pathFabric.makeCompilerPath());
+        command.append(pathFabric.makeCompilerPath() + " -j " + QString::number(QThreadPool::globalInstance()->maxThreadCount()));
         command.append(pathFabric.makeCompilerPath() + " install");
 
-        bat->write(command.join("\r\n").toLocal8Bit());
-        bat->close();
-        bat->deleteLater();
-        process->start(bat->fileName());
+        if(execCommand(command.join("\r\n"))) {
+            return true;
+        } else {
+            emit newErrorData("");
+            return false;
+        }
     }
+    return false;
+
 }
 
-void Builder::setProFile(QString path)
+void Builder::cancelExec()
 {
-    proFile = path;
+    QDir(buildDir).rmdir(buildDir);
 }
-
-void Builder::setSystemBuild(QString system)
-{
-    systemBuild = system;
-}
-
-void Builder::setBuildDir(QString path)
-{
-    buildDir = path;
-}
-
-void Builder::setMkSpec(QString spec)
-{
-    mkspec = spec;
-}
-
-void Builder::setConfigure(QString configure)
-{
-    addConfigure = configure;
-}
-

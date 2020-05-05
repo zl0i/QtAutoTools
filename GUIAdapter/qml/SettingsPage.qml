@@ -10,6 +10,7 @@ BasicPage {
     id: _settingsPage
     title: qsTr("Настройки")
     buttonText: qsTr("Удалить все настройки")
+    visibleScriptButton: false
 
     property var settings: _guiAdapter.settings
     property bool visibleLang: true

@@ -5,30 +5,6 @@ FInstaller::FInstaller(QJsonObject settings, QObject *parent) : AbstractTool(set
 
 }
 
-void FInstaller::setPath(QString path)
-{
-    this->path = path;
-}
-
-void FInstaller::setCreateMixedInstaller(bool b)
-{
-    isCreateMixedInstaller = b;
-}
-
-void FInstaller::setCreateOfflineInstaller(bool b)
-{
-    isCreateOfflineInstaller = b;
-}
-
-void FInstaller::setCreateOnlineInstaller(bool b )
-{
-    isCreateOnlineInstaller = b;
-}
-
-void FInstaller::setCreateRepo(bool b)
-{
-    isCreateRepository = b;
-}
 
 void FInstaller::configFromJson(QJsonObject obj) {
     path = obj.value("path").toString();
@@ -40,12 +16,16 @@ void FInstaller::configFromJson(QJsonObject obj) {
     isCreateRepository = obj.value("isCreateRepository").toBool();
 }
 
-void FInstaller::run()
+bool FInstaller::exec()
 {
-    if(path == "")
-        return;
+    if(path == "") {
+        emit newErrorData("Path is empty.");
+        return false;
+    }
 
-    emit started();
+    QDir dir;
+    dir.mkpath(path);
+
     installerName = config.value("Name").toString();
     emit newOutputData("Create config and packages dir\r\n");
     installerHelper = new InstallerHelper();
@@ -54,8 +34,10 @@ void FInstaller::run()
     installerHelper->deleteLater();
 
     emit newOutputData("Create installers\r\n");
-    QFile *batFile = prepareBatFile(true);
+
     QStringList arguments;
+    QString program;
+
     if(isCreateMixedInstaller) {
         arguments.clear();
         arguments.append("-c");
@@ -64,8 +46,7 @@ void FInstaller::run()
         arguments.append(path + "/packages");
         arguments.append(path +"/" + installerName + "Mixed");
 
-        QString str = pathFabric.binaryCreatorPath() + " " + arguments.join(" ") + "\r\n";
-        batFile->write(str.toLocal8Bit());
+        program.append(pathFabric.binaryCreatorPath() + " " + arguments.join(" ") + "\r\n");
     }
 
     if(isCreateOnlineInstaller) {
@@ -77,8 +58,7 @@ void FInstaller::run()
         arguments.append(path + "/packages");
         arguments.append(path +"/" + installerName + "Online");
 
-        QString str = pathFabric.binaryCreatorPath() + " " + arguments.join(" ") + "\r\n";
-        batFile->write(str.toLocal8Bit());
+        program.append(pathFabric.binaryCreatorPath() + " " + arguments.join(" ") + "\r\n");
     }
 
     if(isCreateOfflineInstaller) {
@@ -90,8 +70,7 @@ void FInstaller::run()
         arguments.append(path + "/packages");
         arguments.append(path +"/" + installerName + "Offline");
 
-        QString str = pathFabric.binaryCreatorPath() + " " + arguments.join(" ") + "\r\n";
-        batFile->write(str.toLocal8Bit());
+        program.append(pathFabric.binaryCreatorPath() + " " + arguments.join(" ") + "\r\n");
     }
 
     if(isCreateRepository) {
@@ -99,12 +78,17 @@ void FInstaller::run()
         arguments.append("-p");
         arguments.append(path + "/packages");
         arguments.append(path +"/repository");
-
-        QString str = pathFabric.repogenPath() + " " + arguments.join(" ") + "\r\n";
-        batFile->write(str.toLocal8Bit());
+        program.append(pathFabric.repogenPath() + " " + arguments.join(" ") + "\r\n");
     }
 
-    batFile->close();
-    batFile->deleteLater();
-    process->start(batFile->fileName());
+    if(execCommand(program)) {
+        emit newOutputData("Done!");
+        return true;
+    }
+    return false;
+}
+
+void FInstaller::cancelExec()
+{
+    QDir(path).rmdir(path);
 }

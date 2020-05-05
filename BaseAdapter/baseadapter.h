@@ -16,7 +16,9 @@ class BaseAdapter : public IAdapter
 
 public:    
 
-    virtual void start() = 0;
+    virtual bool start() = 0;
+
+
 
 protected:
 

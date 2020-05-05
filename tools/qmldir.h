@@ -22,14 +22,11 @@ class QmlDir : public AbstractTool
 public:
     explicit QmlDir(QJsonObject settings, QObject *parent = nullptr);  
 
-    Q_INVOKABLE void setPath(QString);
-    Q_INVOKABLE void setCreateTypes(bool);
-    Q_INVOKABLE void setSupportDesigner(bool);
-
     QStandardItemModel *files() { return filesModel; }
 
     void configFromJson(QJsonObject) override;
-    void run() override;
+    bool exec() override;
+    void cancelExec() override;
 
 private:    
     typedef enum {
@@ -51,15 +48,13 @@ private:
     bool createTypes = false;
     bool supportDesigner = false;
 
-    QString getMinimumVersion();
+    QString getMinimumVersion();    
 
 signals:
     void filesChanged();
 
+
 public slots:
-    void slotFinished(int) override;
-
-
 
 };
 

@@ -4,6 +4,7 @@ BaseAdapter::BaseAdapter(SettingsStorage *storage, QObject *parent)
 {
     this->setParent(parent);
     settingsStorage = storage;
+
 }
 
 SettingsStorage *BaseAdapter::storage() const

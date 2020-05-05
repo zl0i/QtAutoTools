@@ -12,17 +12,27 @@ class WebAdapter : public BaseAdapter
 public:
     explicit WebAdapter(SettingsStorage *storage, QObject *parent = nullptr);
 
-    void start() override;
+    bool start() override;
 
 private:
     QWebSocketServer *server;
 
+    QJsonObject getUserSettings(QObject *sender = nullptr) override;
+    bool isRunningTask(QObject *sender = nullptr) override;
+
 public slots:
+    void started(QString name) override;
+    void newErrorData(QString name, QByteArray line) override;
+    void newOutputData(QString name, QByteArray line) override;
+    void finished(QString name, int exitCode, int exitStatus) override;
+
     void newConnection();
 
     void processTextMessage(QString);
     void processBinaryMessage(QByteArray);
     void socketDisconnected();
+
+    void kill() override;
 };
 
 #endif // WEBADAPTER_H

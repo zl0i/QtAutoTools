@@ -20,28 +20,22 @@ public:
     AbstractTool(QJsonObject obj, QObject *parent = nullptr);
     AbstractTool(QObject *parent = nullptr);
 
-    void waitFinished() override;
+    bool execCommand(QString command, bool detach = false);
 
 protected:
-    QProcess *process;
-
-    virtual void successFinished() {};
-    virtual void failFinished() {};
-
-    QFile *prepareBatFile(bool env = true);
-    void removeBatFile();
 
     ToolsPathFabric pathFabric;
 
 private:
+    QProcess *process;
     QString currentFileName;
 
-    bool taskFinished = false;
+    QFile *prepareBatFile(bool env = true);
+    void removeBatFile();
+
 signals:
 
 public slots:
-    virtual void slotFinished(int);
-    void errorOcured(QProcess::ProcessError error);
     void slotReadChanel();
     void kill() override;
 };

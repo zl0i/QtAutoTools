@@ -10,16 +10,13 @@ class ITool : public QObject
 public:
     ITool(QObject *parent = nullptr) : QObject(parent) {};
 
-    //virtual void prepareTask() = 0;
     virtual void configFromJson(QJsonObject) = 0;
-    virtual void waitFinished() = 0;
-    virtual void run() = 0;
+    virtual bool exec() = 0;
+    virtual void cancelExec() = 0;
 
 signals:
-    void started();
     void newOutputData(QByteArray line);
     void newErrorData(QByteArray line);
-    void finished(int exitCode, int exitStatus);
 
 public slots:
     virtual void kill() = 0;

@@ -14,17 +14,11 @@ class FInstaller : public AbstractTool
 {
     Q_OBJECT
 public:
-    explicit FInstaller(QJsonObject settings, QObject *parent = nullptr);
-
-    Q_INVOKABLE void setPath(QString);
-
-    Q_INVOKABLE void setCreateMixedInstaller(bool);
-    Q_INVOKABLE void setCreateOfflineInstaller(bool);
-    Q_INVOKABLE void setCreateOnlineInstaller(bool);
-    Q_INVOKABLE void setCreateRepo(bool);
+    explicit FInstaller(QJsonObject settings, QObject *parent = nullptr);   
 
     void configFromJson(QJsonObject) override;
-    void run() override;
+    bool exec() override;
+    void cancelExec() override;
 
 private:   
     QString path;

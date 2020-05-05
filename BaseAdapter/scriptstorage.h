@@ -14,11 +14,11 @@ class ScriptStorage : public QObject
 public:
     explicit ScriptStorage(QObject *parent = nullptr);
 
-    Q_INVOKABLE QJsonObject getScriptByName(QString);
-    Q_INVOKABLE void saveScript(QJsonObject, QString);
-    Q_INVOKABLE QStringList getNameScripts();
-    Q_INVOKABLE void removeScript(QString);
-    Q_INVOKABLE void removeAllScripts();
+    Q_INVOKABLE QJsonObject getScriptByName(QString) const;
+    Q_INVOKABLE void saveScript(QJsonObject, QString) const;
+    Q_INVOKABLE QStringList getNameScripts() const ;
+    Q_INVOKABLE void removeScript(QString) const;
+    Q_INVOKABLE void removeAllScripts() const;
 
 private:
     QDir scriptDir;

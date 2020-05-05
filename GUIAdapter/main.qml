@@ -43,12 +43,9 @@ ApplicationWindow {
 
     BusyDialog {
         id: _busyDialog
-        onKill: {
-            _guiAdapter.kill();
-        }
-        onApplied: {
-            close()
-        }
+        onKill: _guiAdapter.kill();
+        onApplied: close()
+        onClosed: reset()
     }
 
     function saveScript(add, script) {
@@ -98,7 +95,6 @@ ApplicationWindow {
             width: ListView.view.width
             height: ListView.view.height
             onRun: _guiAdapter.executeScript(task)
-
         }
         SettingsPage {
             width: ListView.view.width

@@ -7,24 +7,6 @@ Lupdate::Lupdate(QJsonObject settings, QObject *parent) : AbstractTool(settings,
     filesModel->setItemRoleNames(hash);
 }
 
-void Lupdate::setFiles(int row, QString url) {
-    QModelIndex index = filesModel->index(row, 0);
-    filesModel->setData(index, url, Qt::UserRole+1);
-}
-
-void Lupdate::setLanguage(QString list) {
-    this->langList = list.split(" ", QString::SkipEmptyParts);
-}
-
-void Lupdate::setUpdateFile(QString file)
-{
-    this->updateFile = file;
-}
-
-void Lupdate::setTsFileName(QString name)
-{
-    tsFile = name;
-}
 
 QString Lupdate::getStringFileTs(QString url) {
     QStringList listPath = url.split("/");
@@ -42,9 +24,9 @@ QString Lupdate::getStringFileTs(QString url) {
 
 void Lupdate::runLinguist() {
     if(!translatorList.isEmpty()) {
-        process->startDetached(pathFabric.linguistPath() + " " + translatorList);
+        execCommand(pathFabric.linguistPath() + " " + translatorList, true);
     } else  {
-        process->startDetached(pathFabric.linguistPath());
+        execCommand(pathFabric.linguistPath(), true);
     }
 }
 
@@ -65,28 +47,30 @@ void Lupdate::configFromJson(QJsonObject obj)
     runQtLinguist = obj.value("runQtLinguist").toBool();
 }
 
-void Lupdate::run()
+bool Lupdate::exec()
 {
     if(filesModel->rowCount() == 0) {
         if(runQtLinguist) {
             emit newOutputData("Run QtLinguist...\r\n");
             runLinguist();
-            emit finished(0, 0);
-            return;
+            return true;
         }
-        else
-            return;
+        else {
+            emit newErrorData("Files is not selected.");
+            return false;
+        }
     }
 
     if(langList.length() == 0 && updateFile.isEmpty()) {
         if(runQtLinguist) {
             emit newOutputData("Run QtLinguist...\r\n");
             runLinguist();
-            emit finished(0, 0);
-            return;
+            return true;
         }
-        else
-            return;
+        else {
+            emit newErrorData("Language is not selected");
+            return false;
+        }
     }
 
     translatorList.clear();
@@ -121,21 +105,18 @@ void Lupdate::run()
     }
 
     QString program = pathFabric.lupdatePath() + " " + arguments.join(" ");
-    QFile *file = prepareBatFile(true);
-    if(file) {
-        file->write(program.toLocal8Bit());
-        file->close();
-        file->deleteLater();
-        process->start(file->fileName());
+
+    if(execCommand(program)) {
+        if(runQtLinguist) {
+            emit newOutputData("Run QtLinguist...\r\n");
+            runLinguist();
+        }
+        return true;
     }
+    return false;
 }
 
-void Lupdate::successFinished()
+void Lupdate::cancelExec()
 {
-    if(runQtLinguist) {
-        emit newOutputData("Run QtLinguist...\r\n");
-        runLinguist();
-    }
+    QFile::remove("");
 }
-
-

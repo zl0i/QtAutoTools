@@ -5,77 +5,44 @@ Windeployqt::Windeployqt(QJsonObject settings, QObject *parent) : AbstractTool(s
 
 }
 
-
-void Windeployqt::setExeFile(QString path)
-{
-    exeFile = path;
-}
-
-void Windeployqt::setDir(QString path)
-{
-    dir = path;
-}
-
-void Windeployqt::setPlugindir(QString path)
-{
-    plugindir = path;
-}
-
-void Windeployqt::setLibdir(QString path)
-{
-    libdir = path;
-}
-
-void Windeployqt::setQmlimport(QString path)
-{
-    qmlimport = path;
-}
-
-void Windeployqt::setQmldir(QString path)
-{
-    qmldir = path;
-}
-
-void Windeployqt::setFlags(QString flags)
-{
-    this->flags = flags;
-}
-
-void Windeployqt::setLibraries(QString libraries)
-{
-    this->libraries = libraries;
-}
-
-
 void Windeployqt::configFromJson(QJsonObject obj)
 {
     exeFile = obj.value("exeFile").toString();
-    dir = obj.value("deployDir").toString();
-    plugindir = obj.value("pluginDir").toString();
-    libdir = obj.value("libraryDir").toString();
-    qmldir = obj.value("qmlFilesDir").toString();
+    deployDir = obj.value("deployDir").toString();
+    pluginDir = obj.value("pluginDir").toString();
+    libDir = obj.value("libraryDir").toString();
+    qmlDir = obj.value("qmlFilesDir").toString();
     qmlimport = obj.value("qmlPluginsDir").toString();
     flags = obj.value("flags").toString();
     libraries = obj.value("library").toString();
 }
 
-void Windeployqt::run()
+bool Windeployqt::exec()
 {
-    if(!QFile(exeFile).exists())
-        return;
+    if(!QFile(exeFile).exists()) {
+        emit newErrorData("Exe file is not exist.");
+        return false;
+    }
+
+    if(deployDir.isEmpty()) {
+        emit newErrorData("Deploy dir is not exist."); ///!!!!!!!!!!!
+        return false;
+    }
+
+    QDir(deployDir).mkpath(deployDir) ;
 
     QStringList arguments;
-    if(!dir.isEmpty()) {
-        arguments.append("--dir " + dir);
+    if(!deployDir.isEmpty()) {
+        arguments.append("--dir " + deployDir);
     }
-    if(!plugindir.isEmpty()) {
-        arguments.append("--plugindir " + plugindir);
+    if(!pluginDir.isEmpty()) {
+        arguments.append("--plugindir " + pluginDir);
     }
-    if(!libdir.isEmpty()) {
-        arguments.append("--libdir " + libdir);
+    if(!libDir.isEmpty()) {
+        arguments.append("--libdir " + libDir);
     }
-    if(!qmldir.isEmpty()) {
-        arguments.append("--qmldir " + qmldir);
+    if(!qmlDir.isEmpty()) {
+        arguments.append("--qmldir " + qmlDir);
     }
     if(!qmlimport.isEmpty()) {
         arguments.append("--qmlimport " + qmlimport);
@@ -89,19 +56,16 @@ void Windeployqt::run()
     if(libraries.length() != 0) {
         arguments.append(libraries);
     }
-    QFile *file = prepareBatFile(true);
-    QString str = pathFabric.windeployqtPath() + " " + arguments.join(" ");
-    file->write(str.toLocal8Bit());
-    file->close();
-    file->deleteLater();
-    process->start(file->fileName());
-}
-
-void Windeployqt::successFinished() {
-    if(!dir.isEmpty()) {
+    QString program = pathFabric.windeployqtPath() + " " + arguments.join(" ");
+    if(execCommand(program)) {
         QString nameExeFile = exeFile.split("/").last();
-        QFile::copy(exeFile, dir+"/" + nameExeFile);
+        QFile::copy(exeFile, deployDir + QDir::separator() + nameExeFile);
+        return true;
     }
+    return false;
 }
 
-
+void Windeployqt::cancelExec()
+{
+    QDir(deployDir).rmdir(deployDir);
+}

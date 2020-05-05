@@ -43,10 +43,13 @@ void ToolWorker::run()
         });
         connect(currentTool, &ITool::newErrorData,  [=] (QByteArray line) {
             emit newErrorData(taskName, line);
-        });
+        });        
         currentTool->configFromJson(task);
-        currentTool->run();
-        currentTool->waitFinished();
+        if(!currentTool->exec()) {
+            emit finished(taskName, 1, 1);
+            currentTool->deleteLater();
+            return;
+        }
         currentTool->deleteLater();
     }
     emit finished(taskName, 0, 0);
