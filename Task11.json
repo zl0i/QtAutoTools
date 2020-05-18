@@ -1,0 +1,77 @@
+{
+    "name": "task1",
+    "version": "1.1",
+    "tasks": [
+        {
+            "label": "step_one",
+            "tool": "console"
+        },
+        {
+            "label": "step_two",
+            "tool": "builder",
+            "proFile": "G:\\Projects\\QtAutoTools\\testBuild",
+            "systemBuild": "qmake",
+            "mkspec": "win32",
+            "buildDir": "G:\\Projects\\QtAutoTools\\testBuild",
+            "configure": "",
+            "dependence": "step_one"
+        },
+        {
+            "label": "step_free",
+            "tool": "windeployqt",
+            "exeFile": "",
+            "deployDir": "",
+            "libraryDir": "",
+            "pluginDir": "",
+            "qmlFilesDir": "",
+            "qmlPluginsDir": "",
+            "flags": "",
+            "library": "",
+            "environment": {
+                "qtPath": "G:/Qt",
+                "qtVersion": "5.14.1",
+                "profile": "mingw73_64",
+                "compiler": "mingw730_64"
+            }
+        },
+        {
+            "tool": "finstaller",
+            "path": "",
+            "config": {},
+            "packages": [],
+            "isCreateMixedInstaller": false,
+            "isCreateOfflineInstaller": false,
+            "isCreateOnlineInstaller": false,
+            "isCreateRepository": false
+        },
+        {
+            "label": "step_four",
+            "tool": "qmldir",
+            "files": [
+                        {
+                            "type": "",
+                            "path": "G:\\Projects\\Qt\\QtAutoTools\\TestQmlDir\\CustomButton.qml",
+                            "version": "1.0",
+                            "name": "CustomButton"
+                        },
+                        {
+                            "type": "singleton",
+                            "path": "G:\\Projects\\Qt\\QtAutoTools\\TestQmlDir\\CustomButton.qml",
+                            "version": "1.0",
+                            "name": "CustomButton"
+                        }
+                    ],
+            "qmltypes": false,
+            "supportDesigner": false,
+            "dependence": "prepare"
+        },
+        {
+            "tool": "lupdate",
+            "files": [],
+            "language": "",
+            "translatorName": "",
+            "updateFiles": "",
+            "runQtLinguist" : false
+        }
+    ]
+}

@@ -1,6 +1,6 @@
 #include "toolworker.h"
 
-ToolWorker::ToolWorker(QObject *parent) : QThread(parent)
+ToolWorker::ToolWorker(QObject *) : QThread()
 {
 
 }
@@ -27,23 +27,18 @@ void ToolWorker::setTaskName(QString name)
     taskName = name;
 }
 
-ToolWorker::~ToolWorker()
-{
-
-}
-
 void ToolWorker::run()
 {
     emit started(taskName);
     for(int i = 0; i < taskArray.size(); ++i) {
         QJsonObject task = taskArray.at(i).toObject();
         currentTool = ToolsFabric::createTool(task.value("tool").toString(), task);
-        connect(currentTool, &ITool::newOutputData, [=] (QByteArray line) {
+        QObject::connect(currentTool, &ITool::newOutputData, [=] (QByteArray line) {
             emit newOutputData(taskName, line);
         });
-        connect(currentTool, &ITool::newErrorData,  [=] (QByteArray line) {
+        QObject::connect(currentTool, &ITool::newErrorData,  [=] (QByteArray line) {
             emit newErrorData(taskName, line);
-        });        
+        });
         currentTool->configFromJson(task);
         if(!currentTool->exec()) {
             emit finished(taskName, 1, 1);
@@ -57,7 +52,6 @@ void ToolWorker::run()
 
 void ToolWorker::kill()
 {
-    currentTool->kill();
-    currentTool->deleteLater();
-    exit(1);
+    currentTool->kill();    
+    emit finished(taskName, 1, 1);
 }

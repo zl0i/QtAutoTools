@@ -9,8 +9,6 @@ AbstractTool::AbstractTool(QJsonObject task, QObject *parent) : ITool(parent), p
 
 bool AbstractTool::execCommand(QString command, bool detach) {
 
-
-
     if(!detach) {
         QFile *bat = prepareBatFile(true);
 
@@ -19,7 +17,7 @@ bool AbstractTool::execCommand(QString command, bool detach) {
         bat->deleteLater();
 
         process->start(bat->fileName());
-        process->start(bat->fileName());
+
         QEventLoop loop;
         connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), &loop, SLOT(quit()));
         connect(process, SIGNAL(errorOccurred(QProcess::ProcessError)), &loop, SLOT(quit()));
@@ -27,15 +25,12 @@ bool AbstractTool::execCommand(QString command, bool detach) {
         removeBatFile();
 
         if(process->exitCode() == 0)
-            return true;
-        else
-            return false;
+            return true;        
     } else {
         if(QProcess::startDetached(command))
             return true;
-        else
-            return false;
     }
+    return false;
 }
 
 void AbstractTool::kill()

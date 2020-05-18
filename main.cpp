@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     ToolsDetector::instanse()->detect();
 
 
-    if(argc == 1) {
+    //if(argc == 1) {
         QGuiApplication app(argc, argv);
         app.setWindowIcon(QIcon(":/icon/icon.png"));
 
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
         guiAdapter->start();
 
         return app.exec();
-    } else {
+    /*} else {
         QCoreApplication app(argc, argv);
 
         QStringList agr = app.arguments();
@@ -68,6 +68,6 @@ int main(int argc, char *argv[])
             else
                 return 1;
         }
-    }
-    return 0;
+    }*/
+    //return 0;
 }

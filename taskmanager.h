@@ -4,6 +4,7 @@
 #include <QObject>
 #include "toolsfabric.h"
 #include "toolworker.h"
+#include "advansedtoolworker.h"
 #include "IAdapter.h"
 
 class TaskManager : public QObject
@@ -13,9 +14,9 @@ public:
     explicit TaskManager(QObject *parent = nullptr);
 
 
-
 private:    
     QHash<QString, ToolWorker*> toolWorkerMap;
+    QThreadPool poolTask;
 
 signals:
     void taskStarted();

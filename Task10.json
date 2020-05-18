@@ -14,8 +14,7 @@
             "systemBuild": "qmake",
             "mkspec": "win32",
             "buildDir": "G:\\Projects\\QtAutoTools\\testBuild",
-            "configure": "",
-            "dependence": "step_one"
+            "configure": ""
         },
         {
             "label": "step_free",
@@ -63,8 +62,7 @@
                         }
                     ],
             "qmltypes": false,
-            "supportDesigner": false,
-            "dependence": "prepare"
+            "supportDesigner": false
         },
         {
             "tool": "lupdate",

@@ -23,6 +23,9 @@ SOURCES += \
         Storage/qsettingsstorage.cpp \
         Storage/sqlstorage.cpp \
         WebAdapter/webadapter.cpp \
+        advansedtoolworker.cpp \
+        tasknode.cpp \
+        tasktree.cpp \
         tools/abstracttool.cpp \
         taskmanager.cpp \
         tools/builder.cpp \
@@ -71,6 +74,9 @@ HEADERS += \
     Storage/qsettingsstorage.h \
     Storage/sqlstorage.h \
     WebAdapter/webadapter.h \
+    advansedtoolworker.h \
+    tasknode.h \
+    tasktree.h \
     tools/abstracttool.h \
     itool.h \
     taskmanager.h \
@@ -86,4 +92,5 @@ HEADERS += \
     toolworker.h
 
 DISTFILES += \
-    Task.json
+    Task10.json \
+    Task11.json
