@@ -35,5 +35,6 @@ void BaseAdapter::executeScript(QString name)
         return;
 
     QJsonObject main = scriptStorage.getScriptByName(name);
+
     emit signalExecuteTask(main);
 }

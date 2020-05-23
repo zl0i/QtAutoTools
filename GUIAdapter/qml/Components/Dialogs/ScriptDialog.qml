@@ -18,6 +18,15 @@ Dialog {
     property int currentTask: -1
     signal saveScript(var script)
 
+    function getTasksLabel(currentLabel) {
+        var labels = []
+        for(var i = 0; i < script.tasks.length; i++) {
+            if(script.tasks[i].label !== currentLabel)
+                labels.push(script.tasks[i].label)
+        }
+        return labels;
+    }
+
     background: Rectangle {
         width: parent.width; height: parent.height; radius: 10
         color: "#FFFFFF"
@@ -64,6 +73,7 @@ Dialog {
                 onClicked: {
                     currentTask = index
                     _taskDialog.task =  modelData
+                    _taskDialog.labelTasks = getTasksLabel(modelData.label)
                     _taskDialog.open()
                 }
                 Rectangle {
@@ -149,6 +159,7 @@ Dialog {
                         script.tasks.push(task)
                         scriptChanged()
                         _taskDialog.task =  task
+                        _taskDialog.labelTasks = getTasksLabel(task.label)
                         _taskDialog.open()
                         close()
                     }

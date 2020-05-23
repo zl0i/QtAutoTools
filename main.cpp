@@ -22,7 +22,6 @@ int main(int argc, char *argv[])
     ToolsDetector::instanse()->setSettingsStorage(storage);
     ToolsDetector::instanse()->detect();
 
-
     //if(argc == 1) {
         QGuiApplication app(argc, argv);
         app.setWindowIcon(QIcon(":/icon/icon.png"));

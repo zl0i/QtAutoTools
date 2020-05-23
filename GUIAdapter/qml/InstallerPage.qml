@@ -125,7 +125,7 @@ BasicPage {
             }
             CustomButton {
                 width: 30; height: 30; radius: 15
-                text: qsTr("+")
+                text: "+"
                 onClicked: {
                     var obj = {
                         "Enabled": true,

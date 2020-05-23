@@ -13,6 +13,9 @@ class TaskManager : public QObject
 public:
     explicit TaskManager(QObject *parent = nullptr);
 
+protected:
+
+    virtual ToolWorker *getWorkerByVersion(QString);
 
 private:    
     QHash<QString, ToolWorker*> toolWorkerMap;

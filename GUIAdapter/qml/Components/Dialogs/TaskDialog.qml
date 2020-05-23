@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 
 import "../../"
+import Components.Elements 1.0
 
 Dialog {
     id: _taskDialog
@@ -13,6 +14,7 @@ Dialog {
 
     property var task
     property var page
+    property var labelTasks: []
 
     signal apply(var task)
 
@@ -33,10 +35,17 @@ Dialog {
             page.height = page.contentItem.height+70
             _toolView.height = page.height
         })
+        page.visibleRunButton = false
+        page.visibleScriptButton = false
         page.width = _taskDialog.width
         page.interactive = false
         _toolView.height = page.height
-        _toolView.data = page
+        _toolView.data = page       
+    }
+
+    onOpened: {
+        labelTasks.unshift("")
+        labelTasksChanged()
     }
 
     function createToolByName(tool) {
@@ -51,6 +60,8 @@ Dialog {
             return Qt.createComponent("../../QmldirPage.qml")
         case "lupdate":
             return Qt.createComponent("../../LUpdatePage.qml")
+        case "console":
+            return Qt.createComponent("../../ConsolePage.qml")
         }
     }
 
@@ -74,14 +85,28 @@ Dialog {
         Flickable {
             id: _flickable
             anchors { fill: parent; topMargin: 20}
-            contentHeight: _settingPage.contentItem.height+_toolView.height+80
+            contentHeight: _settingPage.contentItem.height+_toolView.height+170
             clip: true
             Column {
                 width: parent.width
+                spacing: 10
                 Item {
                     id: _toolView
                     width: parent.width; height: 100
                 }
+                Label {
+                    x: 20
+                    font { pixelSize: 18; weight: Font.Bold }
+                    text: qsTr("Зависимости")
+                }
+
+                LabelComboBox {
+                    x: 20; width: parent.width-80
+                    label: qsTr("Зависит от")
+                    model: labelTasks
+                    onCurrentTextChanged: task.dependence = currentText
+                }
+
                 SettingsPage {
                     id: _settingPage
                     width: parent.width; height: contentItem.height+80
