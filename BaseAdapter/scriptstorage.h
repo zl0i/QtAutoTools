@@ -5,10 +5,8 @@
 #include <QDir>
 #include <QFile>
 #include <QJsonObject>
-#include <QJsonArray>
 #include <QJsonDocument>
 #include <QDebug>
-
 
 class ScriptStorage : public QObject
 {
@@ -22,13 +20,11 @@ public:
     Q_INVOKABLE void removeScript(QString) const;
     Q_INVOKABLE void removeAllScripts() const;
 
-    static bool validateScript(QJsonObject);
-
 private:
     QDir scriptDir;
 
 signals:
-    void errorScript(QString);
+
 };
 
 #endif // SCRIPTSTORAGE_H

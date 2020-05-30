@@ -24,10 +24,11 @@ SOURCES += \
         Storage/sqlstorage.cpp \
         WebAdapter/webadapter.cpp \
         advansedtoolworker.cpp \
+        tasknode.cpp \
+        tasktree.cpp \
         tools/abstracttool.cpp \
         taskmanager.cpp \
         tools/builder.cpp \
-        tools/console.cpp \
         tools/toolspathfabric.cpp \
         tools/windeployqt.cpp \
         tools/finstaller.cpp \
@@ -74,11 +75,12 @@ HEADERS += \
     Storage/sqlstorage.h \
     WebAdapter/webadapter.h \
     advansedtoolworker.h \
+    tasknode.h \
+    tasktree.h \
     tools/abstracttool.h \
     itool.h \
     taskmanager.h \
     tools/builder.h \
-    tools/console.h \
     tools/toolspathfabric.h \
     tools/windeployqt.h \
     tools/finstaller.h \

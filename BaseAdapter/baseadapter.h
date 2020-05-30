@@ -18,6 +18,8 @@ public:
 
     virtual bool start() = 0;
 
+
+
 protected:
 
     explicit BaseAdapter(SettingsStorage *storage, QObject *parent = nullptr);
@@ -30,6 +32,7 @@ protected:
 
 private:
     SettingsStorage *settingsStorage;
+
 
 signals:
     void signalExecuteTask(QJsonObject);

@@ -22,9 +22,6 @@ ITool *ToolsFabric::createTool(QString type, QJsonObject settings)
     case LUPDATE: {
         return new class Lupdate(settings);
     }
-    case CONSOLE: {
-        return new class Console(settings);
-    }
     }
     return nullptr;
 }

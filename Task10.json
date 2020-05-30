@@ -5,18 +5,7 @@
     "tasks": [
         {
             "label": "step_one",
-            "tool": "console",
-            "sequentially": true,
-            "comands": [
-                "rmdir mysql",
-                "mkdir mysql"
-            ],
-            "environment": {
-                "qtPath": "G:/Qt",
-                "qtVersion": "5.14.1",
-                "profile": "mingw73_64",
-                "compiler": "mingw730_64"
-            }
+            "tool": "console"
         },
         {
             "label": "step_two",
@@ -25,13 +14,7 @@
             "systemBuild": "qmake",
             "mkspec": "win32",
             "buildDir": "G:\\Projects\\QtAutoTools\\testBuild",
-            "configure": "",
-            "environment": {
-                "qtPath": "G:/Qt",
-                "qtVersion": "5.14.1",
-                "profile": "mingw73_64",
-                "compiler": "mingw730_64"
-            }
+            "configure": ""
         },
         {
             "label": "step_free",

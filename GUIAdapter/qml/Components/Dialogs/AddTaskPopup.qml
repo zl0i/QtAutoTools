@@ -3,10 +3,10 @@ import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 
 Popup {
-    width: 100; height: 125
+    width: 100; height: 107
     padding: 0
 
-    readonly property var taskModel: ["builder", "windeployqt", "finstaller", "qmldir", "lupdate", "console"]
+    readonly property var taskModel: ["builder", "windeployqt", "finstaller", "qmldir", "lupdate"]
 
     signal addTask(var tool)
 
@@ -47,7 +47,10 @@ Popup {
                     width: parent.width; height: parent.height
                     onClicked: addTask(modelData)
                 }
+
+
             }
         }
     }
+
 }
