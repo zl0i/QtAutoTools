@@ -2,4 +2,5 @@ module Controls
 CustomButton 1.0 CustomButton.qml
 CustomToolTip 1.0 CustomToolTip.qml
 FlipButton 1.0 FlipButton.qml
-MenuButton 1.0 MenuButton.qml
+ImageButton 1.0 ImageButton.qml
+RunButton 1.0 RunButton.qml

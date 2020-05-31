@@ -44,6 +44,7 @@ QStringList ScriptStorage::getNameScripts() const
 
 void ScriptStorage::removeScript(QString name) const
 {
+    qDebug() << scriptDir.path() + QDir::separator() + name;
     QFile::remove(scriptDir.path() + QDir::separator() + name);
 }
 

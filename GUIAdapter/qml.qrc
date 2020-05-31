@@ -31,10 +31,13 @@
         <file>qml/Components/Dialogs/SettingsDialog.qml</file>
         <file>qml/ScriptsPage.qml</file>
         <file>qml/Components/Dialogs/ScriptDialog.qml</file>
-        <file>qml/Components/Controls/MenuButton.qml</file>
         <file>qml/Components/Dialogs/TaskDialog.qml</file>
         <file>qml/Components/Dialogs/AddTaskPopup.qml</file>
         <file>qml/Components/Dialogs/ScriptPopup.qml</file>
         <file>qml/ConsolePage.qml</file>
+        <file>qml/Components/Dialogs/ConfirmDialog.qml</file>
+        <file>qml/Components/Controls/RunButton.qml</file>
+        <file>qml/Components/Controls/ImageButton.qml</file>
+        <file>qml/Components/Elements/ScriptDelegate.qml</file>
     </qresource>
 </RCC>

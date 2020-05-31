@@ -60,18 +60,15 @@ Dialog {
         width: parent.width; height: parent.height
         radius: 10
         color: "#FFFFFF"
-        Image {
+        ImageButton {
             x:parent.width-30; y:5
             width: 25; height: 25
-            source: "qrc:/icon/exit-black.svg"
-            MouseArea {
-                width: 25; height: 25
-                onClicked: {
-                    if(isReady)
-                        _dialog.close()
-                    else
-                        _dialog.kill()
-                }
+            image: "qrc:/icon/exit-black.svg"
+            onClicked: {
+                if(isReady)
+                    _dialog.close()
+                else
+                    _dialog.kill()
             }
         }
     }

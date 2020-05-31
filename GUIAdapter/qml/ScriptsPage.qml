@@ -1,11 +1,11 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
-//import QtQml.Models 2.12
 import QtQml 2.14
 
 import Components.Dialogs 1.0
 import Components.Controls 1.0
+import Components.Elements 1.0
 
 BasicPage {
     id: _scriptPage
@@ -27,7 +27,7 @@ BasicPage {
     function newScript(script) {
         script.environment = _guiAdapter.settings
         script.label = script.tool
-        _scriptDialog.script = { name: "ScriptName", version: "1.0", tasks: [script] }
+        _scriptDialog.script = { name: "ScriptName", version: "1.1", tasks: [script] }
         _scriptDialog.open()
     }
 
@@ -48,82 +48,64 @@ BasicPage {
         spacing: 10
         ListView {
             id: _listScript
-            width: _scriptPage.width-40; height: count*40
+            width: _scriptPage.width-40; height: count*40+10
             model: _guiAdapter.scripts.getNameScripts()
             interactive: count*40 > _scriptPage.height-100
-            delegate: Rectangle {
-                width: parent.width; height: 40
-
-                Rectangle {
-                    width: parent.width; height: 1
-                    color: "#C4C4C4"
-                }
-                Rectangle {
-                    y: 40
-                    width: parent.width; height: 1
-                    color: "#C4C4C4"
-                }
-                Label {
-                    x: 20
-                    height: parent.height
-                    verticalAlignment: Text.AlignVCenter
-                    text: modelData
-                }
-                MouseArea {
-                    width: parent.width; height: parent.height
-                    onClicked: {
-                        var script = _guiAdapter.scripts.getScriptByName(modelData)
-                        if(addToScriptMode) {
-                            script.tasks.push(addScript)
-                            resetAddToScriptMode()
-                        }
-                        _scriptDialog.script = script
-                        _scriptDialog.open()
+            delegate: ScriptDelegate {
+                name: modelData
+                x: 5
+                width: parent.width-10
+                height: _delegate.name === name ? 50 : 40
+                onHoveredChanged: {
+                    if(hovered) {
+                        _delegate.name = modelData
+                        _delegate.y = index*40
+                        _delegate.visible = true
                     }
                 }
-                MouseArea {
-                    x: parent.width-width-60; y: 15
-                    width: 17; height: 17
-                    onClicked: {
-                        _guiAdapter.scripts.removeScript(modelData)
-                        _listScript.model =  _guiAdapter.scripts.getNameScripts()
-                    }
-                    Image {
-                        width: 13; height: 13
-                        source: "qrc:/icon/delete-black.svg"
-                        layer.enabled: parent.pressed
-                        layer.effect: ColorOverlay {
-                            color: "#39A0FF"
-                        }
-
+            }
+            ScriptDelegate {
+                id: _delegate
+                x: 5; width: parent.width-10; height: 50
+                visible: false
+                property int index: 0
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    id: _shadow
+                    radius: 8
+                    samples: _delegate.mouseArea.pressed ? 30 : 16
+                }
+                onHoveredChanged: {                    
+                    if(!hovered) {
+                        visible = false
+                        if(!openedConfirmDialog)
+                            name = ""
                     }
                 }
-
-                Image {
-                    x: parent.width-width-30; y: 10.5
-                    width: 14; height: 19
-                    source: "qrc:/icon/arrow-right.svg"
-                    layer.enabled: _mouseDelegate.pressed
-                    layer.effect: ColorOverlay {
-                        color: "#39A0FF"
+                onOpenScript: {
+                    var script = _guiAdapter.scripts.getScriptByName(name)
+                    if(addToScriptMode) {
+                        script.tasks.push(addScript)
+                        resetAddToScriptMode()
                     }
-                    MouseArea {
-                        id: _mouseDelegate
-                        width: parent.width; height: parent.height
-                        onClicked: _scriptPage.run(modelData)
-                    }
+                    _scriptDialog.script = script
+                    _scriptDialog.open()
                 }
-
+                onRemoveScript: {
+                    _guiAdapter.scripts.removeScript(name)
+                    _listScript.model =  _guiAdapter.scripts.getNameScripts()
+                }
+                onRunScript: _scriptPage.run(name)
+                onReleased: _delegate.openScript(_delegate.name)
             }
         }
         CustomButton {
             text: qsTr("Добавить")
             onClicked: {
-                _scriptDialog.script = { name: "ScriptName", version: "1.0", tasks: [] }
+                _scriptDialog.script = { name: "ScriptName", version: "1.1", tasks: [] }
                 _scriptDialog.open()
             }
         }
-
     }
     ScriptDialog {
         id: _scriptDialog
@@ -131,6 +113,5 @@ BasicPage {
             _guiAdapter.scripts.saveScript(script, script.name)
             _listScript.model =  _guiAdapter.scripts.getNameScripts()
         }
-
     }
 }
