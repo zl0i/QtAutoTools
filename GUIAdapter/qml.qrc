@@ -35,5 +35,6 @@
         <file>qml/Components/Dialogs/TaskDialog.qml</file>
         <file>qml/Components/Dialogs/AddTaskPopup.qml</file>
         <file>qml/Components/Dialogs/ScriptPopup.qml</file>
+        <file>qml/ConsolePage.qml</file>
     </qresource>
 </RCC>

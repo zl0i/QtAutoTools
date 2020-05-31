@@ -4,12 +4,12 @@
 #include <QObject>
 #include <QMetaEnum>
 #include "itool.h"
-//#include "abstracttool.h"
 #include "tools/builder.h"
 #include "tools/finstaller.h"
 #include "tools/windeployqt.h"
 #include "tools/qmldir.h"
 #include "tools/lupdate.h"
+#include "tools/console.h"
 
 class ToolsFabric : public QObject
 {
@@ -23,7 +23,8 @@ public:
         WINDEPLOYQT,
         FINSTALLER,
         QMLDIR,
-        LUPDATE
+        LUPDATE,
+        CONSOLE
     };
     Q_ENUM(Tools)
 

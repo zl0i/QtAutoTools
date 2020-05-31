@@ -38,6 +38,7 @@ Row {
 
     signal access(var text)
     signal plusClicked()
+    signal clearClicked()
 
     Label {
         width: widthLabel; height: parent.height
@@ -102,6 +103,7 @@ Row {
         text: "x"
         onClicked:  {
             _field.clear()
+            _root.clearClicked();
         }
     }
     Button {

@@ -5,10 +5,20 @@ TaskManager::TaskManager(QObject *parent) : QObject(parent)
 
 }
 
+ToolWorker *TaskManager::getWorkerByVersion(QString version)
+{
+    if(version == "1.0")
+        return  new ToolWorker();
+    else if(version == "1.1")
+        return new AdvansedToolWorker();
+
+    return new ToolWorker();
+}
+
 void TaskManager::executeTask(QJsonObject obj)
 {
     QString taskName = obj.value("name").toString();
-    ToolWorker *worker = new AdvansedToolWorker();
+    ToolWorker *worker = getWorkerByVersion(obj.value("version").toString());
     worker->setTaskName(taskName);
     toolWorkerMap[taskName] = worker;
 
