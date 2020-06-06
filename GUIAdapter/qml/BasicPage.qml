@@ -14,13 +14,14 @@ Item {
     property string buttonText: qsTr("Запустить")
     property bool visibleScriptButton: true
     property alias interactive: _flickable.interactive
+    property int verticalOffset: 0
 
     property var task: ({})
     signal run(var task)
     signal saveScript(var add, var script)
 
     Label {
-        x: 20; y: 20
+        x: 20; y: 20 + verticalOffset
         font.pixelSize: 18
         font.weight: Font.Bold
         text: _page.title
@@ -28,14 +29,14 @@ Item {
 
     Flickable {
         id: _flickable
-        x: 20; y: 60
+        x: 20; y: 60 + verticalOffset
         width: parent.width; height: parent.height-y
         contentHeight: _content.height + 100
         interactive: contentHeight > height
         clip: true
         Column {
             id: _content
-            x:0; y: 10
+            x:0; y: 10 + verticalOffset
             children: _page.contentItem
         }
         Row {

@@ -44,7 +44,6 @@ QStringList ScriptStorage::getNameScripts() const
 
 void ScriptStorage::removeScript(QString name) const
 {
-    qDebug() << scriptDir.path() + QDir::separator() + name;
     QFile::remove(scriptDir.path() + QDir::separator() + name);
 }
 
@@ -54,6 +53,7 @@ void ScriptStorage::removeAllScripts() const
     for(int i = 0; i < scripts.length(); ++i)
         QFile::remove(scriptDir.path() + QDir::separator() + scripts.at(i));
 }
+
 
 bool ScriptStorage::validateScript(QJsonObject script)
 {

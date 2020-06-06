@@ -14,7 +14,7 @@ BasicPage {
 
     task: {
         "tool": "console",
-        "comands": [],
+        "comands": [""],
         "sequentially": true
     }
 

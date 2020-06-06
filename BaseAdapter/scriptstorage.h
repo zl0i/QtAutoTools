@@ -19,7 +19,7 @@ public:
     Q_INVOKABLE void saveScript(QJsonObject, QString) const;
     Q_INVOKABLE QStringList getNameScripts() const ;
     Q_INVOKABLE void removeScript(QString) const;
-    Q_INVOKABLE void removeAllScripts() const;
+    Q_INVOKABLE void removeAllScripts() const;    
 
    static bool validateScript(QJsonObject);
 

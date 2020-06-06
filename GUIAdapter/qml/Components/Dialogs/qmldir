@@ -1,4 +1,5 @@
 module Dialogs
+AddTaskPopup 1.0 AddTaskPopup.qml
 BusyDialog 1.0 BusyDialog.qml
 ConfigDialog 1.0 ConfigDialog.qml
 LibrariesDialog 1.0 LibrariesDialog.qml

@@ -70,12 +70,11 @@ BasicPage {
                 visible: false
                 property int index: 0
                 layer.enabled: true
-                layer.effect: DropShadow {
-                    id: _shadow
+                layer.effect: DropShadow {                    
                     radius: 8
                     samples: _delegate.mouseArea.pressed ? 30 : 16
                 }
-                onHoveredChanged: {                    
+                onHoveredChanged: {
                     if(!hovered) {
                         visible = false
                         if(!openedConfirmDialog)
@@ -110,6 +109,9 @@ BasicPage {
     ScriptDialog {
         id: _scriptDialog
         onSaveScript: {
+            if(renamed) {
+                _guiAdapter.scripts.removeScript(oldName+".json")
+            }
             _guiAdapter.scripts.saveScript(script, script.name)
             _listScript.model =  _guiAdapter.scripts.getNameScripts()
         }

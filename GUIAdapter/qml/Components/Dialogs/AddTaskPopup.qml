@@ -3,10 +3,11 @@ import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 
 Popup {
-    width: 100; height: 125
+    width: 150; height: 125
     padding: 0
+    modal: true
 
-    readonly property var taskModel: ["builder", "windeployqt", "finstaller", "qmldir", "lupdate", "console"]
+    readonly property var taskModel: ["Builder", "Windeployqt", "Qt Installer Framework", "qmldir", "LUpdate", "Console"]
 
     signal addTask(var tool)
 
@@ -33,7 +34,7 @@ Popup {
                     width: parent.width; height: parent.height
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
-                    color: _mouseArea.pressed ? "#3E5FB8" : "#000000"
+                    color: _mouseArea.hovered ? (_mouseArea.pressed ? "#3E5FB8" : "#39A0FF") : "#000000"
                     text: modelData
                 }
                 Rectangle {
@@ -45,10 +46,12 @@ Popup {
                 MouseArea {
                     id: _mouseArea
                     width: parent.width; height: parent.height
-                    onClicked: addTask(modelData)
+                    hoverEnabled: true
+                    property bool hovered: false
+                    onEntered: hovered = true
+                    onExited: hovered = false
+                    onClicked: addTask(String(modelData).toLowerCase())
                 }
-
-
             }
         }
     }

@@ -4,13 +4,10 @@ import QtGraphicalEffects 1.0
 
 ToolTip {
     id: _toolTip
-
-    width: Math.min(200, contentWidth)
-
-
-
+    width: contentWidth+20
     contentItem: Text {
-        width: parent.width //Math.min(20, contentWidth)
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
         font: _toolTip.font
         color: "#000000"
@@ -27,5 +24,4 @@ ToolTip {
             color: "#80000000"
         }
     }
-
 }

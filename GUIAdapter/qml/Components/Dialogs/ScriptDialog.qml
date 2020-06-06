@@ -4,6 +4,7 @@ import QtQuick.Window 2.3
 import QtGraphicalEffects 1.0
 
 import Components.Controls 1.0
+import Components.Elements 1.0
 
 Dialog {
     id: _scriptDialog
@@ -14,9 +15,10 @@ Dialog {
     closePolicy: Popup.NoAutoClose
 
     property var script
+    property string oldName
 
     property int currentTask: -1
-    signal saveScript(var script)
+    signal saveScript(var script, var renamed)
 
     function getPossibleDependence(currentLabel) {
         var labels = []
@@ -30,126 +32,110 @@ Dialog {
     background: Rectangle {
         width: parent.width; height: parent.height; radius: 10
         color: "#FFFFFF"
-        MouseArea {
-            x: parent.width-width-10; y: 15
-            width: 17; height: 17
-            onClicked: _scriptDialog.close()
-            Image {
-                width: 13; height: 13
-                source: "qrc:/icon/delete-black.svg"
+        ImageButton {
+            x: parent.width-30; y: 5
+            width: 25; height: 25
+            image: "qrc:/icon/exit-black.svg"
+            onClicked: {
+                _scriptDialog.close()
             }
         }
     }
 
     contentItem: Item {
-        TextInput {
+        TextField {
+            id: _nameScriptField
             x: 10
-            width: contentWidth+10; height: contentHeight+10
+            width: contentWidth+20 < 200 ? contentWidth+20 : 200; height: contentHeight+10
             font { pixelSize: 18; bold: true }
             text: script ? script.name : ""
-            onTextChanged: script.name = text
+            selectByMouse: true
+            selectionColor: "#39A0FF"
+            selectedTextColor: "#FFFFFF"
+            padding: 0
+            background: Item {
+                width: _nameScriptField.width
+                height: _nameScriptField.height
+                Rectangle {
+                    y: parent.height-2
+                    width: parent.width; height: 1
+                    color: "#1A1A1A"
+                }
+            }
         }
         Label {
-            x: 10; y: 20
+            x: 10; y: 35
             font.pixelSize: 12
             text: script ? qsTr("Версия: %1").arg(script.version) : ""
         }
 
         Label {
-            x: 10; y: 55
+            x: 10; y: 60
             font { pixelSize: 14; bold: true }
             text: qsTr("Задачи:")
         }
-
-        ListView {
-            y: 75
-            width: parent.width; height: _scriptDialog.height-145
-            model: script ? script.tasks : 0
-            interactive: (count+1)*40 > height
+        Flickable {
+            y: 80
+            width: _scriptDialog.width-25; height: _scriptDialog.height-150
+            contentHeight: _tasksView.height
             clip: true
-
-            delegate: MouseArea {
-                width: parent.width; height: 40
-                onClicked: {
-                    currentTask = index
-                    _taskDialog.task =  modelData
-                    _taskDialog.labelTasks = getPossibleDependence(modelData.label)
-                    _taskDialog.open()
-                }
-                Rectangle {
-                    width: parent.width; height: 1
-                    color: "#C4C4C4"
-                }
-                Rectangle {
-                    y: 40
-                    width: parent.width; height: 1
-                    color: "#C4C4C4"
-                }
-                Row {
-                    x: 20;
-                    height: parent.height
-                    TextInput {
-                        width: contentWidth + 10; height: parent.height
-                        verticalAlignment: Text.AlignVCenter
-                        font { pixelSize: 14; bold: true }
-                        text: modelData.label
-                        onTextChanged: script.tasks[index].label = text
-                    }
-                    Label {
-                        height: parent.height
-                        verticalAlignment: Text.AlignVCenter
-                        font.pixelSize: 12
-                        text: "(" + modelData.tool + ")"
+            ListView {
+                id: _tasksView
+                width: parent.width ; height: (count+2) * 40
+                model: script ? script.tasks : 0
+                interactive: false
+                header: Item { width: parent.width; height: 5 }
+                delegate: TaskDelegate {
+                    x: 5
+                    width: _tasksView.width-10
+                    name: modelData.label
+                    tool: modelData.tool
+                    onHoveredChanged: {
+                        if(hovered) {
+                            _taskDelegate.index = index
+                            _taskDelegate.y = index*40 - _tasksView.contentY
+                            _taskDelegate.visible = true
+                        }
                     }
                 }
-                MouseArea {
-                    x: parent.width-width-20; y: 15
-                    width: 17; height: 17
-                    onClicked: {
+                TaskDelegate {
+                    id: _taskDelegate
+                    x: 5; width: _tasksView.width-10
+                    property int index: 0
+                    name: script && index < script.tasks.length ? script.tasks[index].label : ""
+                    tool: script && index < script.tasks.length ? script.tasks[index].tool : ""
+                    visible: false
+                    layer.enabled: true
+                    layer.effect: DropShadow {
+                        radius: 8
+                        samples: _taskDelegate.mouseArea.pressed ? 30 : 16
+                    }
+                    onReleased: {
+                        currentTask = index
+                        _taskDialog.task = script.tasks[index]
+                        _taskDialog.labelTasks = getPossibleDependence(script.tasks[index].label)
+                        _taskDialog.open()
+                    }
+                    onRemoveTask: {
+                        visible = false
                         script.tasks.splice(index, 1)
                         scriptChanged()
                     }
-                    Image {
-                        width: 13; height: 13
-                        source: "qrc:/icon/delete-black.svg"
-                        layer.enabled: parent.pressed
-                        layer.effect: ColorOverlay {
-                            color: "#39A0FF"
+                    onHoveredChanged: {
+                        if(!hovered) {
+                            visible = false
                         }
+                    }
+                    CustomToolTip {
+                        id: _toolTip
+                        x: parent.mouseArea.mouseX; y: parent.mouseArea.mouseY - height - 10
+                        visible: _taskDelegate.hovered
+                        delay: 1500
+                        text: _taskDelegate.tool
+                    }
+                }
 
-                    }
-                }
-            }
-            footer: MouseArea {
-                width: parent.width; height: 40
-                onClicked: {
-                    var point = mapToItem(Overlay.overlay, mouseX, mouseY)
-                    if(point.y + _addTaskPopup.height + 20 > Overlay.overlay.height) {
-                        _addTaskPopup.y = -_addTaskPopup.height+20
-                    } else {
-                        _addTaskPopup.y = 20
-                    }
-                    _addTaskPopup.open()
-                }
-                Rectangle {
-                    width: parent.width; height: 1
-                    color: "#C4C4C4"
-                }
-                Rectangle {
-                    y: 39
-                    width: parent.width; height: 1
-                    color: "#C4C4C4"
-                }
-                Label {
-                    width: parent.width; height: parent.height
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: 24
-                    text: "+"
-                }
-                AddTaskPopup {
-                    x: parent.width/2; y: parent.height/2
-                    id: _addTaskPopup
+                footer: AddTaskDelegate {
                     onAddTask: {
                         var task = {
                             "tool": tool,
@@ -161,17 +147,19 @@ Dialog {
                         _taskDialog.task =  task
                         _taskDialog.labelTasks = getPossibleDependence(task.label)
                         _taskDialog.open()
-                        close()
                     }
-
                 }
             }
         }
+
         CustomButton {
             x: parent.width/2 - width/2; y: parent.height - height
             text: qsTr("Сохранить")
             onClicked: {
-                _scriptDialog.saveScript(script)
+                var renamed = script.name !== _nameScriptField.text
+                oldName = script.name
+                script.name = _nameScriptField.text
+                _scriptDialog.saveScript(script, renamed)
                 _scriptDialog.close()
             }
         }

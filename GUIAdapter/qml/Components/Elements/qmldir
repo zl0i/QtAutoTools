@@ -6,3 +6,5 @@ LabelFieldDialog 1.0 LabelFieldDialog.qml
 LabelComboBox 1.0 LabelComboBox.qml
 LoadingAnimation 1.0 LoadingAnimation.qml
 ScriptDelegate 1.0 ScriptDelegate.qml
+TaskDelegate 1.0 TaskDelegate.qml
+AddTaskDelegate 1.0 AddTaskDelegate.qml

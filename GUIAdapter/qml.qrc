@@ -39,5 +39,7 @@
         <file>qml/Components/Controls/RunButton.qml</file>
         <file>qml/Components/Controls/ImageButton.qml</file>
         <file>qml/Components/Elements/ScriptDelegate.qml</file>
+        <file>qml/Components/Elements/TaskDelegate.qml</file>
+        <file>qml/Components/Elements/AddTaskDelegate.qml</file>
     </qresource>
 </RCC>
